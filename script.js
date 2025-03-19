@@ -40,19 +40,41 @@ const rates = {
     GBP: { USD: 1 / 0.81, EGP: 50.50 / 0.81, EUR: 0.91 / 0.81, GBP: 1 }
 };
 
-// Function to validate phone number
+// Function to Calculate Currency Exchange
+function calculateExchange() {
+    const fromCurrency = document.getElementById('from-currency').value;
+    const toCurrency = document.getElementById('to-currency').value;
+    const amount = parseFloat(document.getElementById('amount').value);
+
+    if (!amount || isNaN(amount) || amount <= 0) {
+        alert("Please enter a valid amount.");
+        return;
+    }
+
+    if (fromCurrency === toCurrency) {
+        document.getElementById("exchange-result").innerText = "Choose different currencies.";
+        return;
+    }
+
+    const conversionRate = rates[fromCurrency][toCurrency];
+    const convertedAmount = (amount * conversionRate).toFixed(2);
+    
+    document.getElementById("exchange-result").innerText = `You will receive: ${convertedAmount} ${toCurrency}`;
+}
+
+// Function to validate phone number (basic check: numbers only & length)
 function isValidPhoneNumber(phone) {
     const phoneRegex = /^[0-9]{8,15}$/; // Accepts 8 to 15 digits only
     return phoneRegex.test(phone);
 }
 
-// Function to validate bank account number
+// Function to validate bank account number (basic check: numbers only & length)
 function isValidBankAccount(account) {
     const accountRegex = /^[0-9]{10,20}$/; // Accepts 10 to 20 digits only
     return accountRegex.test(account);
 }
 
-// Function to initiate the money transfer
+// Function to initiate the money transfer with validation
 function initiateTransfer() {
     let fromCurrency = document.getElementById("transfer-from").value;
     let toCurrency = document.getElementById("transfer-to").value;
@@ -81,11 +103,13 @@ function initiateTransfer() {
         return;
     }
 
+    // ✅ Validate Phone Number
     if (!isValidPhoneNumber(recipientPhone)) {
         alert("Invalid phone number. Please enter a valid number (8-15 digits).");
         return;
     }
 
+    // ✅ Validate Bank Account Number
     if (!isValidBankAccount(recipientAccount)) {
         alert("Invalid bank account number. It should be 10-20 digits long.");
         return;
@@ -99,17 +123,31 @@ function initiateTransfer() {
         Bank Account: ${recipientAccount}
     `;
 
+    // Show the "Pay Now" button after initiating transfer
     if (payButton) {
         payButton.style.display = "block";
+
+        // Attach event listener to "Pay Now" button with correct parameters
         payButton.onclick = function () {
             processPayment(amount, fromCurrency);
         };
     }
 }
 
+// Ensure elements exist before adding event listeners
 document.addEventListener("DOMContentLoaded", function () {
     console.log("DOM fully loaded");
+
+    if (typeof Stripe === "undefined") {
+        console.error("Stripe.js is not loaded. Check your HTML.");
+        alert("Payment system error: Stripe is not loaded.");
+        return;
+    }
+
+    console.log("Stripe is loaded");
+
     const transferButton = document.getElementById("transferButton");
+
     if (transferButton) {
         transferButton.addEventListener("click", initiateTransfer);
     }
