@@ -6,7 +6,7 @@ async function processPayment(amount, currency) {
     console.log("Processing payment for amount:", amount, currency);
 
     try {
-        const response = await fetch('/.netlify/functions/create-checkout-session', {
+        const response = await fetch('https://moenyexchanger.netlify.app/.netlify/functions/create-checkout-session')
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ amount, currency })
