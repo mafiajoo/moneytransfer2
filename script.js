@@ -1,5 +1,5 @@
 // Load Stripe
-const stripe = Stripe("your-stripe-public-key-here");
+const stripe = Stripe("pk_live_51R3vLzHwauRcpoAGElnRu8aerdEaRdoxkn73AhCCaUHOhpO9VEfnvHBdoK28uBOwC8Lz8Tb47JyIKZxe2u1CdVGP00JkKz1LLh");
 
 // Ensure the script runs after DOM loads
 document.addEventListener("DOMContentLoaded", function () {
