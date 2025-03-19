@@ -88,3 +88,6 @@ function initiateTransfer() {
     // Show the "Pay Now" button after initiating transfer
     payButton.style.display = "block";
 }
+
+// Event Listener for Pay Button
+document.getElementById("payButton").addEventListener("click", processPayment);
