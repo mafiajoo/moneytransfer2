@@ -65,13 +65,12 @@
             <input type="number" id="transfer-amount" placeholder="Enter amount" required>
     
             <button type="button" id="initiateTransfer" onclick="initiateTransfer()">Initiate Transfer</button>
-            <button id="payButton" class="pay-btn" style="display: none;">Pay Now</button> <!-- Hidden initially -->
+            <button id="payButton" class="pay-btn" style="display: none;" onclick="processPayment()">Pay Now</button> <!-- Added onclick event -->
         </form>
     
         <p id="transfer-result"></p>
     </section>
 
-    <!-- Load script.js AFTER Stripe.js -->
     <script defer src="script.js"></script>
 </body>
 </html>
