@@ -39,14 +39,21 @@ exports.handler = async (event) => {
             };
         }
 
+        // ✅ Ensure currency is valid (fallback to USD)
+        const validCurrency = currency && ["usd", "eur", "gbp", "egp"].includes(currency.toLowerCase()) 
+            ? currency.toLowerCase() 
+            : "usd";
+
+        console.log("Final currency used:", validCurrency);
+
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ["card"],
             line_items: [
                 {
                     price_data: {
-                        currency: currency || "usd",
+                        currency: validCurrency,
                         product_data: { name: "Money Transfer" },
-                        unit_amount: amount * 100,
+                        unit_amount: Math.round(amount * 100), // Convert to cents
                     },
                     quantity: 1,
                 },
