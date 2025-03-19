@@ -1,5 +1,8 @@
 [build]
   functions = "netlify/functions"
+<<<<<<< HEAD
 
 [dev]
   command = "astro dev"
+=======
+>>>>>>> 7d5042e (Updated files with new features)

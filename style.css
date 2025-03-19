@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 7d5042e (Updated files with new features)
 /* Reset & Global Styles */
 * {
     margin: 0;
@@ -19,8 +23,13 @@ h1 {
     margin-bottom: 10px;
 }
 
+<<<<<<< HEAD
 /* Sections */
 #exchange-section, #transfer-section {
+=======
+/* Exchange Section */
+#exchange-section, #payment-section {
+>>>>>>> 7d5042e (Updated files with new features)
     background: rgba(255, 255, 255, 0.1);
     padding: 20px;
     border-radius: 10px;
@@ -57,6 +66,7 @@ button:hover {
     transform: scale(1.05);
 }
 
+<<<<<<< HEAD
 /* Pay Now Button */
 .pay-btn {
     background: linear-gradient(135deg, #00c853, #009624);
@@ -64,6 +74,9 @@ button:hover {
 }
 
 /* Exchange & Transfer Result */
+=======
+/* Exchange Result */
+>>>>>>> 7d5042e (Updated files with new features)
 #exchange-result, #transfer-result {
     font-size: 1.2rem;
     font-weight: bold;
@@ -76,7 +89,93 @@ button:hover {
         font-size: 2rem;
     }
     
+<<<<<<< HEAD
     #exchange-section, #transfer-section {
         width: 90%;
     }
 }
+=======
+    #exchange-section, #payment-section {
+        width: 90%;
+    }
+}
+
+=======
+/* Reset & Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #1e1e2f, #2a2a3b);
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Header */
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+/* Exchange Section */
+#exchange-section, #payment-section {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 500px;
+    margin: 20px auto;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Inputs & Select Boxes */
+input, select, button {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+input, select {
+    background: #2c2c3b;
+    color: white;
+}
+
+/* Buttons */
+button {
+    background: linear-gradient(135deg, #ff7b00, #ff3c00);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+/* Exchange Result */
+#exchange-result, #transfer-result {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 2rem;
+    }
+    
+    #exchange-section, #payment-section {
+        width: 90%;
+    }
+}
+>>>>>>> 2db1a5b95fc4c4d0c2be5b54e017a499aeadfda9
+>>>>>>> 7d5042e (Updated files with new features)

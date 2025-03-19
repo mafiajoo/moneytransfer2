@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // Load Stripe
 const stripe = Stripe("pk_live_YOUR_PUBLIC_KEY"); // Replace with your actual public key
 
@@ -55,10 +56,28 @@ function calculateExchange() {
     let amount = parseFloat(document.getElementById("amount").value);
 
     if (isNaN(amount) || amount <= 0) {
+=======
+// Currency conversion rates
+const rates = {
+    USD: { EGP: 50.50, EUR: 0.91, GBP: 0.81, USD: 1 },
+    EGP: { USD: 1 / 50.50, EUR: 0.91 / 50.50, GBP: 0.81 / 50.50, EGP: 1 },
+    EUR: { USD: 1 / 0.91, EGP: 50.50 / 0.91, GBP: 0.81 / 0.91, EUR: 1 },
+    GBP: { USD: 1 / 0.81, EGP: 50.50 / 0.81, EUR: 0.91 / 0.81, GBP: 1 }
+};
+
+// Function to calculate currency exchange
+function calculateExchange() {
+    const fromCurrency = document.getElementById('from-currency').value;
+    const toCurrency = document.getElementById('to-currency').value;
+    const amount = parseFloat(document.getElementById('amount').value);
+
+    if (!amount || isNaN(amount) || amount <= 0) {
+>>>>>>> 7d5042e (Updated files with new features)
         alert("Please enter a valid amount.");
         return;
     }
 
+<<<<<<< HEAD
     let exchangeRates = {
         "EGP": { "USD": 0.032, "EUR": 0.029, "GBP": 0.025 },
         "USD": { "EGP": 50.50, "EUR": 0.91, "GBP": 0.78 },
@@ -105,4 +124,86 @@ document.addEventListener("DOMContentLoaded", function () {
     if (payButton) {
         payButton.addEventListener("click", processPayment);
     }
+=======
+    const conversionRate = rates[fromCurrency][toCurrency];
+    const convertedAmount = amount * conversionRate;
+    
+    document.getElementById('exchange-result').innerText = `Converted Amount: ${convertedAmount.toFixed(2)} ${toCurrency}`;
+}
+
+// Function to initiate a money transfer
+function initiateTransfer() {
+    const fromCurrency = document.getElementById('transfer-from').value;
+    const toCurrency = document.getElementById('transfer-to').value;
+    const transferAmount = parseFloat(document.getElementById('transfer-amount').value);
+
+    if (!transferAmount || isNaN(transferAmount) || transferAmount <= 0) {
+        alert("Please enter a valid amount.");
+        return;
+    }
+
+    // Display the transfer details
+    document.getElementById('transfer-result').innerText = `You have transferred ${transferAmount} ${fromCurrency} to ${toCurrency}.`;
+
+    // Show the "Pay Now" button after a successful transfer
+    setTimeout(() => {
+        document.getElementById("payNowButton").style.display = "block";
+    }, 2000);
+}
+
+// Ensure the DOM is fully loaded before using Stripe
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("DOM fully loaded");
+
+    if (typeof Stripe === "undefined") {
+        console.error("Stripe.js is not loaded. Check your HTML.");
+        alert("Payment system error: Stripe is not loaded.");
+        return;
+    }
+
+    console.log("Stripe is loaded");
+
+    const stripe = Stripe("pk_live_51R3vLzHwauRcpoAGElnRu8aerdEaRdoxkn73AhCCaUHOhpO9VEfnvHBdoK28uBOwC8Lz8Tb47JyIKZxe2u1CdVGP00JkKz1LLh");
+
+    const payButton = document.getElementById("payNowButton");
+
+    if (!payButton) {
+        console.error("Pay button not found");
+        alert("Error: Pay button not found in the HTML.");
+        return;
+    }
+
+    payButton.addEventListener("click", async function () {
+        console.log("Pay button clicked");
+
+        const transferAmount = parseFloat(document.getElementById("transfer-amount").value);
+
+        if (!transferAmount || isNaN(transferAmount) || transferAmount <= 0) {
+            alert("Please enter a valid amount.");
+            return;
+        }
+
+        try {
+            const response = await fetch("/.netlify/functions/create-checkout-session", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ amount: transferAmount * 100, currency: "usd" }) // Convert to cents
+            });
+
+            const data = await response.json();
+            console.log("Received response:", data);
+
+            if (data.id) {
+                console.log("Redirecting to checkout...");
+                await stripe.redirectToCheckout({ sessionId: data.id });
+            } else {
+                console.error("Payment failed:", data.error);
+                alert("Payment failed: " + (data.error || "Unknown error"));
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            alert("An error occurred while processing your payment.");
+        }
+    });
+>>>>>>> 7d5042e (Updated files with new features)
 });
