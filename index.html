@@ -3,8 +3,21 @@ const stripe = Stripe("your-stripe-public-key-here");
 
 // Ensure the script runs after DOM loads
 document.addEventListener("DOMContentLoaded", function () {
-    // Attach event listener to the button
-    document.getElementById("transferButton").addEventListener("click", initiateTransfer);
+    let transferButton = document.getElementById("transferButton");
+    let payButton = document.getElementById("payButton");
+
+    // Check if the buttons exist before adding event listeners
+    if (transferButton) {
+        transferButton.addEventListener("click", initiateTransfer);
+    } else {
+        console.error("Error: transferButton not found in DOM");
+    }
+
+    if (payButton) {
+        payButton.addEventListener("click", processPayment);
+    } else {
+        console.error("Error: payButton not found in DOM");
+    }
 });
 
 // Exchange Calculation
@@ -59,7 +72,7 @@ function initiateTransfer() {
 }
 
 // Stripe Payment Function
-document.getElementById("payButton").addEventListener("click", async function () {
+async function processPayment() {
     let amount = document.getElementById("transfer-amount").value;
 
     if (amount <= 0) {
@@ -78,4 +91,4 @@ document.getElementById("payButton").addEventListener("click", async function ()
 
     // Redirect to Stripe Checkout
     stripe.redirectToCheckout({ sessionId: session.id });
-});
+}
