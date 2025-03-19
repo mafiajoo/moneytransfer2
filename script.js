@@ -62,13 +62,19 @@ function calculateExchange() {
     document.getElementById("exchange-result").innerText = `You will receive: ${convertedAmount} ${toCurrency}`;
 }
 
-// Money Transfer Function
+// Function to initiate the money transfer
 function initiateTransfer() {
     let fromCurrency = document.getElementById("transfer-from").value;
     let toCurrency = document.getElementById("transfer-to").value;
     let amount = parseFloat(document.getElementById("transfer-amount").value);
+
+    let recipientName = document.getElementById("recipient-name").value;
+    let recipientCountry = document.getElementById("recipient-country").value;
+    let recipientPhone = document.getElementById("recipient-phone").value;
+    let recipientAccount = document.getElementById("recipient-account").value;
+
     let transferResult = document.getElementById("transfer-result");
-    let payButton = document.getElementById("payButton"); 
+    let payButton = document.getElementById("payButton");
 
     if (isNaN(amount) || amount <= 0) {
         alert("Please enter a valid transfer amount.");
@@ -80,13 +86,24 @@ function initiateTransfer() {
         return;
     }
 
-    transferResult.innerText = `Transfer Initiated: ${amount} ${fromCurrency} to ${toCurrency}`;
-    
+    if (!recipientName || !recipientCountry || !recipientPhone || !recipientAccount) {
+        alert("Please fill in all recipient details.");
+        return;
+    }
+
+    transferResult.innerHTML = `
+        Transfer Initiated: ${amount} ${fromCurrency} to ${toCurrency} <br>
+        Recipient: ${recipientName} <br>
+        Country: ${recipientCountry} <br>
+        Phone: ${recipientPhone} <br>
+        Bank Account: ${recipientAccount}
+    `;
+
     // Show the "Pay Now" button after initiating transfer
     if (payButton) {
         payButton.style.display = "block";
 
-        // Attach event listener with correct parameters
+        // Attach event listener to "Pay Now" button with correct parameters
         payButton.onclick = function () {
             processPayment(amount, fromCurrency);
         };
@@ -97,16 +114,7 @@ function initiateTransfer() {
 document.addEventListener("DOMContentLoaded", function () {
     console.log("DOM fully loaded");
 
-    if (typeof Stripe === "undefined") {
-        console.error("Stripe.js is not loaded. Check your HTML.");
-        alert("Payment system error: Stripe is not loaded.");
-        return;
-    }
-
-    console.log("Stripe is loaded");
-
     const transferButton = document.getElementById("transferButton");
-
     if (transferButton) {
         transferButton.addEventListener("click", initiateTransfer);
     }
