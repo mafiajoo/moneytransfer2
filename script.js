@@ -61,7 +61,6 @@ function initiateTransfer() {
 
     let recipientName = document.getElementById("recipient-name").value;
     let recipientCountry = document.getElementById("recipient-country").value;
-    let countryCode = document.getElementById("country-code").value;
     let recipientPhone = document.getElementById("recipient-phone").value;
     let recipientAccount = document.getElementById("recipient-account").value;
 
@@ -83,11 +82,10 @@ function initiateTransfer() {
         return;
     }
 
-    let fullPhoneNumber = `${countryCode}${recipientPhone}`;
     transferResult.innerHTML = `Transfer Initiated: ${amount} ${fromCurrency} to ${toCurrency} <br>
         Recipient: ${recipientName} <br>
         Country: ${recipientCountry} <br>
-        Phone: ${fullPhoneNumber} <br>
+        Phone: ${recipientPhone} <br>
         Bank Account: ${recipientAccount}`;
 
     if (payButton) {
@@ -95,6 +93,38 @@ function initiateTransfer() {
         payButton.onclick = function () {
             processPayment(amount, fromCurrency);
         };
+    }
+}
+
+// Function to send support message
+async function sendSupportMessage() {
+    let name = document.getElementById("support-name").value;
+    let email = document.getElementById("support-email").value;
+    let phone = document.getElementById("support-phone").value;
+    let message = document.getElementById("support-message").value;
+    let supportResult = document.getElementById("support-result");
+
+    if (!name || !email || !phone || !message) {
+        alert("Please fill in all fields.");
+        return;
+    }
+
+    let emailBody = `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\n\nMessage:\n${message}`;
+
+    try {
+        const response = await fetch("https://formspree.io/f/YOUR_FORM_ID", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: "egyptsupplies100@gmail.com", message: emailBody })
+        });
+
+        if (response.ok) {
+            supportResult.innerHTML = "Your message has been sent successfully!";
+        } else {
+            throw new Error("Failed to send message.");
+        }
+    } catch (error) {
+        supportResult.innerHTML = "Error sending message. Please try again.";
     }
 }
 
