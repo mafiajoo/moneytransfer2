@@ -26,6 +26,15 @@ function validatePhoneNumber(phone) {
     return /^[0-9]{7,15}$/.test(phone);
 }
 
+// Function to get the full phone number with country code
+function getFullPhoneNumber(inputId) {
+    let input = document.getElementById(inputId);
+    if (input && input.intlTelInput) {
+        return input.intlTelInput.getNumber(); // Get full phone number with country code
+    }
+    return input ? input.value : "";
+}
+
 // Function to calculate exchange rate (mock example)
 function calculateExchange() {
     let fromCurrency = document.getElementById("from-currency").value;
@@ -61,7 +70,7 @@ function initiateTransfer() {
 
     let recipientName = document.getElementById("recipient-name").value;
     let recipientCountry = document.getElementById("recipient-country").value;
-    let recipientPhone = document.getElementById("recipient-phone").value;
+    let recipientPhone = getFullPhoneNumber("recipient-phone");
     let recipientAccount = document.getElementById("recipient-account").value;
 
     let transferResult = document.getElementById("transfer-result");
@@ -77,7 +86,7 @@ function initiateTransfer() {
         return;
     }
 
-    if (!validatePhoneNumber(recipientPhone)) {
+    if (!validatePhoneNumber(recipientPhone.replace(/\D/g, ""))) {
         alert("Invalid phone number (7-15 digits only).");
         return;
     }
@@ -100,7 +109,7 @@ function initiateTransfer() {
 async function sendSupportMessage() {
     let name = document.getElementById("support-name").value;
     let email = document.getElementById("support-email").value;
-    let phone = document.getElementById("support-phone").value;
+    let phone = getFullPhoneNumber("support-phone");
     let message = document.getElementById("support-message").value;
     let supportResult = document.getElementById("support-result");
 
@@ -128,7 +137,26 @@ async function sendSupportMessage() {
     }
 }
 
-// Attach event listeners after DOM loads
+// Initialize country code selection for phone inputs
 document.addEventListener("DOMContentLoaded", function () {
+    const recipientPhoneInput = document.getElementById("recipient-phone");
+    const supportPhoneInput = document.getElementById("support-phone");
+
+    if (recipientPhoneInput) {
+        recipientPhoneInput.intlTelInput = window.intlTelInput(recipientPhoneInput, {
+            initialCountry: "us",
+            preferredCountries: ["us", "gb", "eg", "de", "fr"],
+            separateDialCode: true
+        });
+    }
+
+    if (supportPhoneInput) {
+        supportPhoneInput.intlTelInput = window.intlTelInput(supportPhoneInput, {
+            initialCountry: "us",
+            preferredCountries: ["us", "gb", "eg", "de", "fr"],
+            separateDialCode: true
+        });
+    }
+
     document.getElementById("transferButton").addEventListener("click", initiateTransfer);
 });
