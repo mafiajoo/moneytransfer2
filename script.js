@@ -1,62 +1,36 @@
-let users = []; // Simulate user database for the purpose of this demo
+// Load Stripe
+const stripe = Stripe("pk_live_YOUR_PUBLIC_KEY"); // Replace with your real Stripe public key
 
-// Function to show the login form
-function showLoginForm() {
-    document.getElementById("login-form").style.display = "block";
-    document.getElementById("register-form").style.display = "none";
-}
+// Function to process payments via Stripe
+async function processPayment(amount, currency) {
+    try {
+        const response = await fetch('/.netlify/functions/create-checkout-session', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ amount, currency })
+        });
 
-// Function to show the register form
-function showRegisterForm() {
-    document.getElementById("register-form").style.display = "block";
-    document.getElementById("login-form").style.display = "none";
-}
-
-// Function to simulate registration
-function register() {
-    let name = document.getElementById("register-name").value;
-    let email = document.getElementById("register-email").value;
-    let password = document.getElementById("register-password").value;
-
-    if (!name || !email || !password) {
-        document.getElementById("register-error").innerHTML = "Please fill in all fields.";
-        return;
-    }
-
-    // Save user data (in a real-world scenario, you'd store this in a database)
-    users.push({ name, email, password });
-    document.getElementById("register-form").reset();
-    alert("Registration successful! Please log in.");
-}
-
-// Function to simulate login
-function login() {
-    let email = document.getElementById("login-email").value;
-    let password = document.getElementById("login-password").value;
-
-    if (!email || !password) {
-        document.getElementById("login-error").innerHTML = "Please fill in both fields.";
-        return;
-    }
-
-    // Check if user exists
-    let user = users.find(user => user.email === email && user.password === password);
-
-    if (user) {
-        document.getElementById("auth-links").style.display = "none"; // Hide login/register links
-        document.getElementById("auth-section").style.display = "block"; // Show main content
-        document.getElementById("user-name").innerText = user.name;
-    } else {
-        document.getElementById("login-error").innerHTML = "Invalid email or password.";
+        const data = await response.json();
+        if (data.url) {
+            window.location.href = data.url;
+        } else {
+            throw new Error("No session URL returned from Stripe");
+        }
+    } catch (error) {
+        alert("Payment error: " + error.message);
     }
 }
 
-// Function to calculate currency exchange
+// Function to validate phone number (only digits, 7-15 characters long)
+function validatePhoneNumber(phone) {
+    return /^[0-9]{7,15}$/.test(phone);
+}
+
+// Function to calculate exchange rate (mock example)
 function calculateExchange() {
     let fromCurrency = document.getElementById("from-currency").value;
     let toCurrency = document.getElementById("to-currency").value;
     let amount = parseFloat(document.getElementById("amount").value);
-
     let exchangeResult = document.getElementById("exchange-result");
 
     if (isNaN(amount) || amount <= 0) {
@@ -122,12 +96,6 @@ function initiateTransfer() {
     }
 }
 
-// Function to validate phone number
-function validatePhoneNumber(phone) {
-    let regex = /^\d{7,15}$/;
-    return regex.test(phone);
-}
-
 // Function to send support message
 async function sendSupportMessage() {
     let name = document.getElementById("support-name").value;
@@ -160,6 +128,7 @@ async function sendSupportMessage() {
     }
 }
 
+// Attach event listeners after DOM loads
 document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("transferButton").addEventListener("click", initiateTransfer);
 });

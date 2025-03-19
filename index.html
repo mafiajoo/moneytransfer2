@@ -1,163 +1,186 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Money Transfer & Exchange</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
+    <title>Money Transfer and Exchange</title>
+    <link rel="stylesheet" href="style.css">
 
+    <!-- Load Stripe.js -->
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
 <body>
     <header>
         <div class="container">
-            <h1>Money Transfer & Exchange</h1>
-            <div id="auth-links">
-                <a href="javascript:void(0);" onclick="showLoginForm()">Login</a> | 
-                <a href="javascript:void(0);" onclick="showRegisterForm()">Register</a>
+            <h1>Money Transfer and Currency Exchange</h1>
+            <div id="flag-icons">
+                <img src="https://flagcdn.com/w320/eg.png" alt="EGP" class="flag-icon">
+                <img src="https://flagcdn.com/w320/us.png" alt="USA" class="flag-icon">
+                <img src="https://flagcdn.com/w320/de.png" alt="Germany" class="flag-icon">
+                <img src="https://flagcdn.com/w320/gb.png" alt="GB" class="flag-icon">
+                <img src="https://flagcdn.com/w320/fr.png" alt="France" class="flag-icon">
+                <img src="https://flagcdn.com/w320/it.png" alt="Italy" class="flag-icon">
             </div>
         </div>
     </header>
 
-    <main>
-        <!-- Login Form -->
-        <div id="login-form" class="auth-form" style="display: none;">
-            <h2>Login</h2>
-            <form onsubmit="event.preventDefault(); login();">
-                <label for="login-email">Email:</label>
-                <input type="email" id="login-email" required>
-                
-                <label for="login-password">Password:</label>
-                <input type="password" id="login-password" required>
-                
-                <button type="submit">Login</button>
-                <p id="login-error" style="color: red;"></p>
-            </form>
-        </div>
-
-        <!-- Register Form -->
-        <div id="register-form" class="auth-form" style="display: none;">
-            <h2>Register</h2>
-            <form onsubmit="event.preventDefault(); register();">
-                <label for="register-name">Name:</label>
-                <input type="text" id="register-name" required>
-                
-                <label for="register-email">Email:</label>
-                <input type="email" id="register-email" required>
-                
-                <label for="register-password">Password:</label>
-                <input type="password" id="register-password" required>
-                
-                <button type="submit">Register</button>
-                <p id="register-error" style="color: red;"></p>
-            </form>
-        </div>
-
-        <!-- User Section (after login) -->
-        <div id="auth-section" style="display: none;">
-            <section id="exchange-section">
-                <h2>Currency Exchange</h2>
-                <form>
-                    <label for="from-currency">From Currency:</label>
+    <main class="container">
+        <section id="exchange-section">
+            <h2>Currency Exchange</h2>
+            <form id="exchange-form">
+                <div class="form-group">
+                    <label for="from-currency">From:</label>
                     <select id="from-currency">
-                        <option value="USD">USD</option>
                         <option value="EGP">EGP</option>
+                        <option value="USD">USD</option>
                         <option value="EUR">EUR</option>
                         <option value="GBP">GBP</option>
                     </select>
-                    
-                    <label for="to-currency">To Currency:</label>
+                </div>
+
+                <div class="form-group">
+                    <label for="to-currency">To:</label>
                     <select id="to-currency">
-                        <option value="USD">USD</option>
                         <option value="EGP">EGP</option>
+                        <option value="USD">USD</option>
                         <option value="EUR">EUR</option>
                         <option value="GBP">GBP</option>
                     </select>
-                    
+                </div>
+
+                <div class="form-group">
                     <label for="amount">Amount:</label>
                     <input type="number" id="amount" placeholder="Enter amount" required>
-                    
-                    <button type="button" onclick="calculateExchange()">Convert</button>
-                </form>
+                </div>
 
-                <p id="exchange-result"></p>
-            </section>
+                <button type="button" onclick="calculateExchange()">Calculate Exchange</button>
+            </form>
 
-            <section id="transfer-section">
-                <h2>Money Transfer</h2>
-                <form>
+            <p id="exchange-result"></p>
+        </section>
+
+        <section id="transfer-section">
+            <h2>Money Transfer</h2>
+            <form id="transfer-form">
+                <div class="form-group">
                     <label for="transfer-from">From Currency:</label>
                     <select id="transfer-from">
-                        <option value="USD">USD</option>
                         <option value="EGP">EGP</option>
+                        <option value="USD">USD</option>
                         <option value="EUR">EUR</option>
                         <option value="GBP">GBP</option>
                     </select>
-                    
+                </div>
+
+                <div class="form-group">
                     <label for="transfer-to">To Currency:</label>
                     <select id="transfer-to">
-                        <option value="USD">USD</option>
                         <option value="EGP">EGP</option>
+                        <option value="USD">USD</option>
                         <option value="EUR">EUR</option>
                         <option value="GBP">GBP</option>
                     </select>
-                    
+                </div>
+
+                <div class="form-group">
                     <label for="transfer-amount">Amount:</label>
-                    <input type="number" id="transfer-amount" required>
-                    
+                    <input type="number" id="transfer-amount" placeholder="Enter amount" required>
+                </div>
+
+                <div class="form-group">
                     <label for="recipient-name">Recipient Name:</label>
-                    <input type="text" id="recipient-name" required>
-                    
+                    <input type="text" id="recipient-name" placeholder="Enter recipient's name" required>
+                </div>
+
+                <div class="form-group">
                     <label for="recipient-country">Recipient Country:</label>
-                    <input type="text" id="recipient-country" required>
-                    
-                    <label for="recipient-phone">Recipient Phone:</label>
-                    <input type="text" id="recipient-phone" required>
-                    
-                    <label for="recipient-account">Recipient Account:</label>
-                    <input type="text" id="recipient-account" required>
+                    <select id="recipient-country" required>
+                        <option value="EGP">Egypt</option>
+                        <option value="USA">USA</option>
+                        <option value="DE">Germany</option>
+                        <option value="FR">France</option>
+                        <option value="IT">Italy</option>
+                        <option value="ES">Spain</option>
+                        <option value="PL">Poland</option>
+                        <option value="GB">United Kingdom</option>
+                        <option value="SE">Sweden</option>
+                        <option value="NO">Norway</option>
+                        <option value="FI">Finland</option>
+                        <option value="NL">Netherlands</option>
+                    </select>
+                </div>
 
-                    <button type="button" id="transferButton">Initiate Transfer</button>
-                </form>
+                <div class="form-group">
+                    <label for="recipient-phone">Recipient Phone Number:</label>
+                    <input type="text" id="recipient-phone" placeholder="Enter phone number" required>
+                </div>
 
-                <p id="transfer-result"></p>
-                <button id="payButton" style="display: none;">Pay Now</button>
-            </section>
+                <div class="form-group">
+                    <label for="recipient-account">IBAN Bank Account Number:</label>
+                    <input type="text" id="recipient-account" placeholder="Enter recipient's IBAN" required>
+                </div>
 
-            <section id="payment-section">
-                <h2>Payment</h2>
-                <!-- Payment integration with Stripe -->
-                <!-- Placeholder for Stripe payment section -->
-            </section>
+                <div class="form-group">
+                    <label for="recipient-bank">Recipient Bank Name:</label>
+                    <select id="recipient-bank" required>
+                        <option value="National Bank of Egypt">National Bank of Egypt</option>
+                        <option value="Banque Misr">Banque Misr</option>
+                        <option value="Commercial International Bank (CIB)">Commercial International Bank (CIB)</option>
+                        <option value="Qatar National Bank (QNB)">Qatar National Bank (QNB)</option>
+                        <option value="Deutsche Bank">Deutsche Bank</option>
+                        <option value="Commerzbank">Commerzbank</option>
+                        <option value="DZ Bank">DZ Bank</option>
+                        <option value="Unicredit Bank">Unicredit Bank</option>
+                        <option value="Sparkasse Bank">Sparkasse Bank</option>
+                    </select>
+                </div>
 
-            <section id="support-section">
-                <h2>Support</h2>
-                <form>
-                    <label for="support-name">Name:</label>
-                    <input type="text" id="support-name" required>
-                    
-                    <label for="support-email">Email:</label>
-                    <input type="email" id="support-email" required>
-                    
-                    <label for="support-phone">Phone:</label>
-                    <input type="text" id="support-phone" required>
-                    
-                    <label for="support-message">Message:</label>
-                    <textarea id="support-message" required></textarea>
-                    
-                    <button type="button" onclick="sendSupportMessage()">Send Message</button>
-                </form>
+                <button type="button" id="transferButton">Initiate Transfer</button>
+            </form>
 
-                <p id="support-result"></p>
-            </section>
-        </div>
+            <p id="transfer-result"></p>
+        </section>
+
+        <section id="payment-section">
+            <h2>Make a Payment</h2>
+            <p>Pay securely using Stripe.</p>
+            <button id="payButton" style="display: none;">Pay Now</button>
+        </section>
+
+        <section id="support-section">
+            <h2>Support</h2>
+            <form id="support-form">
+                <div class="form-group">
+                    <label for="support-name">Your Name:</label>
+                    <input type="text" id="support-name" placeholder="Enter your name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="support-email">Your Email:</label>
+                    <input type="email" id="support-email" placeholder="Enter your email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="support-phone">Your Phone Number:</label>
+                    <input type="text" id="support-phone" placeholder="Enter your phone number" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="support-message">Your Message:</label>
+                    <textarea id="support-message" placeholder="Enter your message" required></textarea>
+                </div>
+
+                <button type="button" onclick="sendSupportMessage()">Send Message</button>
+            </form>
+
+            <p id="support-result"></p>
+        </section>
     </main>
 
     <footer>
-        <p>&copy; 2025 Money Transfer & Exchange. All rights reserved.</p>
+        <p>&copy; 2025 Money Transfer and Exchange. Proudly powered by <a href="https://www.sparkasse.de/" target="_blank">Sparkasse Bank</a>.</p>
     </footer>
 
-    <script src="script.js"></script>
+    <script defer src="script.js"></script>
 </body>
-
 </html>
