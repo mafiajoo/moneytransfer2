@@ -24,7 +24,7 @@ async function processPayment() {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                amount: 100,
+                amount: amount * 100, // Convert to cents
                 currency: "usd",
             }),
         });
@@ -89,7 +89,7 @@ function initiateTransfer() {
     let toCurrency = document.getElementById("transfer-to").value;
     let amount = parseFloat(document.getElementById("transfer-amount").value);
     let transferResult = document.getElementById("transfer-result");
-    let payButton = document.getElementById("payNowButton") || document.getElementById("transferPayButton");
+    let payButton = document.getElementById("transferPayButton"); // Use transferPayButton specifically
 
     if (isNaN(amount) || amount <= 0) {
         alert("Please enter a valid transfer amount.");
@@ -121,7 +121,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     console.log("Stripe is loaded");
 
-    const payButton = document.getElementById("payNowButton") || document.getElementById("transferPayButton");
+    const payButton = document.getElementById("transferPayButton");
 
     if (!payButton) {
         console.error("Pay button not found");
