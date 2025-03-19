@@ -18,7 +18,7 @@ async function processPayment() {
     try {
         console.log("Processing payment for amount:", amount);
 
-        let response = await fetch("https://moenyexchanger.netlify.app/.netlify/functions/create-checkout-session", {
+  let response = await fetch("https://moneyexchange.netlify.app/.netlify/functions/create-checkout-session", { 
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ amount: amount * 100 }) // Convert to cents
