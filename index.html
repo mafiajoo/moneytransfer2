@@ -14,24 +14,12 @@
         <h1>Money Transfer and Currency Exchange</h1>
     </header>
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
     <section id="payment-section">
         <h2>Make a Payment</h2>
         <p>Pay securely using Stripe.</p>
-        <button id="payButton" style="display:none;">Pay Now</button>
+        <button id="payButton" style="display: none;" onclick="processPayment()">Pay Now</button>
     </section>
 
->>>>>>> 7d5042e (Updated files with new features)
-=======
-    <section id="payment-section">
-        <h2>Make a Payment</h2>
-        <p>Pay securely using Stripe.</p>
-        <button id="payButton">Pay Now</button>
-    </section>
-
->>>>>>> 0516e147b04d2b9aa52a04ae9a322eed14933135
     <section id="exchange-section">
         <h2>Currency Exchange</h2>
         <form id="exchange-form">
@@ -70,15 +58,7 @@
                 <option value="EUR">EUR</option>
                 <option value="GBP">GBP</option>
             </select>
-<<<<<<< HEAD
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> 7d5042e (Updated files with new features)
-=======
-
->>>>>>> 0516e147b04d2b9aa52a04ae9a322eed14933135
             <label for="transfer-to">To Currency:</label>
             <select id="transfer-to">
                 <option value="EGP">EGP</option>
@@ -86,46 +66,21 @@
                 <option value="EUR">EUR</option>
                 <option value="GBP">GBP</option>
             </select>
-<<<<<<< HEAD
-<<<<<<< HEAD
-    
+
             <label for="transfer-amount">Amount:</label>
             <input type="number" id="transfer-amount" placeholder="Enter amount" required>
-    
+
             <!-- Fixed button ID -->
             <button type="button" id="transferButton" onclick="initiateTransfer()">Initiate Transfer</button>
             
-            <!-- Ensure the Pay Now button triggers payment -->
+            <!-- "Pay Now" button (Hidden by Default) -->
             <button id="payButton" class="pay-btn" style="display: none;" onclick="processPayment()">Pay Now</button> 
         </form>
-    
-        <p id="transfer-result"></p>
-=======
-=======
->>>>>>> 0516e147b04d2b9aa52a04ae9a322eed14933135
-
-            <label for="transfer-amount">Amount:</label>
-            <input type="number" id="transfer-amount" placeholder="Enter amount" required>
-
-            <button type="button" onclick="initiateTransfer()">Initiate Transfer</button>
-        </form>
 
         <p id="transfer-result"></p>
-<<<<<<< HEAD
-
-        <!-- "Pay Now" Button (Hidden by Default) -->
-        <button id="payNowButton" style="display:none;" onclick="payNow()">Pay Now</button>
->>>>>>> 7d5042e (Updated files with new features)
-=======
->>>>>>> 0516e147b04d2b9aa52a04ae9a322eed14933135
     </section>
 
     <!-- Load script.js AFTER Stripe.js -->
     <script defer src="script.js"></script>
 </body>
 </html>
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 0516e147b04d2b9aa52a04ae9a322eed14933135
