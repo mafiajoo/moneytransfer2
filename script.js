@@ -32,34 +32,10 @@ async function processPayment(amount, currency) {
     }
 }
 
-// Currency Conversion Rates
-const rates = {
-    USD: { EGP: 50.50, EUR: 0.91, GBP: 0.81, USD: 1 },
-    EGP: { USD: 1 / 50.50, EUR: 0.91 / 50.50, GBP: 0.81 / 50.50, EGP: 1 },
-    EUR: { USD: 1 / 0.91, EGP: 50.50 / 0.91, GBP: 0.81 / 0.91, EUR: 1 },
-    GBP: { USD: 1 / 0.81, EGP: 50.50 / 0.81, EUR: 0.91 / 0.81, GBP: 1 }
-};
-
-// Function to Calculate Currency Exchange
-function calculateExchange() {
-    const fromCurrency = document.getElementById('from-currency').value;
-    const toCurrency = document.getElementById('to-currency').value;
-    const amount = parseFloat(document.getElementById('amount').value);
-
-    if (!amount || isNaN(amount) || amount <= 0) {
-        alert("Please enter a valid amount.");
-        return;
-    }
-
-    if (fromCurrency === toCurrency) {
-        document.getElementById("exchange-result").innerText = "Choose different currencies.";
-        return;
-    }
-
-    const conversionRate = rates[fromCurrency][toCurrency];
-    const convertedAmount = (amount * conversionRate).toFixed(2);
-    
-    document.getElementById("exchange-result").innerText = `You will receive: ${convertedAmount} ${toCurrency}`;
+// Function to validate phone number (only digits, 7-15 characters)
+function validatePhoneNumber(phone) {
+    const phonePattern = /^[0-9]{7,15}$/;
+    return phonePattern.test(phone);
 }
 
 // Function to initiate the money transfer
@@ -70,6 +46,7 @@ function initiateTransfer() {
 
     let recipientName = document.getElementById("recipient-name").value;
     let recipientCountry = document.getElementById("recipient-country").value;
+    let countryCode = document.getElementById("country-code").value;
     let recipientPhone = document.getElementById("recipient-phone").value;
     let recipientAccount = document.getElementById("recipient-account").value;
 
@@ -91,11 +68,19 @@ function initiateTransfer() {
         return;
     }
 
+    // Validate phone number
+    if (!validatePhoneNumber(recipientPhone)) {
+        alert("Invalid phone number. Please enter a valid number (7-15 digits).");
+        return;
+    }
+
+    let fullPhoneNumber = `${countryCode}${recipientPhone}`; // Combine country code and number
+
     transferResult.innerHTML = `
         Transfer Initiated: ${amount} ${fromCurrency} to ${toCurrency} <br>
         Recipient: ${recipientName} <br>
         Country: ${recipientCountry} <br>
-        Phone: ${recipientPhone} <br>
+        Phone: ${fullPhoneNumber} <br>
         Bank Account: ${recipientAccount}
     `;
 

@@ -72,7 +72,16 @@
             <input type="text" id="recipient-country" placeholder="Enter recipient's country" required>
 
             <label for="recipient-phone">Recipient Phone Number:</label>
-            <input type="text" id="recipient-phone" placeholder="Enter recipient's phone number" required>
+            <div>
+                <select id="country-code">
+                    <option value="+1">+1 (USA)</option>
+                    <option value="+44">+44 (UK)</option>
+                    <option value="+20">+20 (Egypt)</option>
+                    <option value="+33">+33 (France)</option>
+                    <option value="+49">+49 (Germany)</option>
+                </select>
+                <input type="text" id="recipient-phone" placeholder="Enter phone number" required>
+            </div>
 
             <label for="recipient-account">Recipient Bank Account Number:</label>
             <input type="text" id="recipient-account" placeholder="Enter recipient's bank account number" required>
@@ -83,7 +92,7 @@
         <p id="transfer-result"></p>
     </section>
 
-    <!-- ✅ Payment Section moved BELOW Money Transfer -->
+    <!-- ✅ Payment Section -->
     <section id="payment-section">
         <h2>Make a Payment</h2>
         <p>Pay securely using Stripe.</p>
