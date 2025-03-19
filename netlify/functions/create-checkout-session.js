@@ -39,12 +39,20 @@ exports.handler = async (event) => {
 
         return {
             statusCode: 200,
+            headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*", // Allows requests from any origin
+            },
             body: JSON.stringify({ sessionId: session.id, url: session.url }),
         };
     } catch (error) {
         console.error("Error creating checkout session:", error.message); // Log the actual error
         return {
             statusCode: 500,
+            headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*", // Allows requests from any origin
+            },
             body: JSON.stringify({ error: error.message }),
         };
     }
