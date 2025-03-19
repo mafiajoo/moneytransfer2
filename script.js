@@ -1,33 +1,10 @@
 // Load Stripe
-const stripe = Stripe("pk_live_YOUR_PUBLIC_KEY"); // Replace with your real Stripe public key
+const stripe = Stripe("pk_live_YOUR_PUBLIC_KEY"); // Replace with your actual public key
 
-// Function to fetch and display live currency rates
-async function fetchCurrencyRates() {
-    try {
-        const response = await fetch('https://api.exchangerate-api.com/v4/latest/EGP');
-        const data = await response.json();
-
-        const currencies = ["USD", "EUR", "GBP", "EGP"];
-        const tableBody = document.querySelector("#currency-table tbody");
-        tableBody.innerHTML = "";
-
-        currencies.forEach(currency => {
-            if (data.rates[currency]) {
-                let row = `<tr><td>${currency}</td><td>${data.rates[currency].toFixed(2)}</td></tr>`;
-                tableBody.innerHTML += row;
-            }
-        });
-    } catch (error) {
-        console.error("Error fetching currency rates:", error);
-    }
-}
-
-// Fetch currency rates every 30 seconds
-setInterval(fetchCurrencyRates, 30000);
-fetchCurrencyRates(); // Run on page load
-
-// Function to process payments via Stripe
+// Function to Process Stripe Payment
 async function processPayment(amount, currency) {
+    console.log("Processing payment for amount:", amount, currency);
+
     try {
         const response = await fetch('/.netlify/functions/create-checkout-session', {
             method: 'POST',
@@ -35,37 +12,110 @@ async function processPayment(amount, currency) {
             body: JSON.stringify({ amount, currency })
         });
 
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
         const data = await response.json();
+        console.log("Payment session:", data);
+
+        // ✅ Redirect user to Stripe checkout
         if (data.url) {
             window.location.href = data.url;
         } else {
             throw new Error("No session URL returned from Stripe");
         }
+
     } catch (error) {
-        alert("Payment error: " + error.message);
+        console.error("Error processing payment:", error);
+        alert("Something went wrong: " + error.message);
     }
 }
 
-// Function to validate phone number
-function validatePhoneNumber(phone) {
-    return /^[0-9]{7,15}$/.test(phone);
-}
+// Currency Conversion Rates
+const rates = {
+    USD: { EGP: 50.50, EUR: 0.91, GBP: 0.81, USD: 1 },
+    EGP: { USD: 1 / 50.50, EUR: 0.91 / 50.50, GBP: 0.81 / 50.50, EGP: 1 },
+    EUR: { USD: 1 / 0.91, EGP: 50.50 / 0.91, GBP: 0.81 / 0.91, EUR: 1 },
+    GBP: { USD: 1 / 0.81, EGP: 50.50 / 0.81, EUR: 0.91 / 0.81, GBP: 1 }
+};
 
-// Function to initiate money transfer
-function initiateTransfer() {
-    let countryCode = document.getElementById("country-code").value;
-    let recipientPhone = document.getElementById("recipient-phone").value;
+// Function to Calculate Currency Exchange
+function calculateExchange() {
+    const fromCurrency = document.getElementById('from-currency').value;
+    const toCurrency = document.getElementById('to-currency').value;
+    const amount = parseFloat(document.getElementById('amount').value);
 
-    if (!validatePhoneNumber(recipientPhone)) {
-        alert("Invalid phone number (7-15 digits only).");
+    if (!amount || isNaN(amount) || amount <= 0) {
+        alert("Please enter a valid amount.");
         return;
     }
 
-    let fullPhoneNumber = `${countryCode}${recipientPhone}`;
-    document.getElementById("transfer-result").innerHTML = `Transfer Initiated. Phone: ${fullPhoneNumber}`;
+    if (fromCurrency === toCurrency) {
+        document.getElementById("exchange-result").innerText = "Choose different currencies.";
+        return;
+    }
+
+    const conversionRate = rates[fromCurrency][toCurrency];
+    const convertedAmount = (amount * conversionRate).toFixed(2);
+    
+    document.getElementById("exchange-result").innerText = `You will receive: ${convertedAmount} ${toCurrency}`;
 }
 
-// Attach event listeners after DOM loads
+// Function to initiate the money transfer
+function initiateTransfer() {
+    let fromCurrency = document.getElementById("transfer-from").value;
+    let toCurrency = document.getElementById("transfer-to").value;
+    let amount = parseFloat(document.getElementById("transfer-amount").value);
+
+    let recipientName = document.getElementById("recipient-name").value;
+    let recipientCountry = document.getElementById("recipient-country").value;
+    let recipientPhone = document.getElementById("recipient-phone").value;
+    let recipientAccount = document.getElementById("recipient-account").value;
+
+    let transferResult = document.getElementById("transfer-result");
+    let payButton = document.getElementById("payButton");
+
+    if (isNaN(amount) || amount <= 0) {
+        alert("Please enter a valid transfer amount.");
+        return;
+    }
+
+    if (fromCurrency === toCurrency) {
+        transferResult.innerText = "Cannot transfer to the same currency.";
+        return;
+    }
+
+    if (!recipientName || !recipientCountry || !recipientPhone || !recipientAccount) {
+        alert("Please fill in all recipient details.");
+        return;
+    }
+
+    transferResult.innerHTML = `
+        Transfer Initiated: ${amount} ${fromCurrency} to ${toCurrency} <br>
+        Recipient: ${recipientName} <br>
+        Country: ${recipientCountry} <br>
+        Phone: ${recipientPhone} <br>
+        Bank Account: ${recipientAccount}
+    `;
+
+    // Show the "Pay Now" button after initiating transfer
+    if (payButton) {
+        payButton.style.display = "block";
+
+        // Attach event listener to "Pay Now" button with correct parameters
+        payButton.onclick = function () {
+            processPayment(amount, fromCurrency);
+        };
+    }
+}
+
+// Ensure elements exist before adding event listeners
 document.addEventListener("DOMContentLoaded", function () {
-    document.getElementById("transferButton").addEventListener("click", initiateTransfer);
+    console.log("DOM fully loaded");
+
+    const transferButton = document.getElementById("transferButton");
+    if (transferButton) {
+        transferButton.addEventListener("click", initiateTransfer);
+    }
 });
