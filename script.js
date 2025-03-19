@@ -10,34 +10,35 @@ async function processPayment() {
         return;
     }
 
-    try {
-        let response = await fetch("/.netlify/functions/create-checkout-session", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ amount: amount * 100 }) // Convert to cents for Stripe
-        });
+try {
+    let response = await fetch("/.netlify/functions/create-checkout-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount: amount * 100 })
+    });
 
-        let session = await response.json();
+    let session = await response.json();
+    console.log("Server response:", session); // ✅ Debugging Log
 
-        if (!session.sessionId) {
-            console.error("Error: No session ID returned from the server.", session);
-            alert("Payment session failed. Please try again.");
-            return;
-        }
-
-        // Redirect to Stripe Checkout
-        const result = await stripe.redirectToCheckout({ sessionId: session.sessionId });
-
-        if (result.error) {
-            console.error("Stripe error:", result.error);
-            alert("Payment failed. Please try again.");
-        }
-    } catch (error) {
-        console.error("Error processing payment:", error);
-        alert("Something went wrong. Please try again.");
+    if (!session.sessionId) {
+        console.error("Error: No session ID returned from the server.", session);
+        alert("Payment session failed. Please try again.");
+        return;
     }
+
+    // Redirect to Stripe Checkout
+    const result = await stripe.redirectToCheckout({ sessionId: session.sessionId });
+
+    if (result.error) {
+        console.error("Stripe error:", result.error);
+        alert("Payment failed. Please try again.");
+    }
+} catch (error) {
+    console.error("Error processing payment:", error);
+    alert("Something went wrong. Please try again.");
 }
 
+    
 // Exchange Calculation
 function calculateExchange() {
     let fromCurrency = document.getElementById("from-currency").value;
