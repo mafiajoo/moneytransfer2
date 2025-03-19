@@ -119,16 +119,63 @@ async function sendSupportMessage() {
         });
 
         if (response.ok) {
-            supportResult.innerHTML = "Your message has been sent successfully!";
+            supportResult.innerHTML = "Message sent successfully!";
         } else {
-            throw new Error("Failed to send message.");
+            supportResult.innerHTML = "Failed to send message.";
         }
     } catch (error) {
-        supportResult.innerHTML = "Error sending message. Please try again.";
+        supportResult.innerHTML = "Error sending message.";
     }
 }
 
-// Attach event listeners after DOM loads
-document.addEventListener("DOMContentLoaded", function () {
-    document.getElementById("transferButton").addEventListener("click", initiateTransfer);
-});
+// Modal login and register functionality
+const modal = document.getElementById("auth-modal");
+const closeModal = document.getElementById("close-modal");
+const loginLink = document.getElementById("login-link");
+const registerLink = document.getElementById("register-link");
+const authButton = document.getElementById("auth-button");
+const authError = document.getElementById("auth-error");
+
+loginLink.onclick = function () {
+    modal.style.display = "block";
+    document.getElementById("modal-title").innerText = "Login";
+    authButton.innerText = "Login";
+    authButton.onclick = login;
+};
+
+registerLink.onclick = function () {
+    modal.style.display = "block";
+    document.getElementById("modal-title").innerText = "Register";
+    authButton.innerText = "Register";
+    authButton.onclick = register;
+};
+
+closeModal.onclick = function () {
+    modal.style.display = "none";
+};
+
+window.onclick = function (event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+};
+
+function login(event) {
+    event.preventDefault();
+    let username = document.getElementById("username").value;
+    let password = document.getElementById("password").value;
+
+    // Simple check (replace with real authentication logic later)
+    if (username === "user" && password === "password") {
+        alert("Login successful");
+        modal.style.display = "none";
+    } else {
+        authError.style.display = "block";
+    }
+}
+
+function register(event) {
+    event.preventDefault();
+    alert("Registration feature coming soon!");
+    modal.style.display = "none";
+}

@@ -13,6 +13,9 @@
     <header>
         <div class="container">
             <h1>Money Transfer and Currency Exchange</h1>
+            <div id="login-register">
+                <a href="#" id="login-link">Login</a> | <a href="#" id="register-link">Register</a>
+            </div>
             <div id="flag-icons">
                 <img src="https://flagcdn.com/w320/eg.png" alt="EGP" class="flag-icon">
                 <img src="https://flagcdn.com/w320/us.png" alt="USA" class="flag-icon">
@@ -23,6 +26,26 @@
             </div>
         </div>
     </header>
+
+    <!-- Login / Register Modal -->
+    <div id="auth-modal" class="modal">
+        <div class="modal-content">
+            <span id="close-modal" class="close">&times;</span>
+            <h2 id="modal-title">Login</h2>
+            <form id="auth-form">
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" placeholder="Enter username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" placeholder="Enter password" required>
+                </div>
+                <button type="submit" id="auth-button">Login</button>
+            </form>
+            <p id="auth-error" style="color: red; display: none;">Invalid credentials. Please try again.</p>
+        </div>
+    </div>
 
     <main class="container">
         <section id="exchange-section">
@@ -178,9 +201,9 @@
     </main>
 
     <footer>
-        <p>&copy; 2025 Money Transfer and Exchange. Proudly powered by <a href="https://www.sparkasse.de/" target="_blank">Sparkasse Bank</a>.</p>
+        <p>&copy; 2025 Money Transfer and Exchange. All rights reserved.</p>
     </footer>
 
-    <script defer src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
