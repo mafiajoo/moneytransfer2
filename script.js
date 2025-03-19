@@ -27,8 +27,7 @@ async function processPayment() {
                 amount: 100,
                 currency: "usd",
             }),
-        })
-        
+        });
 
         console.log("HTTP Response Status:", response.status);
 
@@ -90,7 +89,7 @@ function initiateTransfer() {
     let toCurrency = document.getElementById("transfer-to").value;
     let amount = parseFloat(document.getElementById("transfer-amount").value);
     let transferResult = document.getElementById("transfer-result");
-    let payButton = document.getElementById("payButton");
+    let payButton = document.getElementById("payNowButton") || document.getElementById("transferPayButton");
 
     if (isNaN(amount) || amount <= 0) {
         alert("Please enter a valid transfer amount.");
@@ -105,7 +104,9 @@ function initiateTransfer() {
     transferResult.innerText = `Transfer Initiated: ${amount} ${fromCurrency} to ${toCurrency}`;
     
     // Show the "Pay Now" button after initiating transfer
-    payButton.style.display = "block";
+    if (payButton) {
+        payButton.style.display = "block";
+    }
 }
 
 // Ensure elements exist before adding event listeners
@@ -120,7 +121,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     console.log("Stripe is loaded");
 
-    let payButton = document.getElementById("payButton");
+    const payButton = document.getElementById("payNowButton") || document.getElementById("transferPayButton");
 
     if (!payButton) {
         console.error("Pay button not found");
