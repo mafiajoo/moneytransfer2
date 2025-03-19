@@ -160,3 +160,4 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.getElementById("transferButton").addEventListener("click", initiateTransfer);
 });
+
