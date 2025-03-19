@@ -27,6 +27,10 @@ exports.handler = async (event) => {
     }
 
     try {
+        if (!process.env.STRIPE_SECRET_KEY) {
+            throw new Error("Stripe secret key is missing. Please set STRIPE_SECRET_KEY in environment variables.");
+        }
+
         const { amount, currency } = JSON.parse(event.body);
         console.log("Processing payment for:", amount, currency);
 
@@ -59,8 +63,8 @@ exports.handler = async (event) => {
                 },
             ],
             mode: "payment",
-            success_url: "https://moneyexchangeing.netlify.app/success",
-            cancel_url: "https://moneyexchangeing.netlify.app/cancel",
+            success_url: "https://moneyexchanger.netlify.app/success",
+            cancel_url: "https://moneyexchanger.netlify.app/cancel",
         });
 
         console.log("Session created:", session.id);
