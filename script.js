@@ -16,11 +16,20 @@ async function processPayment() {
     }
 
     try {
+        console.log("Processing payment for amount:", amount);
+
         let response = await fetch("https://moenyexchanger.netlify.app/.netlify/functions/create-checkout-session", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ amount: amount * 100 }) // Convert to cents
         });
+
+        console.log("HTTP Response Status:", response.status);
+
+        if (!response.ok) {
+            let errorText = await response.text(); // Get error details
+            throw new Error(`Request failed with status ${response.status}: ${errorText}`);
+        }
 
         let session = await response.json();
 
@@ -34,7 +43,7 @@ async function processPayment() {
 
         await stripe.redirectToCheckout({ sessionId: session.sessionId });
     } catch (error) {
-        console.error("Error processing payment:", error); // This will now show the real error
+        console.error("Error processing payment:", error); // Now logs real error details
         alert("Something went wrong: " + error.message);  // Show error in alert
     }
 }
