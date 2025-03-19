@@ -2,51 +2,36 @@
 const stripe = Stripe("pk_live_YOUR_PUBLIC_KEY"); // Replace with your actual public key
 
 // Function to Process Stripe Payment
-async function processPayment() {
-    let amount = parseFloat(document.getElementById("transfer-amount").value);
-
-    if (isNaN(amount) || amount <= 0) {
-        alert("Invalid payment amount.");
-        return;
-    }
-
-    if (amount > 999999.99) {
-        alert("The maximum allowed payment is $999,999.99. Please enter a smaller amount.");
-        return;
-    }
+async function processPayment(amount, currency) {
+    console.log("Processing payment for amount:", amount);
 
     try {
-        console.log("Processing payment for amount:", amount);
-
-        let response = await fetch("https://moneyexchangeing.netlify.app/.netlify/functions/create-checkout-session", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ amount: 50, currency: "USD" }) 
-        })
-        
-        console.log("HTTP Response Status:", response.status);
+        const response = await fetch('/.netlify/functions/create-checkout-session', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ amount, currency })
+        });
 
         if (!response.ok) {
-            let errorText = await response.text(); // Get error details
-            throw new Error(`Request failed with status ${response.status}: ${errorText}`);
+            throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
-        let session = await response.json();
+        const data = await response.json();
+        console.log("Payment session:", data);
 
-        console.log("Session response:", session); // Debugging log
-
-        if (!session.sessionId) {
-            console.error("Error: No session ID returned from the server.", session);
-            alert("Payment session failed. Please try again.");
-            return;
+        // ✅ Redirect user to Stripe checkout
+        if (data.url) {
+            window.location.href = data.url;
+        } else {
+            throw new Error("No session URL returned from Stripe");
         }
 
-        await stripe.redirectToCheckout({ sessionId: session.sessionId });
     } catch (error) {
-        console.error("Error processing payment:", error); // Now logs real error details
-        alert("Something went wrong: " + error.message);  // Show error in alert
+        console.error("Error processing payment:", error);
+        alert("Something went wrong: " + error.message);
     }
 }
+
 
 // Currency Conversion Rates
 const rates = {
