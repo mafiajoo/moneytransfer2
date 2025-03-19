@@ -1,24 +1,33 @@
 // Load Stripe
-const stripe = Stripe("pk_live_51R3vLzHwauRcpoAGElnRu8aerdEaRdoxkn73AhCCaUHOhpO9VEfnvHBdoK28uBOwC8Lz8Tb47JyIKZxe2u1CdVGP00JkKz1LLh");
+const stripe = Stripe("pk_live_YOUR_PUBLIC_KEY"); // Replace with your actual public key
 
-// Ensure the script runs after DOM loads
-document.addEventListener("DOMContentLoaded", function () {
-    let transferButton = document.getElementById("initiateTransfer");
-    let payButton = document.getElementById("payButton");
-
-    // Check if the buttons exist before adding event listeners
-    if (transferButton) {
-        transferButton.addEventListener("click", initiateTransfer);
-    } else {
-        console.error("Error: transferButton not found in DOM");
+async function processPayment() {
+    let amount = document.getElementById("transfer-amount").value;
+    
+    if (amount <= 0) {
+        alert("Invalid payment amount.");
+        return;
     }
 
-    if (payButton) {
-        payButton.addEventListener("click", processPayment);
-    } else {
-        console.error("Error: payButton not found in DOM");
+    try {
+        let response = await fetch("/.netlify/functions/create-checkout-session", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ amount: amount }),
+        });
+
+        let session = await response.json();
+        
+        if (session.sessionId) {
+            stripe.redirectToCheckout({ sessionId: session.sessionId });
+        } else {
+            alert("Payment error: " + (session.error || "Please try again."));
+        }
+    } catch (err) {
+        alert("Error processing payment: " + err.message);
+        console.error(err);
     }
-});
+}
 
 // Exchange Calculation
 function calculateExchange() {
