@@ -2,6 +2,19 @@ require('dotenv').config();
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 exports.handler = async (event) => {
+    // Handle preflight requests (CORS)
+    if (event.httpMethod === "OPTIONS") {
+        return {
+            statusCode: 200,
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "POST, OPTIONS",
+                "Access-Control-Allow-Headers": "Content-Type",
+            },
+            body: JSON.stringify({ message: "CORS preflight response" }),
+        };
+    }
+
     try {
         console.log("Received request:", event.body);
 
@@ -39,7 +52,7 @@ exports.handler = async (event) => {
             statusCode: 200,
             headers: {
                 "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*",  // Fix CORS issue
+                "Access-Control-Allow-Origin": "*",
                 "Access-Control-Allow-Methods": "POST, OPTIONS",
                 "Access-Control-Allow-Headers": "Content-Type",
             },
@@ -57,3 +70,4 @@ exports.handler = async (event) => {
         };
     }
 };
+
