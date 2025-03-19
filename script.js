@@ -1,5 +1,39 @@
 // Load Stripe
+// Load Stripe
 const stripe = Stripe("pk_live_YOUR_PUBLIC_KEY"); // Replace with your real Stripe public key
+
+async function sendSupportMessage() {
+    let name = document.getElementById("support-name").value;
+    let email = document.getElementById("support-email").value;
+    let phone = document.getElementById("support-phone").value;
+    let message = document.getElementById("support-message").value;
+    let supportResult = document.getElementById("support-result");
+
+    if (!name || !email || !phone || !message) {
+        supportResult.innerHTML = "Please fill in all fields.";
+        return;
+    }
+
+    let supportData = { name, email, phone, message };
+
+    try {
+        const response = await fetch('/.netlify/functions/send-email', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(supportData)
+        });
+
+        const data = await response.json();
+        if (data.success) {
+            supportResult.innerHTML = "Message sent successfully!";
+            document.getElementById("support-form").reset();
+        } else {
+            throw new Error("Failed to send message.");
+        }
+    } catch (error) {
+        supportResult.innerHTML = "Error: " + error.message;
+    }
+}
 
 // Function to process payments via Stripe
 async function processPayment(amount, currency) {
