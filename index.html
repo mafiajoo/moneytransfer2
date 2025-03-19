@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Money Transfer and Currency Exchange</title>
+    <title>Money Transfer and Exchange</title>
     <link rel="stylesheet" href="style.css">
 
     <!-- Load Stripe.js -->
@@ -11,162 +11,146 @@
 </head>
 <body>
     <header>
-        <div id="flag-icons">
-            <img src="https://flagcdn.com/w20/us.png" alt="USA" title="USA" class="flag-icon">
-            <img src="https://flagcdn.com/w20/eg.png" alt="Egypt" title="Egypt" class="flag-icon">
-            <img src="https://flagcdn.com/w20/gb.png" alt="UK" title="UK" class="flag-icon">
-            <img src="https://flagcdn.com/w20/fr.png" alt="France" title="France" class="flag-icon">
-            <img src="https://flagcdn.com/w20/de.png" alt="Germany" title="Germany" class="flag-icon">
-            <img src="https://flagcdn.com/w20/it.png" alt="Italy" title="Italy" class="flag-icon">
-            <img src="https://flagcdn.com/w20/es.png" alt="Spain" title="Spain" class="flag-icon">
-            <img src="https://flagcdn.com/w20/pl.png" alt="Poland" title="Poland" class="flag-icon">
-            <img src="https://flagcdn.com/w20/pt.png" alt="Portugal" title="Portugal" class="flag-icon">
-            <img src="https://flagcdn.com/w20/nl.png" alt="Netherlands" title="Netherlands" class="flag-icon">
-            <!-- Add more country flags as needed -->
+        <div class="container">
+            <h1>Money Transfer and Currency Exchange</h1>
+            <div id="flag-icons">
+                <img src="https://flagcdn.com/w320/eg.png" alt="EGP" class="flag-icon">
+                <img src="https://flagcdn.com/w320/us.png" alt="USA" class="flag-icon">
+                <img src="https://flagcdn.com/w320/de.png" alt="Germany" class="flag-icon">
+                <img src="https://flagcdn.com/w320/gb.png" alt="GB" class="flag-icon">
+                <img src="https://flagcdn.com/w320/fr.png" alt="France" class="flag-icon">
+                <img src="https://flagcdn.com/w320/it.png" alt="Italy" class="flag-icon">
+            </div>
         </div>
-        <h1>Money Transfer and Currency Exchange</h1>
     </header>
 
-    <section id="exchange-section">
-        <h2>Currency Exchange</h2>
-        <form id="exchange-form">
-            <label for="from-currency">From:</label>
-            <select id="from-currency">
-                <option value="EGP">EGP</option>
-                <option value="USD">USD</option>
-                <option value="EUR">EUR</option>
-                <option value="GBP">GBP</option>
-            </select>
+    <main class="container">
+        <section id="exchange-section">
+            <h2>Currency Exchange</h2>
+            <form id="exchange-form">
+                <div class="form-group">
+                    <label for="from-currency">From:</label>
+                    <select id="from-currency">
+                        <option value="EGP">EGP</option>
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
+                        <option value="GBP">GBP</option>
+                    </select>
+                </div>
 
-            <label for="to-currency">To:</label>
-            <select id="to-currency">
-                <option value="EGP">EGP</option>
-                <option value="USD">USD</option>
-                <option value="EUR">EUR</option>
-                <option value="GBP">GBP</option>
-            </select>
+                <div class="form-group">
+                    <label for="to-currency">To:</label>
+                    <select id="to-currency">
+                        <option value="EGP">EGP</option>
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
+                        <option value="GBP">GBP</option>
+                    </select>
+                </div>
 
-            <label for="amount">Amount:</label>
-            <input type="number" id="amount" placeholder="Enter amount" required>
+                <div class="form-group">
+                    <label for="amount">Amount:</label>
+                    <input type="number" id="amount" placeholder="Enter amount" required>
+                </div>
 
-            <button type="button" onclick="calculateExchange()">Calculate Exchange</button>
-        </form>
+                <button type="button" onclick="calculateExchange()">Calculate Exchange</button>
+            </form>
 
-        <p id="exchange-result"></p>
-    </section>
+            <p id="exchange-result"></p>
+        </section>
 
-    <section id="transfer-section">
-        <h2>Money Transfer</h2>
-        <form id="transfer-form">
-            <label for="transfer-from">From Currency:</label>
-            <select id="transfer-from">
-                <option value="EGP">EGP</option>
-                <option value="USD">USD</option>
-                <option value="EUR">EUR</option>
-                <option value="GBP">GBP</option>
-            </select>
+        <section id="transfer-section">
+            <h2>Money Transfer</h2>
+            <form id="transfer-form">
+                <div class="form-group">
+                    <label for="transfer-from">From Currency:</label>
+                    <select id="transfer-from">
+                        <option value="EGP">EGP</option>
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
+                        <option value="GBP">GBP</option>
+                    </select>
+                </div>
 
-            <label for="transfer-to">To Currency:</label>
-            <select id="transfer-to">
-                <option value="EGP">EGP</option>
-                <option value="USD">USD</option>
-                <option value="EUR">EUR</option>
-                <option value="GBP">GBP</option>
-            </select>
+                <div class="form-group">
+                    <label for="transfer-to">To Currency:</label>
+                    <select id="transfer-to">
+                        <option value="EGP">EGP</option>
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
+                        <option value="GBP">GBP</option>
+                    </select>
+                </div>
 
-            <label for="transfer-amount">Amount:</label>
-            <input type="number" id="transfer-amount" placeholder="Enter amount" required>
+                <div class="form-group">
+                    <label for="transfer-amount">Amount:</label>
+                    <input type="number" id="transfer-amount" placeholder="Enter amount" required>
+                </div>
 
-            <label for="recipient-name">Recipient Name:</label>
-            <input type="text" id="recipient-name" placeholder="Enter recipient's name" required>
+                <div class="form-group">
+                    <label for="recipient-name">Recipient Name:</label>
+                    <input type="text" id="recipient-name" placeholder="Enter recipient's name" required>
+                </div>
 
-            <label for="recipient-country">Recipient Country:</label>
-            <input type="text" id="recipient-country" placeholder="Enter recipient's country" required>
+                <div class="form-group">
+                    <label for="recipient-country">Recipient Country:</label>
+                    <input type="text" id="recipient-country" placeholder="Enter recipient's country" required>
+                </div>
 
-            <label for="recipient-phone">Recipient Phone Number:</label>
-            <div>
-                <select id="recipient-country-code" style="background-color: black; color: white;">
-                    <option value="+1">+1 (US)</option>
-                    <option value="+20">+20 (EG)</option>
-                    <option value="+44">+44 (UK)</option>
-                    <option value="+61">+61 (Australia)</option>
-                    <option value="+33">+33 (France)</option>
-                    <option value="+49">+49 (Germany)</option>
-                    <option value="+91">+91 (India)</option>
-                    <option value="+39">+39 (Italy)</option>
-                    <option value="+81">+81 (Japan)</option>
-                    <option value="+52">+52 (Mexico)</option>
-                    <option value="+27">+27 (South Africa)</option>
-                    <option value="+55">+55 (Brazil)</option>
-                    <option value="+7">+7 (Russia)</option>
-                    <option value="+34">+34 (Spain)</option>
-                    <option value="+971">+971 (UAE)</option>
-                    <!-- Add more country codes as needed -->
-                </select>
-                <input type="text" id="recipient-phone" placeholder="Enter phone number" required>
-            </div>
+                <div class="form-group">
+                    <label for="recipient-phone">Recipient Phone Number:</label>
+                    <input type="text" id="recipient-phone" placeholder="Enter phone number" required>
+                </div>
 
-            <label for="recipient-account">Recipient Bank Account Number:</label>
-            <input type="text" id="recipient-account" placeholder="Enter recipient's bank account number" required>
+                <div class="form-group">
+                    <label for="recipient-account">Recipient Bank Account Number:</label>
+                    <input type="text" id="recipient-account" placeholder="Enter recipient's bank account number" required>
+                </div>
 
-            <button type="button" id="transferButton">Initiate Transfer</button>
-        </form>
+                <button type="button" id="transferButton">Initiate Transfer</button>
+            </form>
 
-        <p id="transfer-result"></p>
-    </section>
+            <p id="transfer-result"></p>
+        </section>
 
-    <section id="payment-section">
-        <h2>Make a Payment</h2>
-        <p>Pay securely using Stripe.</p>
-        <button id="payButton" style="display: none;">Pay Now</button>
-    </section>
+        <section id="payment-section">
+            <h2>Make a Payment</h2>
+            <p>Pay securely using Stripe.</p>
+            <button id="payButton" style="display: none;">Pay Now</button>
+        </section>
 
-    <!-- Support Section -->
-    <section id="support-section">
-        <h2>Support</h2>
-        <form id="support-form">
-            <label for="support-name">Your Name:</label>
-            <input type="text" id="support-name" placeholder="Enter your name" required>
+        <section id="support-section">
+            <h2>Support</h2>
+            <form id="support-form">
+                <div class="form-group">
+                    <label for="support-name">Your Name:</label>
+                    <input type="text" id="support-name" placeholder="Enter your name" required>
+                </div>
 
-            <label for="support-email">Your Email:</label>
-            <input type="email" id="support-email" placeholder="Enter your email" required>
+                <div class="form-group">
+                    <label for="support-email">Your Email:</label>
+                    <input type="email" id="support-email" placeholder="Enter your email" required>
+                </div>
 
-            <label for="support-phone">Your Phone Number:</label>
-            <div>
-                <select id="support-country-code" style="background-color: black; color: white;">
-                    <option value="+1">+1 (US)</option>
-                    <option value="+20">+20 (EG)</option>
-                    <option value="+44">+44 (UK)</option>
-                    <option value="+61">+61 (Australia)</option>
-                    <option value="+33">+33 (France)</option>
-                    <option value="+49">+49 (Germany)</option>
-                    <option value="+91">+91 (India)</option>
-                    <option value="+39">+39 (Italy)</option>
-                    <option value="+81">+81 (Japan)</option>
-                    <option value="+52">+52 (Mexico)</option>
-                    <option value="+27">+27 (South Africa)</option>
-                    <option value="+55">+55 (Brazil)</option>
-                    <option value="+7">+7 (Russia)</option>
-                    <option value="+34">+34 (Spain)</option>
-                    <option value="+971">+971 (UAE)</option>
-                    <!-- Add more country codes as needed -->
-                </select>
-                <input type="text" id="support-phone" placeholder="Enter your phone number" required>
-            </div>
+                <div class="form-group">
+                    <label for="support-phone">Your Phone Number:</label>
+                    <input type="text" id="support-phone" placeholder="Enter your phone number" required>
+                </div>
 
-            <label for="support-message">Your Message:</label>
-            <textarea id="support-message" placeholder="Enter your message" required></textarea>
+                <div class="form-group">
+                    <label for="support-message">Your Message:</label>
+                    <textarea id="support-message" placeholder="Enter your message" required></textarea>
+                </div>
 
-            <button type="button" onclick="sendSupportMessage()">Send Message</button>
-        </form>
+                <button type="button" onclick="sendSupportMessage()">Send Message</button>
+            </form>
 
-        <p id="support-result"></p>
-    </section>
+            <p id="support-result"></p>
+        </section>
+    </main>
 
-    <!-- Footer Section -->
     <footer>
-        <p>&copy; 2025 Money Exchange and Transfer. All rights reserved.</p>
-        <p>Proudly powered by <a href="https://www.sparkasse.de/" target="_blank">Sparkasse Bank</a></p>
+        <p>&copy; 2025 Money Transfer and Exchange. Proudly powered by <a href="https://www.sparkasse.de/" target="_blank">Sparkasse Bank</a>.</p>
     </footer>
 
     <script defer src="script.js"></script>
