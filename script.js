@@ -20,15 +20,10 @@ async function processPayment() {
 
         let response = await fetch("https://moneyexchangeing.netlify.app/.netlify/functions/create-checkout-session", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                amount: amount * 100, // Convert to cents
-                currency: "usd",
-            }),
-        });
-
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ amount: 50, currency: "USD" }) 
+        })
+        
         console.log("HTTP Response Status:", response.status);
 
         if (!response.ok) {
