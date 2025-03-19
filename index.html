@@ -14,12 +14,6 @@
         <h1>Money Transfer and Currency Exchange</h1>
     </header>
 
-    <section id="payment-section">
-        <h2>Make a Payment</h2>
-        <p>Pay securely using Stripe.</p>
-        <button id="payButton" style="display: none;">Pay Now</button>
-    </section>
-
     <section id="exchange-section">
         <h2>Currency Exchange</h2>
         <form id="exchange-form">
@@ -84,12 +78,16 @@
             <input type="text" id="recipient-account" placeholder="Enter recipient's bank account number" required>
 
             <button type="button" id="transferButton">Initiate Transfer</button>
-            
-            <!-- "Pay Now" button (Hidden by Default) -->
-            <button id="payButton" style="display: none;">Pay Now</button> 
         </form>
 
         <p id="transfer-result"></p>
+    </section>
+
+    <!-- ✅ Payment Section moved BELOW Money Transfer -->
+    <section id="payment-section">
+        <h2>Make a Payment</h2>
+        <p>Pay securely using Stripe.</p>
+        <button id="payButton" style="display: none;">Pay Now</button>
     </section>
 
     <!-- Load script.js AFTER Stripe.js -->
