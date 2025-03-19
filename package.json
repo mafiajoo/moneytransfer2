@@ -1,12 +1,10 @@
 {
-  "name": "new-folder",
+  "name": "moneytransfer2",
   "version": "1.0.0",
   "main": "script.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "astro build",
-    "dev": "astro dev",
-    "start": "astro start"
+    "start": "node netlify/functions/create-checkout-session.js"
   },
   "repository": {
     "type": "git",
