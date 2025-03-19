@@ -64,28 +64,26 @@
             <label for="transfer-amount">Amount:</label>
             <input type="number" id="transfer-amount" placeholder="Enter amount" required>
 
-            <h3>Recipient Details</h3>
+            <!-- New Recipient Details Fields -->
             <label for="recipient-name">Recipient Name:</label>
             <input type="text" id="recipient-name" placeholder="Enter recipient's name" required>
 
             <label for="recipient-country">Recipient Country:</label>
             <input type="text" id="recipient-country" placeholder="Enter recipient's country" required>
 
-            <label for="recipient-phone">Recipient Phone:</label>
+            <label for="recipient-phone">Recipient Phone Number:</label>
             <input type="text" id="recipient-phone" placeholder="Enter recipient's phone number" required>
 
-            <label for="recipient-account">Bank Account Number:</label>
-            <input type="text" id="recipient-account" placeholder="Enter bank account number" required>
+            <label for="recipient-account">Recipient Bank Account Number:</label>
+            <input type="text" id="recipient-account" placeholder="Enter recipient's bank account number" required>
 
             <button type="button" id="transferButton">Initiate Transfer</button>
-            
-            <!-- "Pay Now" button (Hidden by Default) -->
-            <button id="payButton" style="display: none;">Pay Now</button> 
         </form>
 
         <p id="transfer-result"></p>
     </section>
 
+    <!-- ✅ Payment Section moved BELOW Money Transfer -->
     <section id="payment-section">
         <h2>Make a Payment</h2>
         <p>Pay securely using Stripe.</p>

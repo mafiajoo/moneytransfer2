@@ -1,12 +1,12 @@
 // Load Stripe
-const stripe = Stripe("pk_live_YOUR_PUBLIC_KEY"); // Replace with your actual Stripe public key
+const stripe = Stripe("pk_live_YOUR_PUBLIC_KEY"); // Replace with your actual public key
 
 // Function to Process Stripe Payment
 async function processPayment(amount, currency) {
     console.log("Processing payment for amount:", amount, currency);
 
     try {
-        const response = await fetch('https://moneyexchangeing.netlify.app/.netlify/functions/create-checkout-session', {
+        const response = await fetch('/.netlify/functions/create-checkout-session', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ amount, currency })
@@ -62,19 +62,7 @@ function calculateExchange() {
     document.getElementById("exchange-result").innerText = `You will receive: ${convertedAmount} ${toCurrency}`;
 }
 
-// Function to validate phone number (basic check: numbers only & length)
-function isValidPhoneNumber(phone) {
-    const phoneRegex = /^[0-9]{8,15}$/; // Accepts 8 to 15 digits only
-    return phoneRegex.test(phone);
-}
-
-// Function to validate bank account number (basic check: numbers only & length)
-function isValidBankAccount(account) {
-    const accountRegex = /^[0-9]{10,20}$/; // Accepts 10 to 20 digits only
-    return accountRegex.test(account);
-}
-
-// Function to initiate the money transfer with validation
+// Function to initiate the money transfer
 function initiateTransfer() {
     let fromCurrency = document.getElementById("transfer-from").value;
     let toCurrency = document.getElementById("transfer-to").value;
@@ -103,18 +91,6 @@ function initiateTransfer() {
         return;
     }
 
-    // ✅ Validate Phone Number
-    if (!isValidPhoneNumber(recipientPhone)) {
-        alert("Invalid phone number. Please enter a valid number (8-15 digits).");
-        return;
-    }
-
-    // ✅ Validate Bank Account Number
-    if (!isValidBankAccount(recipientAccount)) {
-        alert("Invalid bank account number. It should be 10-20 digits long.");
-        return;
-    }
-
     transferResult.innerHTML = `
         Transfer Initiated: ${amount} ${fromCurrency} to ${toCurrency} <br>
         Recipient: ${recipientName} <br>
@@ -138,16 +114,7 @@ function initiateTransfer() {
 document.addEventListener("DOMContentLoaded", function () {
     console.log("DOM fully loaded");
 
-    if (typeof Stripe === "undefined") {
-        console.error("Stripe.js is not loaded. Check your HTML.");
-        alert("Payment system error: Stripe is not loaded.");
-        return;
-    }
-
-    console.log("Stripe is loaded");
-
     const transferButton = document.getElementById("transferButton");
-
     if (transferButton) {
         transferButton.addEventListener("click", initiateTransfer);
     }
