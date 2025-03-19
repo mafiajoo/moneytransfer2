@@ -72,7 +72,6 @@ function initiateTransfer() {
     let recipientCountry = document.getElementById("recipient-country").value;
     let recipientPhone = getFullPhoneNumber("recipient-phone");
     let recipientAccount = document.getElementById("recipient-account").value;
-    let recipientCountryCode = document.getElementById("recipient-country-code").value;
 
     let transferResult = document.getElementById("transfer-result");
     let payButton = document.getElementById("payButton");
@@ -82,7 +81,7 @@ function initiateTransfer() {
         return;
     }
 
-    if (!recipientName || !recipientCountry || !recipientPhone || !recipientAccount || !recipientCountryCode) {
+    if (!recipientName || !recipientCountry || !recipientPhone || !recipientAccount) {
         alert("Please fill in all recipient details.");
         return;
     }
@@ -95,7 +94,6 @@ function initiateTransfer() {
     transferResult.innerHTML = `Transfer Initiated: ${amount} ${fromCurrency} to ${toCurrency} <br>
         Recipient: ${recipientName} <br>
         Country: ${recipientCountry} <br>
-        Country Code: ${recipientCountryCode} <br>
         Phone: ${recipientPhone} <br>
         Bank Account: ${recipientAccount}`;
 
@@ -148,8 +146,7 @@ document.addEventListener("DOMContentLoaded", function () {
         recipientPhoneInput.intlTelInput = window.intlTelInput(recipientPhoneInput, {
             initialCountry: "us",
             preferredCountries: ["us", "gb", "eg", "de", "fr"],
-            separateDialCode: true,
-            customContainer: "black-background"
+            separateDialCode: true
         });
     }
 
@@ -157,8 +154,7 @@ document.addEventListener("DOMContentLoaded", function () {
         supportPhoneInput.intlTelInput = window.intlTelInput(supportPhoneInput, {
             initialCountry: "us",
             preferredCountries: ["us", "gb", "eg", "de", "fr"],
-            separateDialCode: true,
-            customContainer: "black-background"
+            separateDialCode: true
         });
     }
 
