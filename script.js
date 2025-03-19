@@ -108,4 +108,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const transferButton = document.getElementById("transferButton");
 
     if (transferButton) {
-        transferButton.addEventL
+        transferButton.addEventListener("click", initiateTransfer);
+    }
+});
