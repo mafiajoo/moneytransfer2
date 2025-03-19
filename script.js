@@ -1,5 +1,5 @@
 // Load Stripe
-const stripe = Stripe("pk_live_YOUR_PUBLIC_KEY"); // Replace with your actual public key
+const stripe = Stripe("pk_live_YOUR_PUBLIC_KEY"); // Replace with your actual Stripe public key
 
 // Function to Process Stripe Payment
 async function processPayment(amount, currency) {
