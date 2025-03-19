@@ -1,3 +1,4 @@
+html :
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -71,7 +72,35 @@
             <input type="text" id="recipient-country" placeholder="Enter recipient's country" required>
 
             <label for="recipient-phone">Recipient Phone Number:</label>
-            <input type="text" id="recipient-phone" placeholder="Enter phone number" required>
+            <div>
+                <select id="country-code">
+                    <option value="+1">+1 (USA)</option>
+                    <option value="+20">+20 (Egypt)</option>
+                    <option value="+44">+44 (UK)</option>
+                    <option value="+33">+33 (France)</option>
+                    <option value="+49">+49 (Germany)</option>
+                    <option value="+39">+39 (Italy)</option>
+                    <option value="+34">+34 (Spain)</option>
+                    <option value="+31">+31 (Netherlands)</option>
+                    <option value="+46">+46 (Sweden)</option>
+                    <option value="+41">+41 (Switzerland)</option>
+                    <option value="+43">+43 (Austria)</option>
+                    <option value="+32">+32 (Belgium)</option>
+                    <option value="+47">+47 (Norway)</option>
+                    <option value="+45">+45 (Denmark)</option>
+                    <option value="+420">+420 (Czech Republic)</option>
+                    <option value="+421">+421 (Slovakia)</option>
+                    <option value="+48">+48 (Poland)</option>
+                    <option value="+358">+358 (Finland)</option>
+                    <option value="+353">+353 (Ireland)</option>
+                    <option value="+36">+36 (Hungary)</option>
+                    <option value="+40">+40 (Romania)</option>
+                    <option value="+372">+372 (Estonia)</option>
+                    <option value="+371">+371 (Latvia)</option>
+                    <option value="+370">+370 (Lithuania)</option>
+                </select>
+                <input type="text" id="recipient-phone" placeholder="Enter phone number" required>
+            </div>
 
             <label for="recipient-account">Recipient Bank Account Number:</label>
             <input type="text" id="recipient-account" placeholder="Enter recipient's bank account number" required>
@@ -86,25 +115,6 @@
         <h2>Make a Payment</h2>
         <p>Pay securely using Stripe.</p>
         <button id="payButton" style="display: none;">Pay Now</button>
-    </section>
-
-    <!-- Support Section -->
-    <section id="support-section">
-        <h2>Contact Support</h2>
-        <form id="support-form">
-            <label for="support-name">Your Name:</label>
-            <input type="text" id="support-name" placeholder="Enter your name" required>
-
-            <label for="support-email">Your Email:</label>
-            <input type="email" id="support-email" placeholder="Enter your email" required>
-
-            <label for="support-message">Your Message:</label>
-            <textarea id="support-message" placeholder="Enter your message" required></textarea>
-
-            <button type="button" onclick="submitSupportMessage()">Send Message</button>
-        </form>
-
-        <p id="support-result"></p>
     </section>
 
     <script defer src="script.js"></script>
