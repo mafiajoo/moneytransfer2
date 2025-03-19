@@ -10,6 +10,11 @@ async function processPayment() {
         return;
     }
 
+    if (amount > 999999.99) {
+        alert("The maximum allowed payment is $999,999.99. Please enter a smaller amount.");
+        return;
+    }
+
     try {
         let response = await fetch("/.netlify/functions/create-checkout-session", {
             method: "POST",
@@ -18,7 +23,6 @@ async function processPayment() {
         });
 
         let session = await response.json();
-        console.log("Server response:", session); // ✅ Debugging Log
 
         if (!session.sessionId) {
             console.error("Error: No session ID returned from the server.", session);
@@ -26,18 +30,13 @@ async function processPayment() {
             return;
         }
 
-        // Redirect to Stripe Checkout
-        const result = await stripe.redirectToCheckout({ sessionId: session.sessionId });
-
-        if (result.error) {
-            console.error("Stripe error:", result.error);
-            alert("Payment failed. Please try again.");
-        }
+        await stripe.redirectToCheckout({ sessionId: session.sessionId });
     } catch (error) {
-        console.error("Error processing payment:", error);
-        alert("Something went wrong. Please try again.");
+        console.error("Error processing payment:", error); // This will now show the real error
+        alert("Something went wrong: " + error.message);  // Show error in alert
     }
 }
+
 
 // Exchange Calculation
 function calculateExchange() {
