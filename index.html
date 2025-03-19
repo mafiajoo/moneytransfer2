@@ -109,7 +109,17 @@
 
                 <div class="form-group">
                     <label for="recipient-bank">Recipient Bank Name:</label>
-                    <input type="text" id="recipient-bank" placeholder="Enter recipient's bank name" required>
+                    <select id="recipient-bank" required>
+                        <option value="">Select Bank</option>
+                        <option value="National Bank of Egypt">National Bank of Egypt</option>
+                        <option value="Banque Misr">Banque Misr</option>
+                        <option value="Commercial International Bank (CIB)">Commercial International Bank (CIB)</option>
+                        <option value="Qatar National Bank (QNB)">Qatar National Bank (QNB)</option>
+                        <option value="Deutsche Bank">Deutsche Bank</option>
+                        <option value="Commerzbank">Commerzbank</option>
+                        <option value="DZ Bank">DZ Bank</option>
+                        <option value="Unicredit Bank">Unicredit Bank</option>
+                    </select>
                 </div>
 
                 <button type="button" id="transferButton">Initiate Transfer</button>
