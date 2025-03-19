@@ -1,7 +1,10 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 >>>>>>> 7d5042e (Updated files with new features)
+=======
+>>>>>>> 0516e147b04d2b9aa52a04ae9a322eed14933135
 /* Reset & Global Styles */
 * {
     margin: 0;
@@ -24,12 +27,17 @@ h1 {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 /* Sections */
 #exchange-section, #transfer-section {
 =======
 /* Exchange Section */
 #exchange-section, #payment-section {
 >>>>>>> 7d5042e (Updated files with new features)
+=======
+/* Exchange Section */
+#exchange-section, #payment-section {
+>>>>>>> 0516e147b04d2b9aa52a04ae9a322eed14933135
     background: rgba(255, 255, 255, 0.1);
     padding: 20px;
     border-radius: 10px;
@@ -67,6 +75,7 @@ button:hover {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 /* Pay Now Button */
 .pay-btn {
     background: linear-gradient(135deg, #00c853, #009624);
@@ -77,6 +86,9 @@ button:hover {
 =======
 /* Exchange Result */
 >>>>>>> 7d5042e (Updated files with new features)
+=======
+/* Exchange Result */
+>>>>>>> 0516e147b04d2b9aa52a04ae9a322eed14933135
 #exchange-result, #transfer-result {
     font-size: 1.2rem;
     font-weight: bold;
@@ -90,11 +102,14 @@ button:hover {
     }
     
 <<<<<<< HEAD
+<<<<<<< HEAD
     #exchange-section, #transfer-section {
         width: 90%;
     }
 }
 =======
+=======
+>>>>>>> 0516e147b04d2b9aa52a04ae9a322eed14933135
     #exchange-section, #payment-section {
         width: 90%;
     }
@@ -178,4 +193,7 @@ button:hover {
     }
 }
 >>>>>>> 2db1a5b95fc4c4d0c2be5b54e017a499aeadfda9
+<<<<<<< HEAD
 >>>>>>> 7d5042e (Updated files with new features)
+=======
+>>>>>>> 0516e147b04d2b9aa52a04ae9a322eed14933135
