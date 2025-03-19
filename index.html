@@ -25,7 +25,58 @@
     </header>
 
     <main class="container">
-        <section id="exchange-section">
+        <!-- Login and Registration -->
+        <section id="auth-section">
+            <h2>Login / Register</h2>
+            <div id="login-section">
+                <h3>Login</h3>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="login-email">Email:</label>
+                        <input type="email" id="login-email" placeholder="Enter your email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="login-password">Password:</label>
+                        <input type="password" id="login-password" placeholder="Enter your password" required>
+                    </div>
+
+                    <button type="button" onclick="login()">Login</button>
+                    <p id="login-error" style="color: red;"></p>
+                </form>
+            </div>
+
+            <div id="register-section">
+                <h3>Register</h3>
+                <form id="register-form">
+                    <div class="form-group">
+                        <label for="register-name">Name:</label>
+                        <input type="text" id="register-name" placeholder="Enter your name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="register-email">Email:</label>
+                        <input type="email" id="register-email" placeholder="Enter your email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="register-password">Password:</label>
+                        <input type="password" id="register-password" placeholder="Enter your password" required>
+                    </div>
+
+                    <button type="button" onclick="register()">Register</button>
+                    <p id="register-error" style="color: red;"></p>
+                </form>
+            </div>
+        </section>
+
+        <section id="user-section" style="display:none;">
+            <h2>Welcome, <span id="user-name"></span>!</h2>
+            <p>You are logged in. You can now proceed with money transfer and currency exchange.</p>
+        </section>
+
+        <!-- Currency Exchange and Transfer Sections -->
+        <section id="exchange-section" style="display:none;">
             <h2>Currency Exchange</h2>
             <form id="exchange-form">
                 <div class="form-group">
@@ -59,7 +110,7 @@
             <p id="exchange-result"></p>
         </section>
 
-        <section id="transfer-section">
+        <section id="transfer-section" style="display:none;">
             <h2>Money Transfer</h2>
             <form id="transfer-form">
                 <div class="form-group">
@@ -120,34 +171,19 @@
                     <input type="text" id="recipient-account" placeholder="Enter recipient's IBAN" required>
                 </div>
 
-                <div class="form-group">
-                    <label for="recipient-bank">Recipient Bank Name:</label>
-                    <select id="recipient-bank" required>
-                        <option value="National Bank of Egypt">National Bank of Egypt</option>
-                        <option value="Banque Misr">Banque Misr</option>
-                        <option value="Commercial International Bank (CIB)">Commercial International Bank (CIB)</option>
-                        <option value="Qatar National Bank (QNB)">Qatar National Bank (QNB)</option>
-                        <option value="Deutsche Bank">Deutsche Bank</option>
-                        <option value="Commerzbank">Commerzbank</option>
-                        <option value="DZ Bank">DZ Bank</option>
-                        <option value="Unicredit Bank">Unicredit Bank</option>
-                        <option value="Sparkasse Bank">Sparkasse Bank</option>
-                    </select>
-                </div>
-
                 <button type="button" id="transferButton">Initiate Transfer</button>
             </form>
 
             <p id="transfer-result"></p>
         </section>
 
-        <section id="payment-section">
+        <section id="payment-section" style="display:none;">
             <h2>Make a Payment</h2>
             <p>Pay securely using Stripe.</p>
             <button id="payButton" style="display: none;">Pay Now</button>
         </section>
 
-        <section id="support-section">
+        <section id="support-section" style="display:none;">
             <h2>Support</h2>
             <form id="support-form">
                 <div class="form-group">
@@ -178,9 +214,9 @@
     </main>
 
     <footer>
-        <p>&copy; 2025 Money Transfer and Exchange. Proudly powered by <a href="https://www.sparkasse.de/" target="_blank">Sparkasse Bank</a>.</p>
+        <p>&copy; 2025 Money Transfer & Exchange. All rights reserved.</p>
     </footer>
 
-    <script defer src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
