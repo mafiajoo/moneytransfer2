@@ -119,12 +119,12 @@ async function sendSupportMessage() {
         });
 
         if (response.ok) {
-            supportResult.innerHTML = "Message sent successfully!";
+            supportResult.innerHTML = "Your message has been sent successfully!";
         } else {
-            supportResult.innerHTML = "Failed to send message.";
+            throw new Error("Failed to send message.");
         }
     } catch (error) {
-        supportResult.innerHTML = "Error sending message.";
+        supportResult.innerHTML = "Error sending message. Please try again.";
     }
 }
 
@@ -166,7 +166,10 @@ function login(event) {
     let password = document.getElementById("password").value;
 
     // Simple check (replace with real authentication logic later)
-    if (username === "user" && password === "password") {
+    let storedUsername = localStorage.getItem("username");
+    let storedPassword = localStorage.getItem("password");
+
+    if (username === storedUsername && password === storedPassword) {
         alert("Login successful");
         modal.style.display = "none";
     } else {
@@ -176,6 +179,22 @@ function login(event) {
 
 function register(event) {
     event.preventDefault();
-    alert("Registration feature coming soon!");
-    modal.style.display = "none";
+    let username = document.getElementById("username").value;
+    let password = document.getElementById("password").value;
+
+    if (username && password) {
+        // Store the username and password in local storage (for simulation)
+        localStorage.setItem("username", username);
+        localStorage.setItem("password", password);
+
+        alert("Registration successful!");
+        modal.style.display = "none";
+    } else {
+        alert("Please fill in all fields.");
+    }
 }
+
+// Attach event listeners after DOM loads
+document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("transferButton").addEventListener("click", initiateTransfer);
+});
