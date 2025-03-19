@@ -14,6 +14,22 @@
         <h1>Money Transfer and Currency Exchange</h1>
     </header>
 
+    <!-- ✅ Live Currency Monitor -->
+    <section id="currency-monitor">
+        <h2>Live Currency Rates</h2>
+        <table id="currency-table">
+            <thead>
+                <tr>
+                    <th>Currency</th>
+                    <th>Exchange Rate (vs EGP)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td colspan="2">Loading rates...</td></tr>
+            </tbody>
+        </table>
+    </section>
+
     <section id="exchange-section">
         <h2>Currency Exchange</h2>
         <form id="exchange-form">
@@ -70,36 +86,21 @@
             <label for="recipient-country">Recipient Country:</label>
             <input type="text" id="recipient-country" placeholder="Enter recipient's country" required>
 
+            <label for="country-code">Country Code:</label>
+            <select id="country-code">
+                <!-- Country codes for all European countries -->
+                <option value="+44">🇬🇧 UK (+44)</option>
+                <option value="+49">🇩🇪 Germany (+49)</option>
+                <option value="+33">🇫🇷 France (+33)</option>
+                <option value="+34">🇪🇸 Spain (+34)</option>
+                <option value="+39">🇮🇹 Italy (+39)</option>
+                <option value="+46">🇸🇪 Sweden (+46)</option>
+                <option value="+47">🇳🇴 Norway (+47)</option>
+                <option value="+48">🇵🇱 Poland (+48)</option>
+            </select>
+
             <label for="recipient-phone">Recipient Phone Number:</label>
-            <div>
-                <select id="country-code">
-                    <option value="+1">+1 (USA)</option>
-                    <option value="+20">+20 (Egypt)</option>
-                    <option value="+44">+44 (UK)</option>
-                    <option value="+33">+33 (France)</option>
-                    <option value="+49">+49 (Germany)</option>
-                    <option value="+39">+39 (Italy)</option>
-                    <option value="+34">+34 (Spain)</option>
-                    <option value="+31">+31 (Netherlands)</option>
-                    <option value="+46">+46 (Sweden)</option>
-                    <option value="+41">+41 (Switzerland)</option>
-                    <option value="+43">+43 (Austria)</option>
-                    <option value="+32">+32 (Belgium)</option>
-                    <option value="+47">+47 (Norway)</option>
-                    <option value="+45">+45 (Denmark)</option>
-                    <option value="+420">+420 (Czech Republic)</option>
-                    <option value="+421">+421 (Slovakia)</option>
-                    <option value="+48">+48 (Poland)</option>
-                    <option value="+358">+358 (Finland)</option>
-                    <option value="+353">+353 (Ireland)</option>
-                    <option value="+36">+36 (Hungary)</option>
-                    <option value="+40">+40 (Romania)</option>
-                    <option value="+372">+372 (Estonia)</option>
-                    <option value="+371">+371 (Latvia)</option>
-                    <option value="+370">+370 (Lithuania)</option>
-                </select>
-                <input type="text" id="recipient-phone" placeholder="Enter phone number" required>
-            </div>
+            <input type="text" id="recipient-phone" placeholder="Enter phone number" required>
 
             <label for="recipient-account">Recipient Bank Account Number:</label>
             <input type="text" id="recipient-account" placeholder="Enter recipient's bank account number" required>
@@ -116,6 +117,7 @@
         <button id="payButton" style="display: none;">Pay Now</button>
     </section>
 
+    <!-- Load script.js AFTER Stripe.js -->
     <script defer src="script.js"></script>
 </body>
 </html>
