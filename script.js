@@ -16,13 +16,15 @@ async function processPayment() {
     }
 
     try {
-let response = await fetch("https://moenyexchanger.netlify.app/.netlify/functions/create-checkout-session", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ amount: amount * 100 }) // Convert to cents
-});
+        let response = await fetch("https://moenyexchanger.netlify.app/.netlify/functions/create-checkout-session", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ amount: amount * 100 }) // Convert to cents
+        });
 
         let session = await response.json();
+
+        console.log("Session response:", session); // Debugging log
 
         if (!session.sessionId) {
             console.error("Error: No session ID returned from the server.", session);
@@ -36,7 +38,6 @@ let response = await fetch("https://moenyexchanger.netlify.app/.netlify/function
         alert("Something went wrong: " + error.message);  // Show error in alert
     }
 }
-
 
 // Exchange Calculation
 function calculateExchange() {
