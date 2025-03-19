@@ -17,7 +17,7 @@
     <section id="payment-section">
         <h2>Make a Payment</h2>
         <p>Pay securely using Stripe.</p>
-        <button id="payNowButton" style="display: none;" onclick="processPayment()">Pay Now</button>
+        <button id="payButton" style="display: none;">Pay Now</button>
     </section>
 
     <section id="exchange-section">
@@ -70,11 +70,10 @@
             <label for="transfer-amount">Amount:</label>
             <input type="number" id="transfer-amount" placeholder="Enter amount" required>
 
-            <!-- Fixed button ID -->
-            <button type="button" id="transferButton" onclick="initiateTransfer()">Initiate Transfer</button>
+            <button type="button" id="transferButton">Initiate Transfer</button>
             
             <!-- "Pay Now" button (Hidden by Default) -->
-            <button id="transferPayButton" class="pay-btn" style="display: none;" onclick="processPayment()">Pay Now</button> 
+            <button id="payButton" style="display: none;">Pay Now</button> 
         </form>
 
         <p id="transfer-result"></p>

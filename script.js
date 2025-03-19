@@ -3,7 +3,7 @@ const stripe = Stripe("pk_live_YOUR_PUBLIC_KEY"); // Replace with your actual pu
 
 // Function to Process Stripe Payment
 async function processPayment(amount, currency) {
-    console.log("Processing payment for amount:", amount);
+    console.log("Processing payment for amount:", amount, currency);
 
     try {
         const response = await fetch('/.netlify/functions/create-checkout-session', {
@@ -31,7 +31,6 @@ async function processPayment(amount, currency) {
         alert("Something went wrong: " + error.message);
     }
 }
-
 
 // Currency Conversion Rates
 const rates = {
@@ -69,7 +68,7 @@ function initiateTransfer() {
     let toCurrency = document.getElementById("transfer-to").value;
     let amount = parseFloat(document.getElementById("transfer-amount").value);
     let transferResult = document.getElementById("transfer-result");
-    let payButton = document.getElementById("transferPayButton"); // Use transferPayButton specifically
+    let payButton = document.getElementById("payButton"); 
 
     if (isNaN(amount) || amount <= 0) {
         alert("Please enter a valid transfer amount.");
@@ -86,6 +85,11 @@ function initiateTransfer() {
     // Show the "Pay Now" button after initiating transfer
     if (payButton) {
         payButton.style.display = "block";
+
+        // Attach event listener with correct parameters
+        payButton.onclick = function () {
+            processPayment(amount, fromCurrency);
+        };
     }
 }
 
@@ -101,13 +105,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     console.log("Stripe is loaded");
 
-    const payButton = document.getElementById("transferPayButton");
+    const transferButton = document.getElementById("transferButton");
 
-    if (!payButton) {
-        console.error("Pay button not found");
-        alert("Error: Pay button not found in the HTML.");
-        return;
-    }
-
-    payButton.addEventListener("click", processPayment);
-});
+    if (transferButton) {
+        transferButton.addEventL
