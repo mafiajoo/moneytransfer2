@@ -11,7 +11,7 @@ exports.handler = async (event) => {
             headers: {
                 "Access-Control-Allow-Origin": "*",
                 "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
-                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Headers": "Content-Type, Authorization",
             },
             body: JSON.stringify({ message: "CORS preflight response" }),
         };
@@ -20,6 +20,17 @@ exports.handler = async (event) => {
     try {
         const { amount, currency } = JSON.parse(event.body);
         console.log("Processing payment for:", amount, currency);
+
+        if (!amount || !currency) {
+            return {
+                statusCode: 400,
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ error: "Missing amount or currency" }),
+            };
+        }
 
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ["card"],
@@ -43,10 +54,10 @@ exports.handler = async (event) => {
         return {
             statusCode: 200,
             headers: {
-                "Content-Type": "application/json",
                 "Access-Control-Allow-Origin": "*",
                 "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
-                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Headers": "Content-Type, Authorization",
+                "Content-Type": "application/json",
             },
             body: JSON.stringify({ sessionId: session.id, url: session.url }),
         };
@@ -55,8 +66,8 @@ exports.handler = async (event) => {
         return {
             statusCode: 500,
             headers: {
-                "Content-Type": "application/json",
                 "Access-Control-Allow-Origin": "*",
+                "Content-Type": "application/json",
             },
             body: JSON.stringify({ error: error.message }),
         };
