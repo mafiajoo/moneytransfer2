@@ -1,18 +1,17 @@
-require('dotenv').config();
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+require('dotenv').config(); // Load environment variables
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY); // Use environment variable for security
 
 exports.handler = async (event) => {
     try {
         console.log("Received request:", event.body); // Debugging log
-        
-        // Ensure request body exists
+
         if (!event.body) {
-            throw new Error("No request body received.");
+            throw new Error("Request body is empty.");
         }
 
-        const { amount } = JSON.parse(event.body); // Parse JSON safely
-        
-        if (!amount || isNaN(amount) || amount <= 0) {
+        const { amount } = JSON.parse(event.body); // Get amount from frontend request
+
+        if (!amount || amount <= 0) {
             throw new Error("Invalid amount provided.");
         }
 
@@ -24,9 +23,9 @@ exports.handler = async (event) => {
             line_items: [
                 {
                     price_data: {
-                        currency: "usd",
+                        currency: "usd", // Change currency if needed
                         product_data: { name: "Money Transfer" },
-                        unit_amount: Math.round(amount * 100), // Convert to cents
+                        unit_amount: amount * 100, // Convert to cents
                     },
                     quantity: 1,
                 },
@@ -36,18 +35,17 @@ exports.handler = async (event) => {
             cancel_url: "https://moenyexchanger.netlify.app/cancel",
         });
 
-        console.log("Session created successfully:", session.id);
+        console.log("Session created successfully:", session.id); // Debugging log
 
         return {
             statusCode: 200,
-            body: JSON.stringify({ sessionId: session.id }),
+            body: JSON.stringify({ sessionId: session.id, url: session.url }),
         };
     } catch (error) {
-        console.error("Error creating checkout session:", error.message);
-
+        console.error("Error creating checkout session:", error.message); // Log the actual error
         return {
             statusCode: 500,
-            body: JSON.stringify({ error: error.message || "Internal server error" }),
+            body: JSON.stringify({ error: error.message }),
         };
     }
 };
