@@ -94,7 +94,20 @@
 
                 <div class="form-group">
                     <label for="recipient-country">Recipient Country:</label>
-                    <input type="text" id="recipient-country" placeholder="Enter recipient's country" required>
+                    <select id="recipient-country" required>
+                        <option value="EGP">Egypt</option>
+                        <option value="USA">USA</option>
+                        <option value="DE">Germany</option>
+                        <option value="FR">France</option>
+                        <option value="IT">Italy</option>
+                        <option value="ES">Spain</option>
+                        <option value="PL">Poland</option>
+                        <option value="GB">United Kingdom</option>
+                        <option value="SE">Sweden</option>
+                        <option value="NO">Norway</option>
+                        <option value="FI">Finland</option>
+                        <option value="NL">Netherlands</option>
+                    </select>
                 </div>
 
                 <div class="form-group">
@@ -103,14 +116,13 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="recipient-account">Recipient Bank Account Number:</label>
-                    <input type="text" id="recipient-account" placeholder="Enter recipient's bank account number" required>
+                    <label for="recipient-account">IBAN Bank Account Number:</label>
+                    <input type="text" id="recipient-account" placeholder="Enter recipient's IBAN" required>
                 </div>
 
                 <div class="form-group">
                     <label for="recipient-bank">Recipient Bank Name:</label>
                     <select id="recipient-bank" required>
-                        <option value="">Select Bank</option>
                         <option value="National Bank of Egypt">National Bank of Egypt</option>
                         <option value="Banque Misr">Banque Misr</option>
                         <option value="Commercial International Bank (CIB)">Commercial International Bank (CIB)</option>
@@ -119,6 +131,7 @@
                         <option value="Commerzbank">Commerzbank</option>
                         <option value="DZ Bank">DZ Bank</option>
                         <option value="Unicredit Bank">Unicredit Bank</option>
+                        <option value="Sparkasse Bank">Sparkasse Bank</option>
                     </select>
                 </div>
 
