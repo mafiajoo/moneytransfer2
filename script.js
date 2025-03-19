@@ -124,4 +124,3 @@ document.addEventListener("DOMContentLoaded", function () {
 
     payButton.addEventListener("click", processPayment);
 });
-console.log("Testing Git updates");
