@@ -1,10 +1,11 @@
 // Load Stripe
 const stripe = Stripe("pk_live_YOUR_PUBLIC_KEY"); // Replace with your actual public key
 
+// Function to Process Stripe Payment
 async function processPayment() {
-    let amount = document.getElementById("transfer-amount").value;
-    
-    if (amount <= 0) {
+    let amount = parseFloat(document.getElementById("transfer-amount").value);
+
+    if (isNaN(amount) || amount <= 0) {
         alert("Invalid payment amount.");
         return;
     }
@@ -13,19 +14,27 @@ async function processPayment() {
         let response = await fetch("/.netlify/functions/create-checkout-session", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ amount: amount }),
+            body: JSON.stringify({ amount: amount * 100 }) // Convert to cents for Stripe
         });
 
         let session = await response.json();
-        
-        if (session.sessionId) {
-            stripe.redirectToCheckout({ sessionId: session.sessionId });
-        } else {
-            alert("Payment error: " + (session.error || "Please try again."));
+
+        if (!session.sessionId) {
+            console.error("Error: No session ID returned from the server.", session);
+            alert("Payment session failed. Please try again.");
+            return;
         }
-    } catch (err) {
-        alert("Error processing payment: " + err.message);
-        console.error(err);
+
+        // Redirect to Stripe Checkout
+        const result = await stripe.redirectToCheckout({ sessionId: session.sessionId });
+
+        if (result.error) {
+            console.error("Stripe error:", result.error);
+            alert("Payment failed. Please try again.");
+        }
+    } catch (error) {
+        console.error("Error processing payment:", error);
+        alert("Something went wrong. Please try again.");
     }
 }
 
@@ -33,9 +42,9 @@ async function processPayment() {
 function calculateExchange() {
     let fromCurrency = document.getElementById("from-currency").value;
     let toCurrency = document.getElementById("to-currency").value;
-    let amount = document.getElementById("amount").value;
+    let amount = parseFloat(document.getElementById("amount").value);
 
-    if (amount <= 0) {
+    if (isNaN(amount) || amount <= 0) {
         alert("Please enter a valid amount.");
         return;
     }
@@ -60,11 +69,11 @@ function calculateExchange() {
 function initiateTransfer() {
     let fromCurrency = document.getElementById("transfer-from").value;
     let toCurrency = document.getElementById("transfer-to").value;
-    let amount = document.getElementById("transfer-amount").value;
+    let amount = parseFloat(document.getElementById("transfer-amount").value);
     let transferResult = document.getElementById("transfer-result");
     let payButton = document.getElementById("payButton");
 
-    if (amount <= 0) {
+    if (isNaN(amount) || amount <= 0) {
         alert("Please enter a valid transfer amount.");
         return;
     }
@@ -78,42 +87,4 @@ function initiateTransfer() {
 
     // Show the "Pay Now" button after initiating transfer
     payButton.style.display = "block";
-}
-
-// Function to Process Stripe Payment
-async function processPayment() {
-    let amount = document.getElementById("transfer-amount").value;
-
-    if (amount <= 0) {
-        alert("Invalid payment amount.");
-        return;
-    }
-
-    try {
-        // Simulating payment request (must have a backend)
-        let response = await fetch("/create-checkout-session", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ amount: amount * 100 }) // Convert to cents for Stripe
-        });
-
-        let session = await response.json();
-
-        if (!session.id) {
-            console.error("Error: No session ID returned from the server.");
-            alert("Payment session failed. Please try again.");
-            return;
-        }
-
-        // Redirect to Stripe Checkout
-        const result = await stripe.redirectToCheckout({ sessionId: session.id });
-
-        if (result.error) {
-            console.error("Stripe error:", result.error);
-            alert("Payment failed. Please try again.");
-        }
-    } catch (error) {
-        console.error("Error processing payment:", error);
-        alert("Something went wrong. Please try again.");
-    }
 }
