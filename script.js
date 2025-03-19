@@ -28,8 +28,8 @@ function calculateExchange() {
     document.getElementById("exchange-result").innerText = `You will receive: ${exchangedAmount} ${toCurrency}`;
 }
 
-// Money Transfer Function
-function initiateTransfer() {
+// Money Transfer Function (Move to Global Scope)
+window.initiateTransfer = function () {
     let fromCurrency = document.getElementById("transfer-from").value;
     let toCurrency = document.getElementById("transfer-to").value;
     let amount = document.getElementById("transfer-amount").value;
@@ -50,7 +50,7 @@ function initiateTransfer() {
 
     // Show the "Pay Now" button after initiating transfer
     payButton.style.display = "block";
-}
+};
 
 // Stripe Payment Function
 document.getElementById("payButton").addEventListener("click", async function () {
