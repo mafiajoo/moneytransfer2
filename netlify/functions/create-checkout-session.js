@@ -2,6 +2,8 @@ require('dotenv').config();
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 exports.handler = async (event) => {
+    console.log("Received request method:", event.httpMethod);
+
     // ✅ Handle CORS Preflight Requests
     if (event.httpMethod === "OPTIONS") {
         return {
@@ -15,20 +17,9 @@ exports.handler = async (event) => {
         };
     }
 
-    // ✅ Stripe Payment Processing Logic
     try {
-        console.log("Received request:", event.body);
-
-        if (!event.body) {
-            throw new Error("Request body is empty.");
-        }
-
         const { amount, currency } = JSON.parse(event.body);
-        if (!amount || amount <= 0) {
-            throw new Error("Invalid amount provided.");
-        }
-
-        console.log(`Processing payment for amount: ${amount} ${currency}`);
+        console.log("Processing payment for:", amount, currency);
 
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ["card"],
@@ -37,17 +28,17 @@ exports.handler = async (event) => {
                     price_data: {
                         currency: currency || "usd",
                         product_data: { name: "Money Transfer" },
-                        unit_amount: amount * 100, // Stripe uses cents
+                        unit_amount: amount * 100,
                     },
                     quantity: 1,
                 },
             ],
             mode: "payment",
-            success_url: "https://moneyexchange.netlify.app/success",
-            cancel_url: "https://moneyexchange.netlify.app/cancel",
+            success_url: "https://moneyexchangeing.netlify.app/success",
+            cancel_url: "https://moneyexchangeing.netlify.app/cancel",
         });
 
-        console.log("Session created successfully:", session.id);
+        console.log("Session created:", session.id);
 
         return {
             statusCode: 200,
@@ -60,7 +51,7 @@ exports.handler = async (event) => {
             body: JSON.stringify({ sessionId: session.id, url: session.url }),
         };
     } catch (error) {
-        console.error("Error creating checkout session:", error.message);
+        console.error("Error:", error.message);
         return {
             statusCode: 500,
             headers: {
