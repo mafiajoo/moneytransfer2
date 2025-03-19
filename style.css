@@ -1,76 +1,143 @@
-/* Reset & Global Styles */
-* {
+/* General Body Styles */
+body {
+    font-family: 'Roboto', Arial, sans-serif;
+    background-color: #f4f4f4;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
+    color: #333;
 }
 
-body {
-    background: linear-gradient(135deg, #1e1e2f, #2a2a3b);
-    color: #fff;
+/* Container for better alignment */
+.container {
+    width: 90%;
+    margin: 0 auto;
+}
+
+/* Header Styles */
+header {
+    background-color: #e60012; /* Sparkasse red */
+    padding: 20px 0;
     text-align: center;
-    padding: 20px;
+    color: white;
 }
 
-/* Header */
 h1 {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
+    font-size: 2.5em;
+    margin: 0;
 }
 
-/* Exchange Section */
-#exchange-section, #payment-section {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 20px;
-    border-radius: 10px;
-    max-width: 500px;
-    margin: 20px auto;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-}
-
-/* Inputs & Select Boxes */
-input, select, button {
-    width: 100%;
-    padding: 12px;
+#flag-icons {
     margin: 10px 0;
-    border: none;
-    border-radius: 5px;
+}
+
+.flag-icon {
+    margin: 0 10px;
+    width: 40px;
+    height: 40px;
+}
+
+/* Main Sections */
+section {
+    padding: 40px 20px;
+    margin: 20px auto;
+    max-width: 1000px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Currency Exchange */
+#exchange-section h2,
+#transfer-section h2,
+#payment-section h2,
+#support-section h2 {
+    font-size: 1.8em;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+form {
+    display: grid;
+    gap: 15px;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    align-items: center;
+}
+
+form label {
+    font-weight: bold;
+}
+
+form input,
+form select,
+form button,
+form textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
     font-size: 1rem;
 }
 
-input, select {
-    background: #2c2c3b;
-    color: white;
+form input[type="number"],
+form input[type="text"],
+form input[type="email"],
+form select {
+    width: 100%;
 }
 
-/* Buttons */
-button {
-    background: linear-gradient(135deg, #ff7b00, #ff3c00);
+form button {
+    background-color: #e60012; /* Sparkasse red */
     color: white;
-    font-weight: bold;
+    border: none;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: background-color 0.3s;
+    font-size: 1.1rem;
 }
 
-button:hover {
-    transform: scale(1.05);
+form button:hover {
+    background-color: #c5000d; /* Darker red for hover */
 }
 
-/* Exchange Result */
-#exchange-result, #transfer-result {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin-top: 10px;
+/* Support Section */
+#support-section textarea {
+    height: 150px;
+    font-size: 1rem;
 }
 
-/* Responsive */
-@media (max-width: 600px) {
-    h1 {
-        font-size: 2rem;
+/* Footer Styles */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    font-size: 1rem;
+}
+
+footer a {
+    color: #e60012;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    section {
+        padding: 20px;
     }
-    
-    #exchange-section, #payment-section {
-        width: 90%;
+
+    form {
+        grid-template-columns: 1fr;
+    }
+
+    .flag-icon {
+        width: 30px;
+        height: 30px;
+    }
+
+    h1 {
+        font-size: 2em;
     }
 }
