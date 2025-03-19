@@ -1,22 +1,22 @@
-require('dotenv').config(); // Load environment variables
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY); // Use environment variable for security
+require('dotenv').config();
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 exports.handler = async (event) => {
     try {
         console.log("Received request:", event.body); // Debugging log
-
-        if (event.httpMethod !== "POST") {
-            return {
-                statusCode: 405,
-                body: JSON.stringify({ error: "Method Not Allowed" }),
-            };
+        
+        // Ensure request body exists
+        if (!event.body) {
+            throw new Error("No request body received.");
         }
 
-        const { amount, currency = "usd" } = JSON.parse(event.body); // Get amount from frontend request
-
-        if (!amount || amount <= 0) {
+        const { amount } = JSON.parse(event.body); // Parse JSON safely
+        
+        if (!amount || isNaN(amount) || amount <= 0) {
             throw new Error("Invalid amount provided.");
         }
+
+        console.log(`Processing payment for amount: ${amount} USD`);
 
         // Create Stripe checkout session
         const session = await stripe.checkout.sessions.create({
@@ -24,9 +24,9 @@ exports.handler = async (event) => {
             line_items: [
                 {
                     price_data: {
-                        currency: currency.toLowerCase(), // Accept different currencies
+                        currency: "usd",
                         product_data: { name: "Money Transfer" },
-                        unit_amount: Math.round(amount), // Ensure correct amount format
+                        unit_amount: Math.round(amount * 100), // Convert to cents
                     },
                     quantity: 1,
                 },
@@ -36,17 +36,18 @@ exports.handler = async (event) => {
             cancel_url: "https://moenyexchanger.netlify.app/cancel",
         });
 
-        console.log("Session created:", session.id); // Debugging log
+        console.log("Session created successfully:", session.id);
 
         return {
             statusCode: 200,
             body: JSON.stringify({ sessionId: session.id }),
         };
     } catch (error) {
-        console.error("Error creating checkout session:", error); // Log the actual error
+        console.error("Error creating checkout session:", error.message);
+
         return {
             statusCode: 500,
-            body: JSON.stringify({ error: error.message }),
+            body: JSON.stringify({ error: error.message || "Internal server error" }),
         };
     }
 };
