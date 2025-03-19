@@ -1,4 +1,4 @@
-require('dotenv').config();
+require("dotenv").config();
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 exports.handler = async (event) => {
@@ -11,9 +11,18 @@ exports.handler = async (event) => {
             headers: {
                 "Access-Control-Allow-Origin": "*",
                 "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
-                "Access-Control-Allow-Headers": "Content-Type, Authorization",
+                "Access-Control-Allow-Headers": "Content-Type",
             },
             body: JSON.stringify({ message: "CORS preflight response" }),
+        };
+    }
+
+    // ✅ Ensure it's a POST request
+    if (event.httpMethod !== "POST") {
+        return {
+            statusCode: 405,
+            headers: { "Access-Control-Allow-Origin": "*" },
+            body: JSON.stringify({ error: "Method Not Allowed" }),
         };
     }
 
@@ -21,14 +30,12 @@ exports.handler = async (event) => {
         const { amount, currency } = JSON.parse(event.body);
         console.log("Processing payment for:", amount, currency);
 
-        if (!amount || !currency) {
+        // ✅ Ensure amount is valid
+        if (!amount || isNaN(amount) || amount <= 0) {
             return {
                 statusCode: 400,
-                headers: {
-                    "Access-Control-Allow-Origin": "*",
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ error: "Missing amount or currency" }),
+                headers: { "Access-Control-Allow-Origin": "*" },
+                body: JSON.stringify({ error: "Invalid amount" }),
             };
         }
 
@@ -54,10 +61,10 @@ exports.handler = async (event) => {
         return {
             statusCode: 200,
             headers: {
+                "Content-Type": "application/json",
                 "Access-Control-Allow-Origin": "*",
                 "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
-                "Access-Control-Allow-Headers": "Content-Type, Authorization",
-                "Content-Type": "application/json",
+                "Access-Control-Allow-Headers": "Content-Type",
             },
             body: JSON.stringify({ sessionId: session.id, url: session.url }),
         };
@@ -66,8 +73,8 @@ exports.handler = async (event) => {
         return {
             statusCode: 500,
             headers: {
-                "Access-Control-Allow-Origin": "*",
                 "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*",
             },
             body: JSON.stringify({ error: error.message }),
         };
