@@ -5,7 +5,14 @@ exports.handler = async (event) => {
     try {
         console.log("Received request:", event.body); // Debugging log
 
-        const { amount } = JSON.parse(event.body); // Get amount from frontend request
+        if (event.httpMethod !== "POST") {
+            return {
+                statusCode: 405,
+                body: JSON.stringify({ error: "Method Not Allowed" }),
+            };
+        }
+
+        const { amount, currency = "usd" } = JSON.parse(event.body); // Get amount from frontend request
 
         if (!amount || amount <= 0) {
             throw new Error("Invalid amount provided.");
@@ -17,9 +24,9 @@ exports.handler = async (event) => {
             line_items: [
                 {
                     price_data: {
-                        currency: "usd", // Change currency if needed
+                        currency: currency.toLowerCase(), // Accept different currencies
                         product_data: { name: "Money Transfer" },
-                        unit_amount: amount * 100, // Convert to cents
+                        unit_amount: Math.round(amount), // Ensure correct amount format
                     },
                     quantity: 1,
                 },
