@@ -1,5 +1,17 @@
 let users = []; // Simulate user database for the purpose of this demo
 
+// Function to show the login form
+function showLoginForm() {
+    document.getElementById("login-form").style.display = "block";
+    document.getElementById("register-form").style.display = "none";
+}
+
+// Function to show the register form
+function showRegisterForm() {
+    document.getElementById("register-form").style.display = "block";
+    document.getElementById("login-form").style.display = "none";
+}
+
 // Function to simulate registration
 function register() {
     let name = document.getElementById("register-name").value;
@@ -31,13 +43,9 @@ function login() {
     let user = users.find(user => user.email === email && user.password === password);
 
     if (user) {
-        document.getElementById("auth-section").style.display = "none";
-        document.getElementById("user-section").style.display = "block";
+        document.getElementById("auth-links").style.display = "none"; // Hide login/register links
+        document.getElementById("auth-section").style.display = "block"; // Show main content
         document.getElementById("user-name").innerText = user.name;
-        document.getElementById("exchange-section").style.display = "block";
-        document.getElementById("transfer-section").style.display = "block";
-        document.getElementById("payment-section").style.display = "block";
-        document.getElementById("support-section").style.display = "block";
     } else {
         document.getElementById("login-error").innerHTML = "Invalid email or password.";
     }
@@ -152,7 +160,6 @@ async function sendSupportMessage() {
     }
 }
 
-// Attach event listeners after DOM loads
 document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("transferButton").addEventListener("click", initiateTransfer);
 });

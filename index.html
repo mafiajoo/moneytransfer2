@@ -1,216 +1,156 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Money Transfer and Exchange</title>
-    <link rel="stylesheet" href="style.css">
-
-    <!-- Load Stripe.js -->
-    <script src="https://js.stripe.com/v3/"></script>
+    <title>Money Transfer & Exchange</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <header>
         <div class="container">
-            <h1>Money Transfer and Currency Exchange</h1>
-            <div id="flag-icons">
-                <img src="https://flagcdn.com/w320/eg.png" alt="EGP" class="flag-icon">
-                <img src="https://flagcdn.com/w320/us.png" alt="USA" class="flag-icon">
-                <img src="https://flagcdn.com/w320/de.png" alt="Germany" class="flag-icon">
-                <img src="https://flagcdn.com/w320/gb.png" alt="GB" class="flag-icon">
-                <img src="https://flagcdn.com/w320/fr.png" alt="France" class="flag-icon">
-                <img src="https://flagcdn.com/w320/it.png" alt="Italy" class="flag-icon">
+            <h1>Money Transfer & Exchange</h1>
+            <div id="auth-links">
+                <a href="javascript:void(0);" onclick="showLoginForm()">Login</a> | 
+                <a href="javascript:void(0);" onclick="showRegisterForm()">Register</a>
             </div>
         </div>
     </header>
 
-    <main class="container">
-        <!-- Login and Registration -->
-        <section id="auth-section">
-            <h2>Login / Register</h2>
-            <div id="login-section">
-                <h3>Login</h3>
-                <form id="login-form">
-                    <div class="form-group">
-                        <label for="login-email">Email:</label>
-                        <input type="email" id="login-email" placeholder="Enter your email" required>
-                    </div>
+    <main>
+        <!-- Login Form -->
+        <div id="login-form" class="auth-form" style="display: none;">
+            <h2>Login</h2>
+            <form onsubmit="event.preventDefault(); login();">
+                <label for="login-email">Email:</label>
+                <input type="email" id="login-email" required>
+                
+                <label for="login-password">Password:</label>
+                <input type="password" id="login-password" required>
+                
+                <button type="submit">Login</button>
+                <p id="login-error" style="color: red;"></p>
+            </form>
+        </div>
 
-                    <div class="form-group">
-                        <label for="login-password">Password:</label>
-                        <input type="password" id="login-password" placeholder="Enter your password" required>
-                    </div>
+        <!-- Register Form -->
+        <div id="register-form" class="auth-form" style="display: none;">
+            <h2>Register</h2>
+            <form onsubmit="event.preventDefault(); register();">
+                <label for="register-name">Name:</label>
+                <input type="text" id="register-name" required>
+                
+                <label for="register-email">Email:</label>
+                <input type="email" id="register-email" required>
+                
+                <label for="register-password">Password:</label>
+                <input type="password" id="register-password" required>
+                
+                <button type="submit">Register</button>
+                <p id="register-error" style="color: red;"></p>
+            </form>
+        </div>
 
-                    <button type="button" onclick="login()">Login</button>
-                    <p id="login-error" style="color: red;"></p>
-                </form>
-            </div>
-
-            <div id="register-section">
-                <h3>Register</h3>
-                <form id="register-form">
-                    <div class="form-group">
-                        <label for="register-name">Name:</label>
-                        <input type="text" id="register-name" placeholder="Enter your name" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="register-email">Email:</label>
-                        <input type="email" id="register-email" placeholder="Enter your email" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="register-password">Password:</label>
-                        <input type="password" id="register-password" placeholder="Enter your password" required>
-                    </div>
-
-                    <button type="button" onclick="register()">Register</button>
-                    <p id="register-error" style="color: red;"></p>
-                </form>
-            </div>
-        </section>
-
-        <section id="user-section" style="display:none;">
-            <h2>Welcome, <span id="user-name"></span>!</h2>
-            <p>You are logged in. You can now proceed with money transfer and currency exchange.</p>
-        </section>
-
-        <!-- Currency Exchange and Transfer Sections -->
-        <section id="exchange-section" style="display:none;">
-            <h2>Currency Exchange</h2>
-            <form id="exchange-form">
-                <div class="form-group">
-                    <label for="from-currency">From:</label>
+        <!-- User Section (after login) -->
+        <div id="auth-section" style="display: none;">
+            <section id="exchange-section">
+                <h2>Currency Exchange</h2>
+                <form>
+                    <label for="from-currency">From Currency:</label>
                     <select id="from-currency">
-                        <option value="EGP">EGP</option>
                         <option value="USD">USD</option>
+                        <option value="EGP">EGP</option>
                         <option value="EUR">EUR</option>
                         <option value="GBP">GBP</option>
                     </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="to-currency">To:</label>
+                    
+                    <label for="to-currency">To Currency:</label>
                     <select id="to-currency">
-                        <option value="EGP">EGP</option>
                         <option value="USD">USD</option>
+                        <option value="EGP">EGP</option>
                         <option value="EUR">EUR</option>
                         <option value="GBP">GBP</option>
                     </select>
-                </div>
-
-                <div class="form-group">
+                    
                     <label for="amount">Amount:</label>
                     <input type="number" id="amount" placeholder="Enter amount" required>
-                </div>
+                    
+                    <button type="button" onclick="calculateExchange()">Convert</button>
+                </form>
 
-                <button type="button" onclick="calculateExchange()">Calculate Exchange</button>
-            </form>
+                <p id="exchange-result"></p>
+            </section>
 
-            <p id="exchange-result"></p>
-        </section>
-
-        <section id="transfer-section" style="display:none;">
-            <h2>Money Transfer</h2>
-            <form id="transfer-form">
-                <div class="form-group">
+            <section id="transfer-section">
+                <h2>Money Transfer</h2>
+                <form>
                     <label for="transfer-from">From Currency:</label>
                     <select id="transfer-from">
-                        <option value="EGP">EGP</option>
                         <option value="USD">USD</option>
+                        <option value="EGP">EGP</option>
                         <option value="EUR">EUR</option>
                         <option value="GBP">GBP</option>
                     </select>
-                </div>
-
-                <div class="form-group">
+                    
                     <label for="transfer-to">To Currency:</label>
                     <select id="transfer-to">
-                        <option value="EGP">EGP</option>
                         <option value="USD">USD</option>
+                        <option value="EGP">EGP</option>
                         <option value="EUR">EUR</option>
                         <option value="GBP">GBP</option>
                     </select>
-                </div>
-
-                <div class="form-group">
+                    
                     <label for="transfer-amount">Amount:</label>
-                    <input type="number" id="transfer-amount" placeholder="Enter amount" required>
-                </div>
-
-                <div class="form-group">
+                    <input type="number" id="transfer-amount" required>
+                    
                     <label for="recipient-name">Recipient Name:</label>
-                    <input type="text" id="recipient-name" placeholder="Enter recipient's name" required>
-                </div>
-
-                <div class="form-group">
+                    <input type="text" id="recipient-name" required>
+                    
                     <label for="recipient-country">Recipient Country:</label>
-                    <select id="recipient-country" required>
-                        <option value="EGP">Egypt</option>
-                        <option value="USA">USA</option>
-                        <option value="DE">Germany</option>
-                        <option value="FR">France</option>
-                        <option value="IT">Italy</option>
-                        <option value="ES">Spain</option>
-                        <option value="PL">Poland</option>
-                        <option value="GB">United Kingdom</option>
-                        <option value="SE">Sweden</option>
-                        <option value="NO">Norway</option>
-                        <option value="FI">Finland</option>
-                        <option value="NL">Netherlands</option>
-                    </select>
-                </div>
+                    <input type="text" id="recipient-country" required>
+                    
+                    <label for="recipient-phone">Recipient Phone:</label>
+                    <input type="text" id="recipient-phone" required>
+                    
+                    <label for="recipient-account">Recipient Account:</label>
+                    <input type="text" id="recipient-account" required>
 
-                <div class="form-group">
-                    <label for="recipient-phone">Recipient Phone Number:</label>
-                    <input type="text" id="recipient-phone" placeholder="Enter phone number" required>
-                </div>
+                    <button type="button" id="transferButton">Initiate Transfer</button>
+                </form>
 
-                <div class="form-group">
-                    <label for="recipient-account">IBAN Bank Account Number:</label>
-                    <input type="text" id="recipient-account" placeholder="Enter recipient's IBAN" required>
-                </div>
+                <p id="transfer-result"></p>
+                <button id="payButton" style="display: none;">Pay Now</button>
+            </section>
 
-                <button type="button" id="transferButton">Initiate Transfer</button>
-            </form>
+            <section id="payment-section">
+                <h2>Payment</h2>
+                <!-- Payment integration with Stripe -->
+                <!-- Placeholder for Stripe payment section -->
+            </section>
 
-            <p id="transfer-result"></p>
-        </section>
+            <section id="support-section">
+                <h2>Support</h2>
+                <form>
+                    <label for="support-name">Name:</label>
+                    <input type="text" id="support-name" required>
+                    
+                    <label for="support-email">Email:</label>
+                    <input type="email" id="support-email" required>
+                    
+                    <label for="support-phone">Phone:</label>
+                    <input type="text" id="support-phone" required>
+                    
+                    <label for="support-message">Message:</label>
+                    <textarea id="support-message" required></textarea>
+                    
+                    <button type="button" onclick="sendSupportMessage()">Send Message</button>
+                </form>
 
-        <section id="payment-section" style="display:none;">
-            <h2>Make a Payment</h2>
-            <p>Pay securely using Stripe.</p>
-            <button id="payButton" style="display: none;">Pay Now</button>
-        </section>
-
-        <section id="support-section" style="display:none;">
-            <h2>Support</h2>
-            <form id="support-form">
-                <div class="form-group">
-                    <label for="support-name">Your Name:</label>
-                    <input type="text" id="support-name" placeholder="Enter your name" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="support-email">Your Email:</label>
-                    <input type="email" id="support-email" placeholder="Enter your email" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="support-phone">Your Phone Number:</label>
-                    <input type="text" id="support-phone" placeholder="Enter your phone number" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="support-message">Your Message:</label>
-                    <textarea id="support-message" placeholder="Enter your message" required></textarea>
-                </div>
-
-                <button type="button" onclick="sendSupportMessage()">Send Message</button>
-            </form>
-
-            <p id="support-result"></p>
-        </section>
+                <p id="support-result"></p>
+            </section>
+        </div>
     </main>
 
     <footer>
@@ -219,4 +159,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>
