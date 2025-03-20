@@ -59,6 +59,17 @@ h1 {
     margin-left: 20px;
 }
 
+/* Flag Icon Styles */
+#flag-icons {
+    margin: 10px 0;
+}
+
+.flag-icon {
+    width: 30px;  /* Reduced size */
+    height: 30px; /* Reduced size */
+    margin: 0 10px;
+}
+
 /* Main Sections */
 section {
     padding: 40px 20px;
