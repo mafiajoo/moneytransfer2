@@ -39,10 +39,10 @@ function calculateExchange() {
     }
 
     let exchangeRates = {
-        "EGP": { "USD": 0.032, "EUR": 0.029, "GBP": 0.025 },
-        "USD": { "EGP": 31.25, "EUR": 0.91, "GBP": 0.78 },
-        "EUR": { "EGP": 34.48, "USD": 1.1, "GBP": 0.86 },
-        "GBP": { "EGP": 40.00, "USD": 1.28, "EUR": 1.16 }
+        "EGP": { "USD": 0.02, "EUR": 0.029, "GBP": 0.025 },
+        "USD": { "EGP": 50.65, "EUR": 0.91, "GBP": 0.78 },
+        "EUR": { "EGP": 55.26, "USD": 1.1, "GBP": 0.86 },
+        "GBP": { "EGP": 65.88, "USD": 1.28, "EUR": 1.16 }
     };
 
     if (exchangeRates[fromCurrency] && exchangeRates[fromCurrency][toCurrency]) {
