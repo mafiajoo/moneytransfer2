@@ -98,10 +98,10 @@ function initiateTransfer() {
     }
 
     transferResult.innerHTML = `✅ Transfer Initiated: ${amount} ${fromCurrency} to ${toCurrency} <br>
-        👤 Recipient: ${recipientName} <br>
-        🌍 Country: ${recipientCountry} <br>
-        📞 Phone: ${recipientPhone} <br>
-        🏦 Bank Account: ${recipientAccount}`;
+       Recipient: ${recipientName} <br>
+       Country: ${recipientCountry} <br>
+       Phone: ${recipientPhone} <br>
+       Bank Account: ${recipientAccount}`;
 
     // Ask for confirmation before proceeding with payment
     let confirmPayment = confirm("Transfer successful! Do you want to proceed with the payment?");
