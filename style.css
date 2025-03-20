@@ -239,3 +239,43 @@ footer a:hover {
 .action-button:hover {
     background-color: #c5000d; /* Darker red for hover */
 }
+
+/* Additional Styles for Language Selector */
+#language-selector {
+    font-size: 1.2em;
+}
+
+#language-selector select {
+    padding: 5px;
+    border-radius: 4px;
+    font-size: 1rem;
+    margin-left: 20px;
+}
+
+/* Modal and Form Styling Enhancements */
+.modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 400px;
+}
+
+#auth-error {
+    color: red;
+    font-size: 1.1rem;
+    display: none;
+}
+
+#auth-modal h3 {
+    font-size: 1.8em;
+    color: #333;
+}
+
+/* Header Links Style */
+#header-links {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
