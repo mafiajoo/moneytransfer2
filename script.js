@@ -23,26 +23,23 @@ async function processPayment(amount, currency) {
 
 // Country-specific phone number validation
 const countryPhoneFormats = {
-    "EGP": /^\+20\d{10}$/, // Egypt (e.g., +201095427265)
-    "USA": /^\+1\d{10}$/,  // USA
-    "DE": /^\+49\d{10,11}$/,  // Germany
-    "FR": /^\+33\d{9}$/,  // France
-    "IT": /^\+39\d{9,10}$/,  // Italy
-    "ES": /^\+34\d{9}$/,  // Spain
-    "PL": /^\+48\d{9}$/,  // Poland
-    "GB": /^\+44\d{10}$/,  // United Kingdom
-    "SE": /^\+46\d{9}$/,  // Sweden
-    "NO": /^\+47\d{8,9}$/,  // Norway
-    "FI": /^\+358\d{9}$/, // Finland
-    "NL": /^\+31\d{9}$/   // Netherlands
+    "EGP": /^\+20\d{10}$/, 
+    "USA": /^\+1\d{10}$/,  
+    "DE": /^\+49\d{10,11}$/,  
+    "FR": /^\+33\d{9}$/,  
+    "IT": /^\+39\d{9,10}$/,  
+    "ES": /^\+34\d{9}$/,  
+    "PL": /^\+48\d{9}$/,  
+    "GB": /^\+44\d{10}$/,  
+    "SE": /^\+46\d{9}$/,  
+    "NO": /^\+47\d{8,9}$/,  
+    "FI": /^\+358\d{9}$/, 
+    "NL": /^\+31\d{9}$/   
 };
 
 // Function to validate phone number based on the selected country
 function validatePhoneNumber(phone, countryCode) {
-    if (countryPhoneFormats[countryCode]) {
-        return countryPhoneFormats[countryCode].test(phone);
-    }
-    return false;
+    return countryPhoneFormats[countryCode]?.test(phone) || false;
 }
 
 // Function to calculate exchange rate (mock example)
@@ -72,7 +69,7 @@ function calculateExchange() {
     }
 }
 
-// Function to initiate money transfer
+// Function to initiate money transfer and process payment
 function initiateTransfer() {
     let fromCurrency = document.getElementById("transfer-from").value;
     let toCurrency = document.getElementById("transfer-to").value;
@@ -84,7 +81,6 @@ function initiateTransfer() {
     let recipientAccount = document.getElementById("recipient-account").value;
 
     let transferResult = document.getElementById("transfer-result");
-    let payButton = document.getElementById("payButton");
 
     if (isNaN(amount) || amount <= 0) {
         alert("Enter a valid transfer amount.");
@@ -101,27 +97,20 @@ function initiateTransfer() {
         return;
     }
 
-    if (!recipientCountry) {
-        alert("Please select a recipient country.");
-        return;
-    }
-    
-    transferResult.innerHTML = `Transfer Initiated: ${amount} ${fromCurrency} to ${toCurrency} <br>
-        Recipient: ${recipientName} <br>
-        Country: ${recipientCountry} <br>
-        Phone: ${recipientPhone} <br>
-        Bank Account: ${recipientAccount}`;
+    transferResult.innerHTML = `✅ Transfer Initiated: ${amount} ${fromCurrency} to ${toCurrency} <br>
+        👤 Recipient: ${recipientName} <br>
+        🌍 Country: ${recipientCountry} <br>
+        📞 Phone: ${recipientPhone} <br>
+        🏦 Bank Account: ${recipientAccount}`;
 
-    if (payButton) {
-        payButton.style.display = "block";
-        payButton.onclick = function () {
-            processPayment(amount, fromCurrency);
-        };
+    // Ask for confirmation before proceeding with payment
+    let confirmPayment = confirm("Transfer successful! Do you want to proceed with the payment?");
+    if (confirmPayment) {
+        processPayment(amount, fromCurrency);
     }
 }
 
-// Attach event listeners after DOM loads
-// Attach event listeners after DOM loads
+// Attach event listener to the Initiate Transfer button
 document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("transferButton").addEventListener("click", initiateTransfer);
 
@@ -140,8 +129,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Prefill phone number with country code
         if (countryPhoneFormats[selectedCountry]) {
-            phoneInput.value = countryPhoneFormats[selectedCountry].source.match(/\+\d+/)[0]; // Extract country code
+            phoneInput.value = countryPhoneFormats[selectedCountry].source.match(/\+\d+/)[0]; 
         }
     });
 });
-
