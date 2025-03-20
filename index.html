@@ -12,9 +12,20 @@
 <body>
     <header>
         <div class="container">
-            <h1>Money Transfer and Currency Exchange</h1>
-            <div id="login-register">
-                <a href="#" id="login-link">Login</a> | <a href="#" id="register-link">Register</a>
+            <h1 id="page-title">Money Transfer and Currency Exchange</h1>
+            <div id="header-links">
+                <div id="login-register">
+                    <a href="#" id="login-link">Login</a> | <a href="#" id="register-link">Register</a>
+                </div>
+                <div id="language-selector">
+                    <select id="language-select" onchange="changeLanguage()">
+                        <option value="en">English</option>
+                        <option value="de">German</option>
+                        <option value="ar">Arabic</option>
+                        <option value="fr">French</option>
+                        <option value="it">Italian</option>
+                    </select>
+                </div>
             </div>
             <div id="flag-icons">
                 <img src="https://flagcdn.com/w320/eg.png" alt="EGP" class="flag-icon">
@@ -49,7 +60,7 @@
 
     <main class="container">
         <section id="exchange-section">
-            <h2>Currency Exchange</h2>
+            <h2 id="currency-exchange-heading">Currency Exchange</h2>
             <form id="exchange-form">
                 <div class="form-group">
                     <label for="from-currency">From:</label>
@@ -83,7 +94,7 @@
         </section>
 
         <section id="transfer-section">
-            <h2>Money Transfer</h2>
+            <h2 id="money-transfer-heading">Money Transfer</h2>
             <form id="transfer-form">
                 <div class="form-group">
                     <label for="transfer-from">From Currency:</label>
@@ -165,13 +176,13 @@
         </section>
 
         <section id="payment-section">
-            <h2>Make a Payment</h2>
-            <p>Pay securely using Stripe.</p>
+            <h2 id="payment-heading">Make a Payment</h2>
+            <p id="payment-description">Pay securely using Stripe.</p>
             <button id="payButton" style="display: none;">Pay Now</button>
         </section>
 
         <section id="support-section">
-            <h2>Support</h2>
+            <h2 id="support-heading">Support</h2>
             <form id="support-form">
                 <div class="form-group">
                     <label for="support-name">Your Name:</label>

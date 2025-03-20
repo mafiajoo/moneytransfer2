@@ -194,6 +194,81 @@ function register(event) {
     }
 }
 
+// Language Data
+const translations = {
+    en: {
+        "page-title": "Money Transfer and Currency Exchange",
+        "currency-exchange-heading": "Currency Exchange",
+        "money-transfer-heading": "Money Transfer",
+        "payment-heading": "Make a Payment",
+        "payment-description": "Pay securely using Stripe.",
+        "support-heading": "Support",
+        "modal-title": "Login",
+        "login-button": "Login",
+        "register-button": "Register"
+    },
+    de: {
+        "page-title": "Geldtransfer und Währungsumtausch",
+        "currency-exchange-heading": "Währungsumtausch",
+        "money-transfer-heading": "Geldtransfer",
+        "payment-heading": "Zahlung tätigen",
+        "payment-description": "Zahlen Sie sicher mit Stripe.",
+        "support-heading": "Unterstützung",
+        "modal-title": "Anmelden",
+        "login-button": "Anmelden",
+        "register-button": "Registrieren"
+    },
+    ar: {
+        "page-title": "نقل الأموال وتبادل العملات",
+        "currency-exchange-heading": "تبادل العملات",
+        "money-transfer-heading": "تحويل الأموال",
+        "payment-heading": "إجراء الدفع",
+        "payment-description": "ادفع بأمان باستخدام Stripe.",
+        "support-heading": "الدعم",
+        "modal-title": "تسجيل الدخول",
+        "login-button": "تسجيل الدخول",
+        "register-button": "التسجيل"
+    },
+    fr: {
+        "page-title": "Transfert d'argent et échange de devises",
+        "currency-exchange-heading": "Échange de devises",
+        "money-transfer-heading": "Transfert d'argent",
+        "payment-heading": "Effectuer un paiement",
+        "payment-description": "Payez en toute sécurité avec Stripe.",
+        "support-heading": "Support",
+        "modal-title": "Connexion",
+        "login-button": "Connexion",
+        "register-button": "S'inscrire"
+    },
+    it: {
+        "page-title": "Trasferimento di denaro e cambio valuta",
+        "currency-exchange-heading": "Cambio valuta",
+        "money-transfer-heading": "Trasferimento di denaro",
+        "payment-heading": "Effettuare un pagamento",
+        "payment-description": "Paga in sicurezza con Stripe.",
+        "support-heading": "Supporto",
+        "modal-title": "Accesso",
+        "login-button": "Accedi",
+        "register-button": "Registrati"
+    }
+};
+
+// Function to change language based on selection
+function changeLanguage() {
+    let selectedLanguage = document.getElementById("language-select").value;
+    let translation = translations[selectedLanguage];
+
+    document.getElementById("page-title").innerText = translation["page-title"];
+    document.getElementById("currency-exchange-heading").innerText = translation["currency-exchange-heading"];
+    document.getElementById("money-transfer-heading").innerText = translation["money-transfer-heading"];
+    document.getElementById("payment-heading").innerText = translation["payment-heading"];
+    document.getElementById("payment-description").innerText = translation["payment-description"];
+    document.getElementById("support-heading").innerText = translation["support-heading"];
+    document.getElementById("modal-title").innerText = translation["modal-title"];
+    document.getElementById("login-button").innerText = translation["login-button"];
+    document.getElementById("register-button").innerText = translation["register-button"];
+}
+
 // Attach event listeners after DOM loads
 document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("transferButton").addEventListener("click", initiateTransfer);

@@ -27,21 +27,14 @@ h1 {
     margin: 0;
 }
 
-#flag-icons {
-    margin: 10px 0;
+#header-links {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.flag-icon {
-    margin: 0 10px;
-    width: 40px;
-    height: 40px;
-}
-
-/* Login / Register Links */
+/* Login/Register and Language Selector */
 #login-register {
-    position: absolute;
-    top: 20px;
-    left: 20px;
     font-size: 1.2em;
 }
 
@@ -53,6 +46,17 @@ h1 {
 
 #login-register a:hover {
     text-decoration: underline;
+}
+
+#language-selector {
+    font-size: 1.2em;
+}
+
+#language-selector select {
+    padding: 5px;
+    border-radius: 4px;
+    font-size: 1rem;
+    margin-left: 20px;
 }
 
 /* Main Sections */
@@ -116,12 +120,6 @@ form button {
 
 form button:hover {
     background-color: #c5000d; /* Darker red for hover */
-}
-
-/* Support Section */
-#support-section textarea {
-    height: 150px;
-    font-size: 1rem;
 }
 
 /* Modal Styles */
