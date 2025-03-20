@@ -203,7 +203,7 @@ footer a:hover {
 }
 
 /* Responsive Design */
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 1000px) {
     section {
         padding: 20px;
     }
