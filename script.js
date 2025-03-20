@@ -273,4 +273,31 @@ function changeLanguage() {
 // Attach event listeners after DOM loads
 document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("transferButton").addEventListener("click", initiateTransfer);
+
+    const countrySelect = document.getElementById("recipient-country");
+    const phoneInput = document.getElementById("recipient-phone");
+
+    // Define country codes
+    const countryCodes = {
+        "EGP": "+20", // Egypt
+        "USA": "+1",  // USA
+        "DE": "+49",  // Germany
+        "FR": "+33",  // France
+        "IT": "+39",  // Italy
+        "ES": "+34",  // Spain
+        "PL": "+48",  // Poland
+        "GB": "+44",  // United Kingdom
+        "SE": "+46",  // Sweden
+        "NO": "+47",  // Norway
+        "FI": "+358", // Finland
+        "NL": "+31"   // Netherlands
+    };
+
+    // Function to update phone number with country code
+    countrySelect.addEventListener("change", function () {
+        const selectedCountry = countrySelect.value;
+        if (countryCodes[selectedCountry]) {
+            phoneInput.value = countryCodes[selectedCountry];
+        }
+    });
 });
