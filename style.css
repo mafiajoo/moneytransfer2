@@ -67,9 +67,20 @@ h1 {
 }
 
 .flag-icon {
-    width: 40px;  /* Width greater than height, smaller size */
+    width: 40px;  /* Width greater than height */
     height: 25px; /* Height smaller than width */
     margin: 0 10px;
+}
+
+/* Main Logo Styles */
+#logo-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#main-logo {
+    max-width: 120px; /* Adjust width as needed */
+    height: auto; /* Keep the aspect ratio intact */
 }
 
 /* Main Sections */
