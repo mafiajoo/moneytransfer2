@@ -128,52 +128,6 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
             transferNote.style.display = "none";
         }
-        document.addEventListener("DOMContentLoaded", function () {
-            document.getElementById("transfer-form").addEventListener("input", function () {
-                let recipientCountry = document.getElementById("recipient-country").value;
-                let transferAmount = document.getElementById("transfer-amount").value.trim();
-                let recipientName = document.getElementById("recipient-name").value.trim();
-                let recipientAccount = document.getElementById("recipient-account").value.trim();
-        
-                let transferNote = document.getElementById("transfer-note");
-        
-                // Show note only if the country is in Europe and all fields are filled
-                let europeanCountries = ["DE", "FR", "IT", "ES", "PL", "GB", "SE", "NO", "FI", "NL"];
-        
-                if (europeanCountries.includes(recipientCountry) && transferAmount && recipientName && recipientAccount) {
-                    transferNote.style.display = "block";
-                } else {
-                    transferNote.style.display = "none";
-                }
-            });
-        
-            const countrySelect = document.getElementById("recipient-country");
-            const phoneInput = document.getElementById("recipient-phone");
-        
-            // Handle country selection change
-            countrySelect.addEventListener("change", function () {
-                const selectedCountry = countrySelect.value;
-        
-                // Clear the phone input if no valid country is selected
-                if (!selectedCountry) {
-                    phoneInput.value = "";
-                    return;
-                }
-        
-                // Prefill phone number with country code
-                if (countryPhoneFormats[selectedCountry]) {
-                    phoneInput.value = countryPhoneFormats[selectedCountry].source.match(/\+\d+/)[0]; 
-                }
-            });
-        
-            // ✅ Attach event listener to the Initiate Transfer button
-            document.getElementById("transfer-button").addEventListener("click", function (event) {
-                event.preventDefault(); // Prevent form submission if inside a form
-                initiateTransfer();
-            });
-        
-        });
-        
     });
 
     const countrySelect = document.getElementById("recipient-country");
