@@ -37,12 +37,12 @@ const countryPhoneFormats = {
     "NL": /^\+31\d{9}$/   
 };
 
-// Function to validate phone number
+// Function to validate phone number based on the selected country
 function validatePhoneNumber(phone, countryCode) {
     return countryPhoneFormats[countryCode]?.test(phone) || false;
 }
 
-// Function to calculate exchange rate
+// Function to calculate exchange rate (mock example)
 function calculateExchange() {
     let fromCurrency = document.getElementById("from-currency").value;
     let toCurrency = document.getElementById("to-currency").value;
@@ -69,15 +69,17 @@ function calculateExchange() {
     }
 }
 
-// Function to initiate money transfer
+// Function to initiate money transfer and process payment
 function initiateTransfer() {
     let fromCurrency = document.getElementById("transfer-from").value;
     let toCurrency = document.getElementById("transfer-to").value;
     let amount = parseFloat(document.getElementById("transfer-amount").value);
+
     let recipientName = document.getElementById("recipient-name").value;
     let recipientCountry = document.getElementById("recipient-country").value;
     let recipientPhone = document.getElementById("recipient-phone").value;
     let recipientAccount = document.getElementById("recipient-account").value;
+
     let transferResult = document.getElementById("transfer-result");
 
     if (isNaN(amount) || amount <= 0) {
@@ -101,58 +103,95 @@ function initiateTransfer() {
         📞 Phone: ${recipientPhone} <br>
         🏦 Bank Account: ${recipientAccount}`;
 
-    // Confirm before proceeding with payment
+    // Ask for confirmation before proceeding with payment
     let confirmPayment = confirm("Transfer successful! Do you want to proceed with the payment?");
     if (confirmPayment) {
         processPayment(amount, fromCurrency);
     }
 }
 
-// Attach event listeners
+// Attach event listener to the Initiate Transfer button
 document.addEventListener("DOMContentLoaded", function () {
-    const transferForm = document.getElementById("transfer-form");
-    const transferButton = document.getElementById("transfer-button");
+    document.getElementById("transfer-form").addEventListener("input", function () {
+        let recipientCountry = document.getElementById("recipient-country").value;
+        let transferAmount = document.getElementById("transfer-amount").value.trim();
+        let recipientName = document.getElementById("recipient-name").value.trim();
+        let recipientAccount = document.getElementById("recipient-account").value.trim();
+
+        let transferNote = document.getElementById("transfer-note");
+
+        // Show note only if the country is in Europe and all fields are filled
+        let europeanCountries = ["DE", "FR", "IT", "ES", "PL", "GB", "SE", "NO", "FI", "NL"];
+
+        if (europeanCountries.includes(recipientCountry) && transferAmount && recipientName && recipientAccount) {
+            transferNote.style.display = "block";
+        } else {
+            transferNote.style.display = "none";
+        }
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("transfer-form").addEventListener("input", function () {
+                let recipientCountry = document.getElementById("recipient-country").value;
+                let transferAmount = document.getElementById("transfer-amount").value.trim();
+                let recipientName = document.getElementById("recipient-name").value.trim();
+                let recipientAccount = document.getElementById("recipient-account").value.trim();
+        
+                let transferNote = document.getElementById("transfer-note");
+        
+                // Show note only if the country is in Europe and all fields are filled
+                let europeanCountries = ["DE", "FR", "IT", "ES", "PL", "GB", "SE", "NO", "FI", "NL"];
+        
+                if (europeanCountries.includes(recipientCountry) && transferAmount && recipientName && recipientAccount) {
+                    transferNote.style.display = "block";
+                } else {
+                    transferNote.style.display = "none";
+                }
+            });
+        
+            const countrySelect = document.getElementById("recipient-country");
+            const phoneInput = document.getElementById("recipient-phone");
+        
+            // Handle country selection change
+            countrySelect.addEventListener("change", function () {
+                const selectedCountry = countrySelect.value;
+        
+                // Clear the phone input if no valid country is selected
+                if (!selectedCountry) {
+                    phoneInput.value = "";
+                    return;
+                }
+        
+                // Prefill phone number with country code
+                if (countryPhoneFormats[selectedCountry]) {
+                    phoneInput.value = countryPhoneFormats[selectedCountry].source.match(/\+\d+/)[0]; 
+                }
+            });
+        
+            // ✅ Attach event listener to the Initiate Transfer button
+            document.getElementById("transfer-button").addEventListener("click", function (event) {
+                event.preventDefault(); // Prevent form submission if inside a form
+                initiateTransfer();
+            });
+        
+        });
+        
+    });
+
     const countrySelect = document.getElementById("recipient-country");
     const phoneInput = document.getElementById("recipient-phone");
 
-    if (transferForm) {
-        transferForm.addEventListener("input", function () {
-            let recipientCountry = document.getElementById("recipient-country").value;
-            let transferAmount = document.getElementById("transfer-amount").value.trim();
-            let recipientName = document.getElementById("recipient-name").value.trim();
-            let recipientAccount = document.getElementById("recipient-account").value.trim();
-            let transferNote = document.getElementById("transfer-note");
+    // Handle country selection change
+    countrySelect.addEventListener("change", function () {
+        const selectedCountry = countrySelect.value;
 
-            let europeanCountries = ["DE", "FR", "IT", "ES", "PL", "GB", "SE", "NO", "FI", "NL"];
-            if (europeanCountries.includes(recipientCountry) && transferAmount && recipientName && recipientAccount) {
-                transferNote.style.display = "block";
-            } else {
-                transferNote.style.display = "none";
-            }
-        });
-    }
+        // Clear the phone input if no valid country is selected
+        if (!selectedCountry) {
+            phoneInput.value = "";
+            return;
+        }
 
-    if (countrySelect && phoneInput) {
-        countrySelect.addEventListener("change", function () {
-            const selectedCountry = countrySelect.value;
-
-            if (!selectedCountry) {
-                phoneInput.value = "";
-                return;
-            }
-
-            if (countryPhoneFormats[selectedCountry]) {
-                phoneInput.value = countryPhoneFormats[selectedCountry].source.match(/\+\d+/)[0];
-            }
-        });
-    }
-
-    if (transferButton) {
-        transferButton.addEventListener("click", function (event) {
-            event.preventDefault();
-            initiateTransfer();
-        });
-    } else {
-        console.error("❌ Error: 'transfer-button' not found in the DOM.");
-    }
+        // Prefill phone number with country code
+        if (countryPhoneFormats[selectedCountry]) {
+            phoneInput.value = countryPhoneFormats[selectedCountry].source.match(/\+\d+/)[0]; 
+        }
+    });
 });
