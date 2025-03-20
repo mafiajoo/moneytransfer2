@@ -33,6 +33,19 @@ h1 {
     align-items: center;
 }
 
+/* Logo Styles */
+#logo-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#main-logo {
+    max-width: 120px; /* Adjust width as needed */
+    height: 120px; /* Make sure it's a square */
+    border-radius: 50%; /* This makes the logo circular */
+    object-fit: cover; /* Ensures the image covers the entire area of the circle */
+}
+
 /* Login/Register and Language Selector */
 #login-register {
     font-size: 1.2em;
@@ -70,17 +83,6 @@ h1 {
     width: 40px;  /* Width greater than height */
     height: 25px; /* Height smaller than width */
     margin: 0 10px;
-}
-
-/* Main Logo Styles */
-#logo-container {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-#main-logo {
-    max-width: 120px; /* Adjust width as needed */
-    height: auto; /* Keep the aspect ratio intact */
 }
 
 /* Main Sections */
