@@ -219,3 +219,21 @@ footer a:hover {
         font-size: 2em;
     }
 }
+
+/* Custom Button Styles for Pay Now */
+.action-button {
+    background-color: #e60012; /* Sparkasse red */
+    color: white;
+    padding: 15px;
+    font-size: 1.1rem;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+}
+
+.action-button:hover {
+    background-color: #c5000d; /* Darker red for hover */
+}
