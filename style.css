@@ -1,16 +1,23 @@
 /* General Body Styles */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
 body {
     font-family: 'Roboto', Arial, sans-serif;
     background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
     color: #333;
 }
 
-/* Container for better alignment */
+/* Ensure the main content expands */
 .container {
     width: 90%;
     margin: 0 auto;
+    flex: 1; /* Pushes the footer to the bottom */
 }
 
 /* Header Styles */
@@ -185,12 +192,16 @@ form button:hover {
 }
 
 /* Footer Styles */
+/* Footer Styles */
 footer {
     background-color: #333;
     color: white;
     text-align: center;
     padding: 20px;
     font-size: 1rem;
+    width: 100%;
+    position: relative;
+    bottom: 0;
 }
 
 footer a {
@@ -200,6 +211,11 @@ footer a {
 
 footer a:hover {
     text-decoration: underline;
+}
+
+/* Prevent footer from overlapping content */
+body {
+    padding-bottom: 60px; /* Adjust based on footer height */
 }
 
 /* Responsive Design */
