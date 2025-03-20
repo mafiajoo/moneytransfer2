@@ -148,4 +148,10 @@ document.addEventListener("DOMContentLoaded", function () {
             phoneInput.value = countryPhoneFormats[selectedCountry].source.match(/\+\d+/)[0]; 
         }
     });
+
+    // ✅ Attach event listener to the Initiate Transfer button
+    document.getElementById("transfer-button").addEventListener("click", function (event) {
+        event.preventDefault(); // Prevent form submission if inside a form
+        initiateTransfer();
+    });
 });
