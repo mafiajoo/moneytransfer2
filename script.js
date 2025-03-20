@@ -21,9 +21,28 @@ async function processPayment(amount, currency) {
     }
 }
 
-// Function to validate phone number (only digits, 7-15 characters long)
-function validatePhoneNumber(phone) {
-    return /^[0-9]{7,15}$/.test(phone);
+// Country-specific phone number validation
+const countryPhoneFormats = {
+    "EGP": /^\+20\d{10}$/, // Egypt (e.g., +201095427265)
+    "USA": /^\+1\d{10}$/,  // USA
+    "DE": /^\+49\d{10,11}$/,  // Germany
+    "FR": /^\+33\d{9}$/,  // France
+    "IT": /^\+39\d{9,10}$/,  // Italy
+    "ES": /^\+34\d{9}$/,  // Spain
+    "PL": /^\+48\d{9}$/,  // Poland
+    "GB": /^\+44\d{10}$/,  // United Kingdom
+    "SE": /^\+46\d{9}$/,  // Sweden
+    "NO": /^\+47\d{8,9}$/,  // Norway
+    "FI": /^\+358\d{9}$/, // Finland
+    "NL": /^\+31\d{9}$/   // Netherlands
+};
+
+// Function to validate phone number based on the selected country
+function validatePhoneNumber(phone, countryCode) {
+    if (countryPhoneFormats[countryCode]) {
+        return countryPhoneFormats[countryCode].test(phone);
+    }
+    return false;
 }
 
 // Function to calculate exchange rate (mock example)
@@ -77,11 +96,16 @@ function initiateTransfer() {
         return;
     }
 
-    if (!validatePhoneNumber(recipientPhone)) {
-        alert("Invalid phone number (7-15 digits only).");
+    if (!validatePhoneNumber(recipientPhone, recipientCountry)) {
+        alert("Invalid phone number format for the selected country.");
         return;
     }
 
+    if (!recipientCountry) {
+        alert("Please select a recipient country.");
+        return;
+    }
+    
     transferResult.innerHTML = `Transfer Initiated: ${amount} ${fromCurrency} to ${toCurrency} <br>
         Recipient: ${recipientName} <br>
         Country: ${recipientCountry} <br>
@@ -96,180 +120,7 @@ function initiateTransfer() {
     }
 }
 
-
-// Function to send support message
-async function sendSupportMessage() {
-    let name = document.getElementById("support-name").value;
-    let email = document.getElementById("support-email").value;
-    let phone = document.getElementById("support-phone").value;
-    let message = document.getElementById("support-message").value;
-    let supportResult = document.getElementById("support-result");
-
-    if (!name || !email || !phone || !message) {
-        alert("Please fill in all fields.");
-        return;
-    }
-
-    let emailBody = `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\n\nMessage:\n${message}`;
-
-    try {
-        const response = await fetch("https://formspree.io/f/xblgdazj", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email: "egyptsupplies100@gmail.com", message: emailBody })
-        });
-
-        if (response.ok) {
-            supportResult.innerHTML = "Your message has been sent successfully!";
-        } else {
-            throw new Error("Failed to send message.");
-        }
-    } catch (error) {
-        supportResult.innerHTML = "Error sending message. Please try again.";
-    }
-}
-
-// Modal login and register functionality
-const modal = document.getElementById("auth-modal");
-const closeModal = document.getElementById("close-modal");
-const loginLink = document.getElementById("login-link");
-const registerLink = document.getElementById("register-link");
-const authButton = document.getElementById("auth-button");
-const authError = document.getElementById("auth-error");
-
-loginLink.onclick = function () {
-    modal.style.display = "block";
-    document.getElementById("modal-title").innerText = "Login";
-    authButton.innerText = "Login";
-    authButton.onclick = login;
-};
-
-registerLink.onclick = function () {
-    modal.style.display = "block";
-    document.getElementById("modal-title").innerText = "Register";
-    authButton.innerText = "Register";
-    authButton.onclick = register;
-};
-
-closeModal.onclick = function () {
-    modal.style.display = "none";
-};
-
-window.onclick = function (event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-};
-
-function login(event) {
-    event.preventDefault();
-    let username = document.getElementById("username").value;
-    let password = document.getElementById("password").value;
-
-    // Simple check (replace with real authentication logic later)
-    let storedUsername = localStorage.getItem("username");
-    let storedPassword = localStorage.getItem("password");
-
-    if (username === storedUsername && password === storedPassword) {
-        alert("Login successful");
-        modal.style.display = "none";
-    } else {
-        authError.style.display = "block";
-    }
-}
-
-function register(event) {
-    event.preventDefault();
-    let username = document.getElementById("username").value;
-    let password = document.getElementById("password").value;
-
-    if (username && password) {
-        // Store the username and password in local storage (for simulation)
-        localStorage.setItem("username", username);
-        localStorage.setItem("password", password);
-
-        alert("Registration successful!");
-        modal.style.display = "none";
-    } else {
-        alert("Please fill in all fields.");
-    }
-}
-
-// Language Data
-const translations = {
-    en: {
-        "page-title": "Money Transfer and Currency Exchange",
-        "currency-exchange-heading": "Currency Exchange",
-        "money-transfer-heading": "Money Transfer",
-        "payment-heading": "Make a Payment",
-        "payment-description": "Pay securely using Stripe.",
-        "support-heading": "Support",
-        "modal-title": "Login",
-        "login-button": "Login",
-        "register-button": "Register"
-    },
-    de: {
-        "page-title": "Geldtransfer und Währungsumtausch",
-        "currency-exchange-heading": "Währungsumtausch",
-        "money-transfer-heading": "Geldtransfer",
-        "payment-heading": "Zahlung tätigen",
-        "payment-description": "Zahlen Sie sicher mit Stripe.",
-        "support-heading": "Unterstützung",
-        "modal-title": "Anmelden",
-        "login-button": "Anmelden",
-        "register-button": "Registrieren"
-    },
-    ar: {
-        "page-title": "نقل الأموال وتبادل العملات",
-        "currency-exchange-heading": "تبادل العملات",
-        "money-transfer-heading": "تحويل الأموال",
-        "payment-heading": "إجراء الدفع",
-        "payment-description": "ادفع بأمان باستخدام Stripe.",
-        "support-heading": "الدعم",
-        "modal-title": "تسجيل الدخول",
-        "login-button": "تسجيل الدخول",
-        "register-button": "التسجيل"
-    },
-    fr: {
-        "page-title": "Transfert d'argent et échange de devises",
-        "currency-exchange-heading": "Échange de devises",
-        "money-transfer-heading": "Transfert d'argent",
-        "payment-heading": "Effectuer un paiement",
-        "payment-description": "Payez en toute sécurité avec Stripe.",
-        "support-heading": "Support",
-        "modal-title": "Connexion",
-        "login-button": "Connexion",
-        "register-button": "S'inscrire"
-    },
-    it: {
-        "page-title": "Trasferimento di denaro e cambio valuta",
-        "currency-exchange-heading": "Cambio valuta",
-        "money-transfer-heading": "Trasferimento di denaro",
-        "payment-heading": "Effettuare un pagamento",
-        "payment-description": "Paga in sicurezza con Stripe.",
-        "support-heading": "Supporto",
-        "modal-title": "Accesso",
-        "login-button": "Accedi",
-        "register-button": "Registrati"
-    }
-};
-
-// Function to change language based on selection
-function changeLanguage() {
-    let selectedLanguage = document.getElementById("language-select").value;
-    let translation = translations[selectedLanguage];
-
-    document.getElementById("page-title").innerText = translation["page-title"];
-    document.getElementById("currency-exchange-heading").innerText = translation["currency-exchange-heading"];
-    document.getElementById("money-transfer-heading").innerText = translation["money-transfer-heading"];
-    document.getElementById("payment-heading").innerText = translation["payment-heading"];
-    document.getElementById("payment-description").innerText = translation["payment-description"];
-    document.getElementById("support-heading").innerText = translation["support-heading"];
-    document.getElementById("modal-title").innerText = translation["modal-title"];
-    document.getElementById("login-button").innerText = translation["login-button"];
-    document.getElementById("register-button").innerText = translation["register-button"];
-}
-
+// Attach event listeners after DOM loads
 // Attach event listeners after DOM loads
 document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("transferButton").addEventListener("click", initiateTransfer);
@@ -277,27 +128,20 @@ document.addEventListener("DOMContentLoaded", function () {
     const countrySelect = document.getElementById("recipient-country");
     const phoneInput = document.getElementById("recipient-phone");
 
-    // Define country codes
-    const countryCodes = {
-        "EGP": "+20", // Egypt
-        "USA": "+1",  // USA
-        "DE": "+49",  // Germany
-        "FR": "+33",  // France
-        "IT": "+39",  // Italy
-        "ES": "+34",  // Spain
-        "PL": "+48",  // Poland
-        "GB": "+44",  // United Kingdom
-        "SE": "+46",  // Sweden
-        "NO": "+47",  // Norway
-        "FI": "+358", // Finland
-        "NL": "+31"   // Netherlands
-    };
-
-    // Function to update phone number with country code
+    // Handle country selection change
     countrySelect.addEventListener("change", function () {
         const selectedCountry = countrySelect.value;
-        if (countryCodes[selectedCountry]) {
-            phoneInput.value = countryCodes[selectedCountry];
+
+        // Clear the phone input if no valid country is selected
+        if (!selectedCountry) {
+            phoneInput.value = "";
+            return;
+        }
+
+        // Prefill phone number with country code
+        if (countryPhoneFormats[selectedCountry]) {
+            phoneInput.value = countryPhoneFormats[selectedCountry].source.match(/\+\d+/)[0]; // Extract country code
         }
     });
 });
+
