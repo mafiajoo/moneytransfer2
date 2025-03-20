@@ -96,6 +96,30 @@ function initiateTransfer() {
     }
 }
 
+// Function to handle successful payment
+function handlePaymentSuccess() {
+    alert("Payment Completed! Redirecting to the main page...");
+    setTimeout(() => {
+        window.location.href = "index.html"; // Redirect to main page
+    }, 3000); // Redirect after 3 seconds
+}
+
+// Attach event listeners after DOM loads
+document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("transferButton").addEventListener("click", initiateTransfer);
+    let payButton = document.getElementById("payButton");
+    if (payButton) {
+        payButton.addEventListener("click", function () {
+            let paymentSuccess = true; // Replace this with actual Stripe response check
+            if (paymentSuccess) {
+                handlePaymentSuccess();
+            } else {
+                alert("Payment Failed! Please try again.");
+            }
+        });
+    }
+});
+
 // Function to send support message
 async function sendSupportMessage() {
     let name = document.getElementById("support-name").value;
