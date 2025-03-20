@@ -72,7 +72,7 @@ function calculateExchange() {
     }
 }
 
-// Function to initiate money transfer and process payment
+// Function to initiate money transfer
 function initiateTransfer() {
     let fromCurrency = document.getElementById("transfer-from").value;
     let toCurrency = document.getElementById("transfer-to").value;
@@ -84,6 +84,7 @@ function initiateTransfer() {
     let recipientAccount = document.getElementById("recipient-account").value;
 
     let transferResult = document.getElementById("transfer-result");
+    let payButton = document.getElementById("payButton");
 
     if (isNaN(amount) || amount <= 0) {
         alert("Enter a valid transfer amount.");
@@ -100,20 +101,29 @@ function initiateTransfer() {
         return;
     }
 
+    if (!recipientCountry) {
+        alert("Please select a recipient country.");
+        return;
+    }
+    
     transferResult.innerHTML = `Transfer Initiated: ${amount} ${fromCurrency} to ${toCurrency} <br>
         Recipient: ${recipientName} <br>
         Country: ${recipientCountry} <br>
         Phone: ${recipientPhone} <br>
         Bank Account: ${recipientAccount}`;
 
-    // Automatically initiate the payment
-    processPayment(amount, fromCurrency);
+    if (payButton) {
+        payButton.style.display = "block";
+        payButton.onclick = function () {
+            processPayment(amount, fromCurrency);
+        };
+    }
 }
 
-// Attach event listener to the Initiate Transfer button
+// Attach event listeners after DOM loads
+// Attach event listeners after DOM loads
 document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("transferButton").addEventListener("click", initiateTransfer);
-});
 
     const countrySelect = document.getElementById("recipient-country");
     const phoneInput = document.getElementById("recipient-phone");
