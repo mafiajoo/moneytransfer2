@@ -27,6 +27,15 @@ h1 {
     margin: 0;
 }
 
+#logo-section {
+    text-align: center;
+}
+
+#site-logo {
+    width: 100px; /* Adjusted logo size */
+    height: auto;
+}
+
 #header-links {
     display: flex;
     justify-content: space-between;
@@ -57,17 +66,6 @@ h1 {
     border-radius: 4px;
     font-size: 1rem;
     margin-left: 20px;
-}
-
-/* Flag Icon Styles */
-#flag-icons {
-    margin: 10px 0;
-}
-
-.flag-icon {
-    width: 50px;  /* Width greater than height */
-    height: 30px; /* Height smaller than width */
-    margin: 0 10px;
 }
 
 /* Main Sections */
@@ -198,8 +196,8 @@ footer a:hover {
     }
 
     .flag-icon {
-        width: 50px;  /* Width greater than height */
-        height: 30px; /* Height smaller than width */
+        width: 30px;
+        height: 30px;
     }
 
     h1 {
