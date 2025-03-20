@@ -42,7 +42,7 @@ function validatePhoneNumber(phone, countryCode) {
     return countryPhoneFormats[countryCode]?.test(phone) || false;
 }
 
-// Function to calculate exchange rate (mock example)
+// Function to calculate exchange rate
 function calculateExchange() {
     let fromCurrency = document.getElementById("from-currency").value;
     let toCurrency = document.getElementById("to-currency").value;
@@ -75,10 +75,10 @@ function initiateTransfer() {
     let toCurrency = document.getElementById("transfer-to").value;
     let amount = parseFloat(document.getElementById("transfer-amount").value);
 
-    let recipientName = document.getElementById("recipient-name").value;
+    let recipientName = document.getElementById("recipient-name").value.trim();
     let recipientCountry = document.getElementById("recipient-country").value;
-    let recipientPhone = document.getElementById("recipient-phone").value;
-    let recipientAccount = document.getElementById("recipient-account").value;
+    let recipientPhone = document.getElementById("recipient-phone").value.trim();
+    let recipientAccount = document.getElementById("recipient-account").value.trim();
 
     let transferResult = document.getElementById("transfer-result");
 
@@ -97,7 +97,8 @@ function initiateTransfer() {
         return;
     }
 
-    transferResult.innerHTML = `✅ Transfer Initiated: ${amount} ${fromCurrency} to ${toCurrency} <br>
+    transferResult.innerHTML = `
+        ✅ Transfer Initiated: ${amount} ${fromCurrency} to ${toCurrency} <br>
         👤 Recipient: ${recipientName} <br>
         🌍 Country: ${recipientCountry} <br>
         📞 Phone: ${recipientPhone} <br>
@@ -110,17 +111,21 @@ function initiateTransfer() {
     }
 }
 
-// Attach event listener to the Initiate Transfer button
+// Attach event listeners when DOM is fully loaded
 document.addEventListener("DOMContentLoaded", function () {
-    document.getElementById("transfer-form").addEventListener("input", function () {
-        let recipientCountry = document.getElementById("recipient-country").value;
+    const transferForm = document.getElementById("transfer-form");
+    const countrySelect = document.getElementById("recipient-country");
+    const phoneInput = document.getElementById("recipient-phone");
+    const transferButton = document.getElementById("transfer-button");
+
+    // Show note for European transfers
+    transferForm.addEventListener("input", function () {
+        let recipientCountry = countrySelect.value;
         let transferAmount = document.getElementById("transfer-amount").value.trim();
         let recipientName = document.getElementById("recipient-name").value.trim();
         let recipientAccount = document.getElementById("recipient-account").value.trim();
-
         let transferNote = document.getElementById("transfer-note");
 
-        // Show note only if the country is in Europe and all fields are filled
         let europeanCountries = ["DE", "FR", "IT", "ES", "PL", "GB", "SE", "NO", "FI", "NL"];
 
         if (europeanCountries.includes(recipientCountry) && transferAmount && recipientName && recipientAccount) {
@@ -130,10 +135,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    const countrySelect = document.getElementById("recipient-country");
-    const phoneInput = document.getElementById("recipient-phone");
-
-    // Handle country selection change
+    // Prefill phone number with country code when country is selected
     countrySelect.addEventListener("change", function () {
         const selectedCountry = countrySelect.value;
 
@@ -145,13 +147,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Prefill phone number with country code
         if (countryPhoneFormats[selectedCountry]) {
-            phoneInput.value = countryPhoneFormats[selectedCountry].source.match(/\+\d+/)[0]; 
+            phoneInput.value = countryPhoneFormats[selectedCountry].source.match(/\+\d+/)[0];
         }
     });
 
-    // ✅ Attach event listener to the Initiate Transfer button
-    document.getElementById("transfer-button").addEventListener("click", function (event) {
-        event.preventDefault(); // Prevent form submission if inside a form
+    // Attach event listener to the Initiate Transfer button
+    transferButton.addEventListener("click", function (event) {
+        event.preventDefault();
         initiateTransfer();
     });
 });
