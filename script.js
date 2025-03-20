@@ -23,23 +23,26 @@ async function processPayment(amount, currency) {
 
 // Country-specific phone number validation
 const countryPhoneFormats = {
-    "EGP": /^\+20\d{10}$/, 
-    "USA": /^\+1\d{10}$/,  
-    "DE": /^\+49\d{10,11}$/,  
-    "FR": /^\+33\d{9}$/,  
-    "IT": /^\+39\d{9,10}$/,  
-    "ES": /^\+34\d{9}$/,  
-    "PL": /^\+48\d{9}$/,  
-    "GB": /^\+44\d{10}$/,  
-    "SE": /^\+46\d{9}$/,  
-    "NO": /^\+47\d{8,9}$/,  
-    "FI": /^\+358\d{9}$/, 
-    "NL": /^\+31\d{9}$/   
+    "EGP": /^\+20\d{10}$/, // Egypt (e.g., +201095427265)
+    "USA": /^\+1\d{10}$/,  // USA
+    "DE": /^\+49\d{10,11}$/,  // Germany
+    "FR": /^\+33\d{9}$/,  // France
+    "IT": /^\+39\d{9,10}$/,  // Italy
+    "ES": /^\+34\d{9}$/,  // Spain
+    "PL": /^\+48\d{9}$/,  // Poland
+    "GB": /^\+44\d{10}$/,  // United Kingdom
+    "SE": /^\+46\d{9}$/,  // Sweden
+    "NO": /^\+47\d{8,9}$/,  // Norway
+    "FI": /^\+358\d{9}$/, // Finland
+    "NL": /^\+31\d{9}$/   // Netherlands
 };
 
 // Function to validate phone number based on the selected country
 function validatePhoneNumber(phone, countryCode) {
-    return countryPhoneFormats[countryCode]?.test(phone) || false;
+    if (countryPhoneFormats[countryCode]) {
+        return countryPhoneFormats[countryCode].test(phone);
+    }
+    return false;
 }
 
 // Function to calculate exchange rate (mock example)
@@ -69,7 +72,7 @@ function calculateExchange() {
     }
 }
 
-// Function to initiate money transfer and process payment
+// Function to initiate money transfer
 function initiateTransfer() {
     let fromCurrency = document.getElementById("transfer-from").value;
     let toCurrency = document.getElementById("transfer-to").value;
@@ -81,6 +84,7 @@ function initiateTransfer() {
     let recipientAccount = document.getElementById("recipient-account").value;
 
     let transferResult = document.getElementById("transfer-result");
+    let payButton = document.getElementById("payButton");
 
     if (isNaN(amount) || amount <= 0) {
         alert("Enter a valid transfer amount.");
@@ -97,38 +101,29 @@ function initiateTransfer() {
         return;
     }
 
-    transferResult.innerHTML = `✅ Transfer Initiated: ${amount} ${fromCurrency} to ${toCurrency} <br>
-        👤 Recipient: ${recipientName} <br>
-        🌍 Country: ${recipientCountry} <br>
-        📞 Phone: ${recipientPhone} <br>
-        🏦 Bank Account: ${recipientAccount}`;
+    if (!recipientCountry) {
+        alert("Please select a recipient country.");
+        return;
+    }
+    
+    transferResult.innerHTML = `Transfer Initiated: ${amount} ${fromCurrency} to ${toCurrency} <br>
+        Recipient: ${recipientName} <br>
+        Country: ${recipientCountry} <br>
+        Phone: ${recipientPhone} <br>
+        Bank Account: ${recipientAccount}`;
 
-    // Ask for confirmation before proceeding with payment
-    let confirmPayment = confirm("Transfer successful! Do you want to proceed with the payment?");
-    if (confirmPayment) {
-        processPayment(amount, fromCurrency);
+    if (payButton) {
+        payButton.style.display = "block";
+        payButton.onclick = function () {
+            processPayment(amount, fromCurrency);
+        };
     }
 }
 
-// Attach event listener to the Initiate Transfer button
+// Attach event listeners after DOM loads
+// Attach event listeners after DOM loads
 document.addEventListener("DOMContentLoaded", function () {
-    document.getElementById("transfer-form").addEventListener("input", function () {
-        let recipientCountry = document.getElementById("recipient-country").value;
-        let transferAmount = document.getElementById("transfer-amount").value.trim();
-        let recipientName = document.getElementById("recipient-name").value.trim();
-        let recipientAccount = document.getElementById("recipient-account").value.trim();
-
-        let transferNote = document.getElementById("transfer-note");
-
-        // Show note only if the country is in Europe and all fields are filled
-        let europeanCountries = ["DE", "FR", "IT", "ES", "PL", "GB", "SE", "NO", "FI", "NL"];
-
-        if (europeanCountries.includes(recipientCountry) && transferAmount && recipientName && recipientAccount) {
-            transferNote.style.display = "block";
-        } else {
-            transferNote.style.display = "none";
-        }
-    });
+    document.getElementById("transferButton").addEventListener("click", initiateTransfer);
 
     const countrySelect = document.getElementById("recipient-country");
     const phoneInput = document.getElementById("recipient-phone");
@@ -145,7 +140,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Prefill phone number with country code
         if (countryPhoneFormats[selectedCountry]) {
-            phoneInput.value = countryPhoneFormats[selectedCountry].source.match(/\+\d+/)[0]; 
+            phoneInput.value = countryPhoneFormats[selectedCountry].source.match(/\+\d+/)[0]; // Extract country code
         }
     });
 });
+
