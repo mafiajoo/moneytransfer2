@@ -65,8 +65,8 @@ h1 {
 }
 
 .flag-icon {
-    width: 30px;  /* Reduced size */
-    height: 30px; /* Reduced size */
+    width: 50px;  /* Width greater than height */
+    height: 30px; /* Height smaller than width */
     margin: 0 10px;
 }
 
@@ -198,8 +198,8 @@ footer a:hover {
     }
 
     .flag-icon {
-        width: 30px;
-        height: 30px;
+        width: 50px;  /* Width greater than height */
+        height: 30px; /* Height smaller than width */
     }
 
     h1 {
