@@ -3,93 +3,273 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Money Transfer & Currency Exchange</title>
+    <title>Money Transfer and Currency Exchange</title>
     <link rel="stylesheet" href="style.css">
+
+    <!-- Load Stripe.js -->
+    <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body>
-
     <header>
-        <h1>Money Transfer & Currency Exchange</h1>
+        <div class="container">
+            <div id="logo-container">
+                <!-- Main Logo -->
+                <img src="logo/logo.png" alt="Money Transfer Logo" id="main-logo">
+            </div>
+            <h1 id="page-title">Money Transfer and Currency Exchange</h1>
+            <div id="header-links">
+                <div id="login-register">
+                    <a href="#" id="login-link">Login</a> | <a href="#" id="register-link">Register</a>
+                </div>
+                <div id="language-selector">
+                    <select id="language-select" onchange="changeLanguage()">
+                        <option value="en">English</option>
+                        <option value="de">German</option>
+                        <option value="ar">Arabic</option>
+                        <option value="fr">French</option>
+                        <option value="it">Italian</option>
+                    </select>
+                </div>
+            </div>
+            <div id="flag-icons">
+                <img src="https://flagcdn.com/w320/eg.png" alt="EGP" class="flag-icon">
+                <img src="https://flagcdn.com/w320/us.png" alt="USA" class="flag-icon">
+                <img src="https://flagcdn.com/w320/de.png" alt="Germany" class="flag-icon">
+                <img src="https://flagcdn.com/w320/gb.png" alt="GB" class="flag-icon">
+                <img src="https://flagcdn.com/w320/fr.png" alt="France" class="flag-icon">
+                <img src="https://flagcdn.com/w320/it.png" alt="Italy" class="flag-icon">
+            </div>
+        </div>
     </header>
 
-    <section id="exchange">
-        <h2>Currency Exchange</h2>
-        <label for="from-currency">From:</label>
-        <select id="from-currency">
-            <option value="EGP">Egyptian Pound (EGP)</option>
-            <option value="USD">US Dollar (USD)</option>
-            <option value="EUR">Euro (EUR)</option>
-            <option value="GBP">British Pound (GBP)</option>
-        </select>
+    <!-- Login / Register Modal -->
+    <div id="auth-modal" class="modal">
+        <div class="modal-content">
+            <span id="close-modal" class="close">&times;</span>
+            <h2 id="modal-title">Login</h2>
+            <form id="auth-form">
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" placeholder="Enter username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" placeholder="Enter password" required>
+                </div>
+                <button type="submit" id="auth-button">Login</button>
+            </form>
+            <p id="auth-error" style="color: red; display: none;">Invalid credentials. Please try again.</p>
+        </div>
+    </div>
 
-        <label for="to-currency">To:</label>
-        <select id="to-currency">
-            <option value="USD">US Dollar (USD)</option>
-            <option value="EUR">Euro (EUR)</option>
-            <option value="GBP">British Pound (GBP)</option>
-            <option value="EGP">Egyptian Pound (EGP)</option>
-        </select>
+    <main class="container">
+        <section id="exchange-section">
+            <h2 id="currency-exchange-heading">Currency Exchange</h2>
+            <form id="exchange-form">
+                <div class="form-group">
+                    <label for="from-currency">From:</label>
+                    <select id="from-currency">
+                        <option value="EGP">EGP</option>
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
+                        <option value="GBP">GBP</option>
+                    </select>
+                </div>
 
-        <label for="amount">Amount:</label>
-        <input type="number" id="amount" placeholder="Enter amount">
+                <div class="form-group">
+                    <label for="to-currency">To:</label>
+                    <select id="to-currency">
+                        <option value="EGP">EGP</option>
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
+                        <option value="GBP">GBP</option>
+                    </select>
+                </div>
 
-        <button onclick="calculateExchange()">Convert</button>
+                <div class="form-group">
+                    <label for="amount">Amount:</label>
+                    <input type="number" id="amount" placeholder="Enter amount" required>
+                </div>
 
-        <p id="exchange-result"></p>
-    </section>
+                <button type="button" onclick="calculateExchange()">Calculate Exchange</button>
+            </form>
 
-    <section id="transfer">
-        <h2>Money Transfer</h2>
-        <label for="transfer-from">From Currency:</label>
-        <select id="transfer-from">
-            <option value="EGP">Egyptian Pound (EGP)</option>
-            <option value="USD">US Dollar (USD)</option>
-            <option value="EUR">Euro (EUR)</option>
-            <option value="GBP">British Pound (GBP)</option>
-        </select>
+            <p id="exchange-result"></p>
+        </section>
 
-        <label for="transfer-to">To Currency:</label>
-        <select id="transfer-to">
-            <option value="USD">US Dollar (USD)</option>
-            <option value="EUR">Euro (EUR)</option>
-            <option value="GBP">British Pound (GBP)</option>
-            <option value="EGP">Egyptian Pound (EGP)</option>
-        </select>
+        <section id="transfer-section">
+            <h2 id="money-transfer-heading">Money Transfer</h2>
+            <form id="transfer-form">
+                <div class="form-group">
+                    <label for="transfer-from">From Currency:</label>
+                    <select id="transfer-from">
+                        <option value="EGP">EGP</option>
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
+                        <option value="GBP">GBP</option>
+                    </select>
+                </div>
 
-        <label for="transfer-amount">Amount:</label>
-        <input type="number" id="transfer-amount" placeholder="Enter amount">
+                <div class="form-group">
+                    <label for="transfer-to">To Currency:</label>
+                    <select id="transfer-to">
+                        <option value="EGP">EGP</option>
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
+                        <option value="GBP">GBP</option>
+                    </select>
+                </div>
 
-        <h3>Recipient Details</h3>
-        <label for="recipient-name">Name:</label>
-        <input type="text" id="recipient-name" placeholder="Recipient's name">
+                <div class="form-group">
+                    <label for="transfer-amount">Amount:</label>
+                    <input type="number" id="transfer-amount" placeholder="Enter amount" required>
+                </div>
 
-        <label for="recipient-country">Country:</label>
-        <select id="recipient-country">
-            <option value="">Select Country</option>
-            <option value="EGP">Egypt</option>
-            <option value="USA">USA</option>
-            <option value="DE">Germany</option>
-            <option value="FR">France</option>
-            <option value="IT">Italy</option>
-            <option value="ES">Spain</option>
-            <option value="PL">Poland</option>
-            <option value="GB">United Kingdom</option>
-            <option value="SE">Sweden</option>
-            <option value="NO">Norway</option>
-            <option value="FI">Finland</option>
-            <option value="NL">Netherlands</option>
-        </select>
+                <div class="form-group">
+                    <label for="recipient-name">Recipient Name:</label>
+                    <input type="text" id="recipient-name" placeholder="Enter recipient's name" required>
+                </div>
 
-        <label for="recipient-phone">Phone Number:</label>
-        <input type="text" id="recipient-phone" placeholder="Enter phone number">
+                <div class="form-group">
+                    <label for="recipient-country">Recipient Country:</label>
+                    <select id="recipient-country">
+                        <option value="" selected>Select Recipient Country Here</option>
+                        <option value="EGP">Egypt</option>
+                        <option value="USA">United States</option>
+                        <option value="DE">Germany</option>
+                        <option value="FR">France</option>
+                        <option value="IT">Italy</option>
+                        <option value="ES">Spain</option>
+                        <option value="PL">Poland</option>
+                        <option value="GB">United Kingdom</option>
+                        <option value="SE">Sweden</option>
+                        <option value="NO">Norway</option>
+                        <option value="FI">Finland</option>
+                        <option value="NL">Netherlands</option>
+                    </select>                    
+                </div>
 
-        <label for="recipient-account">Bank Account:</label>
-        <input type="text" id="recipient-account" placeholder="Enter recipient's account number">
+                <div class="form-group">
+                    <label for="recipient-phone">Recipient Phone Number:</label>
+                    <input type="text" id="recipient-phone" placeholder="Enter phone number" required 
+                           onkeydown="if(event.key === '+' && this.selectionStart === 0) return true; return (event.key >= '0' && event.key <= '9') || event.key === 'Backspace' || event.key === 'Delete' || event.key === 'Tab' || event.key === 'ArrowLeft' || event.key === 'ArrowRight';"
+                           oninput="this.value = this.value.replace(/(?!^\+)[^0-9]/g, '');">
+                </div>
 
-        <button id="transferButton">Initiate Transfer</button>
+                <div class="form-group">
+                    <label for="recipient-account">IBAN Bank Account Number:</label>
+                    <input type="text" id="recipient-account" placeholder="Enter recipient's IBAN" required>
+                </div>
 
-        <p id="transfer-result"></p>
-    </section>
+                <div class="form-group">
+                    <label for="recipient-bank">Recipient Bank Name:</label>
+                    <select id="recipient-bank" required>
+                        <!-- Egypt Banks -->
+                        <optgroup label="Egypt">
+                            <option value="CIB">Commercial International Bank (CIB)</option>
+                            <option value="QNB">Qatar National Bank (QNB)</option>
+                            <option value="BanqueMisr">Banque Misr</option>
+                            <option value="NBE">National Bank of Egypt (NBE)</option>
+                            <option value="AlexBank">Alexandria Bank</option>
+                            <option value="SuezCanalBank">Suez Canal Bank</option>
+                            <option value="FNB">First National Bank (FNB)</option>
+                        </optgroup>
+
+                        <!-- Germany Banks -->
+                        <optgroup label="Germany">
+                            <option value="DeutscheBank">Deutsche Bank</option>
+                            <option value="Commerzbank">Commerzbank</option>
+                            <option value="Unicredit">UniCredit</option>
+                            <option value="DZBank">DZ Bank</option>
+                            <option value="Sparkasse">Sparkasse</option>
+                            <option value="BayerischeLandesbank">Bayerische Landesbank</option>
+                            <option value="HamburgerSparkasse">Hamburger Sparkasse</option>
+                            <option value="NordLB">Norddeutsche Landesbank (NordLB)</option>
+                        </optgroup>
+
+                        <!-- Italy Banks -->
+                        <optgroup label="Italy">
+                            <option value="UniCreditItaly">UniCredit Italy</option>
+                            <option value="IntesaSanPaolo">Intesa Sanpaolo</option>
+                            <option value="BancaNazionaleDelLavoro">Banca Nazionale del Lavoro (BNL)</option>
+                            <option value="BancoDiSicilia">Banco di Sicilia</option>
+                            <option value="BancaIntesa">Banca Intesa</option>
+                            <option value="UBI">UBI Banca</option>
+                        </optgroup>
+
+                        <!-- France Banks -->
+                        <optgroup label="France">
+                            <option value="BNPParibas">BNP Paribas</option>
+                            <option value="SocieteGenerale">Société Générale</option>
+                            <option value="CreditAgricole">Crédit Agricole</option>
+                            <option value="LaBanquePostale">La Banque Postale</option>
+                            <option value="HSBCFrance">HSBC France</option>
+                        </optgroup>
+
+                        <!-- USA Banks -->
+                        <optgroup label="USA">
+                            <option value="BankofAmerica">Bank of America</option>
+                            <option value="Chase">Chase</option>
+                            <option value="WellsFargo">Wells Fargo</option>
+                            <option value="Citibank">Citibank</option>
+                            <option value="PNC">PNC</option>
+                            <option value="USBank">U.S. Bank</option>
+                            <option value="CapitalOne">Capital One</option>
+                            <option value="AmericanExpress">American Express</option>
+                        </optgroup>
+
+                        <!-- UK Banks -->
+                        <optgroup label="United Kingdom">
+                            <option value="HSBCUK">HSBC UK</option>
+                            <option value="Barclays">Barclays</option>
+                            <option value="LloydsBank">Lloyds Bank</option>
+                            <option value="NatWest">NatWest</option>
+                            <option value="SantanderUK">Santander UK</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+                <button type="button" id="transferButton">Initiate Transfer</button>
+            </form>
+
+            <p id="transfer-result"></p>
+        </section>
+
+        <section id="support-section">
+            <h2 id="support-heading">Support</h2>
+            <form id="support-form">
+                <div class="form-group">
+                    <label for="support-name">Your Name:</label>
+                    <input type="text" id="support-name" placeholder="Enter your name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="support-email">Your Email:</label>
+                    <input type="email" id="support-email" placeholder="Enter your email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="support-phone">Your Phone Number:</label>
+                    <input type="text" id="support-phone" placeholder="Enter your phone number" required 
+                           onkeydown="if(event.key === '+' && this.selectionStart === 0) return true; return (event.key >= '0' && event.key <= '9') || event.key === 'Backspace' || event.key === 'Delete' || event.key === 'Tab' || event.key === 'ArrowLeft' || event.key === 'ArrowRight';"
+                           oninput="this.value = this.value.replace(/(?!^\+)[^0-9]/g, '');">
+                </div>
+
+                <div class="form-group">
+                    <label for="support-message">Your Message:</label>
+                    <textarea id="support-message" placeholder="Enter your message" required></textarea>
+                </div>
+
+                <button type="button" onclick="sendSupportMessage()">Send Message</button>
+            </form>
+
+            <p id="support-result"></p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Money Transfer and Exchange. All rights reserved.</p>
+    </footer>
 
     <script src="script.js"></script>
 </body>
