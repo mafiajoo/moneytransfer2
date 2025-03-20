@@ -14,11 +14,15 @@ body {
 }
 
 /* Ensure the main content expands */
+/* Ensure the main content expands to push footer down */
 .container {
     width: 90%;
     margin: 0 auto;
-    flex: 1; /* Pushes the footer to the bottom */
+    flex-grow: 1; /* Ensures content expands */
+    display: flex;
+    flex-direction: column;
 }
+
 
 /* Header Styles */
 header {
@@ -200,8 +204,7 @@ footer {
     padding: 20px;
     font-size: 1rem;
     width: 100%;
-    position: relative;
-    bottom: 0;
+    margin-top: auto; /* Ensures footer is pushed to the bottom */
 }
 
 footer a {
