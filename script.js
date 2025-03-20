@@ -129,6 +129,7 @@ document.addEventListener("DOMContentLoaded", function () {
             transferNote.style.display = "none";
         }
     });
+    
 
     const countrySelect = document.getElementById("recipient-country");
     const phoneInput = document.getElementById("recipient-phone");
