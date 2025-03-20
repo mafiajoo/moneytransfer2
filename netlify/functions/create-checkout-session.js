@@ -63,8 +63,8 @@ exports.handler = async (event) => {
                 },
             ],
             mode: "payment",
-            success_url: "https://moneyexchangeing.netlify.app/",
-            cancel_url: "https://moneyexchangeing.netlify.app/",
+            success_url: "https://www.moneytransfersing.com/",
+            cancel_url: "https://www.moneytransfersing.com/",
         });
 
         console.log("Session created:", session.id);
