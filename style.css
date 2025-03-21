@@ -200,26 +200,24 @@ footer {
     background-color: #333;
     color: white;
     text-align: center;
-    padding: 21px 0; /* Ensures proper height */
+    padding: 21px 20px; /* Ensures proper height and space */
     font-size: 1rem;
     position: relative;
     width: 100%; /* Ensures it spans full width */
     min-height: 60px; /* Sets minimum height */
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    justify-content: space-between; /* Ensures text is spaced properly on both sides */
+    align-items: center; /* Ensures vertical centering */
     margin: 0 auto; /* Ensures it's centered */
-    flex-shrink: 0; /* Ensures the footer stays at the bottom */
 }
 
 footer p {
     margin: 0;
     padding: 0;
-    width: auto; /* Ensures the text is not stretched */
+    flex-grow: 1; /* Ensures the text can expand to fill space */
+    text-align: left; /* Aligns text to the left */
 }
 
-/* Styling for anchor links */
 footer a {
     color: #e60012;
     text-decoration: none;
@@ -228,6 +226,13 @@ footer a {
 footer a:hover {
     text-decoration: underline;
 }
+
+/* For the footer links on the right */
+footer .footer-right {
+    text-align: right;
+    padding-right: 20px;
+}
+
 
 /* Responsive Design */
 @media screen and (max-width: 768px) {
