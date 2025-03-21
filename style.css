@@ -195,22 +195,20 @@ footer {
     text-align: center;
     padding: 21px 0; /* Ensures proper height */
     font-size: 1rem;
-    position: relative; /* Keeps footer at the bottom */
+    position: relative;
     width: 100%; /* Ensures it spans full width */
     min-height: 60px; /* Sets minimum height */
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    box-sizing: border-box; /* Ensures padding doesn’t affect width calculation */
-    margin: 0; /* Remove any margins that could push the footer off center */
+    margin: 0 auto; /* Ensures it's centered */
 }
 
-/* This will ensure the content is centered */
 footer p {
-    margin: 0; /* Prevent any additional margins */
-    display: inline-block; /* Keeps paragraph content inline and centered */
-    width: 100%; /* Makes the text span across the full width */
-    text-align: center; /* Ensures text is centered horizontally */
+    margin: 0;
+    padding: 0;
+    width: auto; /* Ensures the text is not stretched */
 }
 
 /* Styling for anchor links */
