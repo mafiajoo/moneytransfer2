@@ -205,11 +205,15 @@ footer {
     margin: 0; /* Remove any margins that could push the footer off center */
 }
 
+/* This will ensure the content is centered */
 footer p {
     margin: 0; /* Prevent any additional margins */
     display: inline-block; /* Keeps paragraph content inline and centered */
+    width: 100%; /* Makes the text span across the full width */
+    text-align: center; /* Ensures text is centered horizontally */
 }
 
+/* Styling for anchor links */
 footer a {
     color: #e60012;
     text-decoration: none;
