@@ -148,7 +148,14 @@ form button {
     font-size: 1.1rem;
 }
 
-form button:hover {
+/* Focus States for Buttons */
+form button:focus,
+.action-button:focus {
+    outline: 3px solid #c5000d;
+}
+
+form button:hover,
+.action-button:hover {
     background-color: #c5000d;
 }
 
@@ -203,6 +210,7 @@ footer {
     justify-content: center;
     align-items: center;
     margin: 0 auto; /* Ensures it's centered */
+    flex-shrink: 0; /* Ensures the footer stays at the bottom */
 }
 
 footer p {
@@ -255,6 +263,11 @@ footer a:hover {
     transition: background-color 0.3s;
 }
 
+/* Focus States for Pay Now Button */
+.action-button:focus {
+    outline: 3px solid #c5000d;
+}
+
 .action-button:hover {
     background-color: #c5000d;
 }
@@ -290,6 +303,11 @@ footer a:hover {
     cursor: pointer;
     transition: background-color 0.3s;
     font-size: 1.1rem;
+}
+
+/* Focus States for Exchange Form Button */
+#exchange-form button:focus {
+    outline: 3px solid #c5000d;
 }
 
 #exchange-form button:hover {
