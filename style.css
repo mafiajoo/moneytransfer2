@@ -202,6 +202,7 @@ footer {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    box-sizing: border-box; /* Ensures padding doesn’t affect width calculation */
 }
 
 footer a {
@@ -215,9 +216,10 @@ footer a:hover {
 
 footer p {
     margin: 0;
-    width: 100%;
     text-align: center;
+    display: inline-block; /* Prevents paragraph from stretching across the full width */
 }
+
 
 /* Responsive Design */
 @media screen and (max-width: 768px) {
