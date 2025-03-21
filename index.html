@@ -5,15 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Money Transfer and Currency Exchange</title>
     <link rel="stylesheet" href="style.css">
-
-    <!-- Load Stripe.js -->
     <script src="https://js.stripe.com/v3/"></script>
+    <script src="script.js" defer></script>
 </head>
 <body>
+
+    <!-- Header -->
     <header>
         <div class="container">
             <div id="logo-container">
-                <!-- Main Logo -->
                 <img src="logo/logo.png" alt="Money Transfer Logo" id="main-logo">
             </div>
             <h1 id="page-title">Money Transfer and Currency Exchange</h1>
@@ -42,31 +42,95 @@
         </div>
     </header>
 
-    <!-- Login / Register Modal -->
-    <div id="auth-modal" class="modal">
-        <div class="modal-content">
-            <span id="close-modal" class="close">&times;</span>
-            <h2 id="modal-title">Login</h2>
-            <form id="auth-form">
-                <div class="form-group">
-                    <label for="username">Username:</label>
-                    <input type="text" id="username" placeholder="Enter username" required>
-                </div>
-                <div class="form-group">
-                    <label for="password">Password:</label>
-                    <input type="password" id="password" placeholder="Enter password" required>
-                </div>
-                <button type="submit" id="auth-button">Login</button>
+    <!-- Main Content -->
+    <main class="container">
+        <section id="exchange-section">
+            <h2 id="currency-exchange-heading">Currency Exchange</h2>
+            <form id="exchange-form">
+                <label for="from-currency">From Currency:</label>
+                <select id="from-currency" required>
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                    <option value="EGP">EGP</option>
+                    <!-- Add more currencies here -->
+                </select>
+
+                <label for="to-currency">To Currency:</label>
+                <select id="to-currency" required>
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                    <option value="EGP">EGP</option>
+                    <!-- Add more currencies here -->
+                </select>
+
+                <label for="amount">Amount:</label>
+                <input type="number" id="amount" name="amount" required min="1">
+
+                <button type="submit">Calculate Exchange Rate</button>
             </form>
-            <p id="auth-error" style="color: red; display: none;">Invalid credentials. Please try again.</p>
-        </div>
-    </div>
-    
+        </section>
+
+        <section id="transfer-section">
+            <h2 id="money-transfer-heading">Money Transfer</h2>
+            <form id="transfer-form">
+                <label for="recipient-name">Recipient's Name:</label>
+                <input type="text" id="recipient-name" name="recipient-name" required>
+
+                <label for="recipient-phone">Recipient's Phone:</label>
+                <input type="tel" id="recipient-phone" name="recipient-phone" required pattern="\d{7,15}">
+
+                <label for="recipient-bank">Recipient's Bank:</label>
+                <select id="recipient-bank" required>
+                    <option value="bank1">Bank 1</option>
+                    <option value="bank2">Bank 2</option>
+                    <option value="bank3">Bank 3</option>
+                    <!-- Add more bank options here -->
+                </select>
+
+                <label for="amount-to-transfer">Amount to Transfer:</label>
+                <input type="number" id="amount-to-transfer" name="amount-to-transfer" required min="1">
+
+                <button type="submit">Transfer Funds</button>
+            </form>
+        </section>
+    </main>
+
+    <!-- Footer -->
     <footer>
-        <p>&copy; 2025 Money Transfer and Exchange. All rights reserved.</p>
+        <div id="footer-container">
+            <p>&copy; 2025 Money Transfer and Exchange. All rights reserved.</p>
+        </div>
     </footer>
 
-    <script src="script.js"></script>
+    <!-- Login / Register Modal (Hidden by Default) -->
+    <div id="login-register-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Login | Register</h2>
+            <form id="login-form">
+                <label for="login-email">Email:</label>
+                <input type="email" id="login-email" name="login-email" required>
+
+                <label for="login-password">Password:</label>
+                <input type="password" id="login-password" name="login-password" required>
+
+                <button type="submit">Login</button>
+            </form>
+            <form id="register-form">
+                <label for="register-email">Email:</label>
+                <input type="email" id="register-email" name="register-email" required>
+
+                <label for="register-password">Password:</label>
+                <input type="password" id="register-password" name="register-password" required>
+
+                <button type="submit">Register</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>
+
     <main class="container">
         <section id="exchange-section">
             <h2 id="currency-exchange-heading">Currency Exchange</h2>
@@ -334,5 +398,10 @@
             <p id="support-result"></p>
         </section>
         
+    <footer>
+        <p>&copy; 2025 Money Transfer and Exchange. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
